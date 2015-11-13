@@ -1,0 +1,404 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DashBoard</h2>
+
+
+
+<head>
+    <title>ThermoFisher</title>
+
+
+    @*<link href="style/custom.css" rel="stylesheet" />*@
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+    @*<link href="style/bootstrap.css" rel="stylesheet" />
+        <link href="style/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="assets/main.css?v=5" type="text/css" rel="stylesheet">*@
+    <link href="~/Content/main.css?v=5" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
+
+
+    @*<script src="js/jquery-1.9.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.min.js"></script>*@
+    <script src="~/js/gauge.min.js"></script>
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        var markers = [
+            {
+                "title": 'Bombay',
+                "lat": '18.9409388',
+                "lng": '72.82819189999998',
+                "description": 'Bombay Hospital',
+                "type": 'Mumbai'
+            },
+
+
+                    {
+                        "title": 'New Delhi',
+                        "lat": '28.63050',
+                        "lng": '77.13077',
+                        "description": 'Phoenix Mall',
+                        "type": 'Delhi'
+                    },
+                    {
+                        "title": 'Bangalore',
+                        "lat": '12.97666',
+                        "lng": '77.63543',
+                        "description": 'Motifworks',
+                        "type": 'Bangalore'
+                    },
+
+        ];
+        window.onload = function () {
+
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            var i = 0;
+            var interval = setInterval(function () {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var icon = "";
+                switch (data.type) {
+                    case "Mumbai":
+                       // icon = "red";
+                        icon = "green";
+                        break;
+                    case "Delhi":
+                        icon = "red";
+                        break;
+                    case "Mall":
+                        icon = "yellow";
+                        break;
+                    case "Bangalore":
+                        icon = "yellow";
+                        break;
+                }
+                // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+                icon = "../Image/"+icon+".png";
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(icon)
+                });
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+
+
+                        $.getJSON("/Home/Piechart/", { type: data.type }, function (successdata) {
+                            var data0 = [];
+                            var data1 = [];
+                            var data2 = [];
+                            for (var i = 0; i <= successdata.length - 1; i++) {
+                                data0.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].PM10) });
+                            }
+                            for (var i = 0; i <= successdata.length - 1; i++) {
+                                data1.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].PM2) });
+                            }
+                            for (var i = 0; i <= successdata.length - 1; i++) {
+                                data2.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].CO2) });
+                            }
+                            $('#lblhumidity').text(successdata[0].CO2 + ' %')
+                            $('#lbltemp').text(successdata[0].PM10 + ' C')
+
+
+
+
+                            var opts = {
+                                lines: 12, // The number of lines to draw
+                                angle: 0.25, // The length of each line
+                                lineWidth: 0.12, // The line thickness
+                                pointer: {
+                                    length: 0.9, // The radius of the inner circle
+                                    strokeWidth: 0.050, // The rotation offset
+                                    color: '#000000' // Fill color
+                                },
+                                limitMax: 'false', // If true, the pointer will not go past the end of the gauge
+                                colorStart: '#FE703A', // Colors
+                                colorStop: '#FE703A', // just experiment with them
+                                strokeColor: '#EEEEEE', // to see which ones work best for you
+                                generateGradient: true
+                            };
+
+                            var temp_opts = {
+                                lines: 12, // The number of lines to draw
+                                angle: 0.25, // The length of each line
+                                lineWidth: 0.12, // The line thickness
+                                pointer: {
+                                    length: 0.9, // The radius of the inner circle
+                                    strokeWidth: 0.050, // The rotation offset
+                                    color: '#000000' // Fill color
+                                },
+                                limitMax: 'false', // If true, the pointer will not go past the end of the gauge
+                                colorStart: '#50BDBB', // Colors
+                                colorStop: '#50BDBB', // just experiment with them
+                                strokeColor: '#EEEEEE', // to see which ones work best for you
+                                generateGradient: true
+                            };
+                            var textRenderer = new TextRenderer(document.getElementById('preview-textfield'));
+                            textRenderer.render = function (demoGauge) {
+                                percentage = demoGauge.displayedValue / demoGauge.maxValue;
+                                this.el.innerHTML = (percentage * 100).toFixed(0) + "%";
+                            };
+
+                            demoGauge = new Donut(document.getElementById("foo"));
+                            demoGauge.setTextField(textRenderer);
+                            demoGauge.maxValue = 30;
+                            demoGauge.setOptions(opts);
+                            demoGauge.animationSpeed = 32;
+                            demoGauge.set(successdata[0].CO2);
+                            $('#lblhumidity').text(successdata[0].CO2 + ' %')
+
+
+
+                            function temp(msg) {
+
+                                var tempTextRenderer = new TextRenderer(document.getElementById('temp-textfield'));
+                                tempTextRenderer.render = function (tempGauge) {
+                                    percentage = tempGauge.displayedValue / tempGauge.maxValue;
+                                    this.el.innerHTML = (percentage * 100).toFixed(0) + msg;
+                                };
+
+                                tempGauge = new Donut(document.getElementById("temprature"));
+                                tempGauge.setTextField(tempTextRenderer);
+                                tempGauge.maxValue = 40;
+                                tempGauge.setOptions(temp_opts);
+                                tempGauge.animationSpeed = 32;
+                                tempGauge.set(successdata[0].PM10);
+                                $('#lbltemp').text(successdata[0].PM10 + ' C')
+
+                            }
+
+                            temp("C");
+
+                            $("#buttonf").click(function () {
+                                alert('button f clicked');
+                                temp("F");
+                            });
+
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                theme: "theme2",//theme1
+                                //title: {
+                                //    text: "Temp/Humidity"
+                                //},
+                                data: [
+                                {
+                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                    type: "spline",
+                                    color: "#00C0EF",
+                                    showInLegend: true,
+                                    name: "PM10",
+                                    dataPoints: data0
+                                },
+                                {
+                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                    type: "spline",
+                                    color: "#DD4B39",
+                                    name: "PM2",
+                                    showInLegend: true,
+                                    dataPoints: data1
+                                },
+                                {
+                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                    type: "spline",
+                                    color: "#00A65A",
+                                    name: "CO2",
+                                    showInLegend: true,
+                                    dataPoints: data2
+                                }
+
+                                ]
+
+                            });
+
+                            chart.render();
+                        });
+
+                    });
+
+
+                })(marker, data);
+                latlngbounds.extend(marker.position);
+                i++;
+                if (i == markers.length) {
+                    clearInterval(interval);
+                    var bounds = new google.maps.LatLngBounds();
+                    map.setCenter(latlngbounds.getCenter());
+                    map.fitBounds(latlngbounds);
+                }
+            }, 80);
+        }
+
+
+
+
+
+
+        $(document).ready(function () {
+
+            $.getJSON("/Home/Piechart/", function (data) {
+                var data0 = [];
+                var data1 = [];
+                var data2 = [];
+                for (var i = 0; i <= data.length - 1; i++) {
+                    data0.push({ label: data[i].ContentDate, y: parseInt(data[i].PM10) });
+                }
+                for (var i = 0; i <= data.length - 1; i++) {
+                    data1.push({ label: data[i].ContentDate, y: parseInt(data[i].PM2) });
+                }
+                for (var i = 0; i <= data.length - 1; i++) {
+                    data2.push({ label: data[i].ContentDate, y: parseInt(data[i].CO2) });
+                }
+                $('#lblhumidity').text(data[0].CO2 + ' %')
+                $('#lbltemp').text(data[0].PM10 + ' C')
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    theme: "theme2",//theme1
+                    //title: {
+                    //    text: "Temp/Humidity"
+                    //},
+                    data: [
+                    {
+                        // animationEnabled: false,
+                        animationEnabled: true,
+                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                        type: "spline",
+                        color: "#00C0EF",
+                        showInLegend: true,
+                        name: "PM10",
+                        dataPoints: data0,
+
+                    },
+                    {
+                        // animationEnabled: window.requestAnimationFrame(10),
+                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                        animationEnabled: true,
+
+                        type: "spline",
+                        color: "#DD4B39",
+                        name: "PM2",
+                        showInLegend: true,
+                        dataPoints: data1
+                    },
+                    {
+                        // animationEnabled: window.requestAnimationFrame(10),
+                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                        animationEnabled: true,
+
+                        type: "spline",
+                        color: "#00A65A",
+                        name: "CO2",
+                        showInLegend: true,
+                        dataPoints: data2
+                    }
+
+                    ]
+
+                });
+
+                chart.render();
+            });
+
+        });
+
+    </script>
+</head>
+
+
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+
+            </li>
+            <li>
+                <form class="navbar-form" role="search">
+                    <div class="input-group ">
+                        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" style="height:34px">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+        <div class="row" style="padding-left:20px">
+            <br /><br /><br /><br /><br /><br /><br /><br /><br />           
+
+            @*<div style="margin-left:10px">
+                <div><label for="a" id="lbltype"></label></div>
+                <div><span style="font-size:14px;font-weight:bold;color:#ffffff">Temp - </span> <label for="a" id="lbltemp" style="font-weight:500;color:#ffffff"></label></div><br />
+                <div><span style="font-size:14px;font-weight:bold;color:#ffffff">Humidity - </span><label for="a" id="lblhumidity" style="font-weight:500;color:#ffffff"></label></div>
+            </div>*@
+
+
+            <div class="col-xs-6" >
+                <div class="temperature">
+
+                    <div>
+                        <label for="a" id="lbltemp" style="font-weight: 500; color: #ffffff; text-align: center; margin-top: 25px; font-size: 18px;"></label><br />
+                        <span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="humidity">
+
+                    <div>
+                        <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 16px; color: #ffffff; margin-top:25px;margin-left:10px; font-size: 18px; "></label><br />
+                        <span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper" style="padding-top:0px">
+
+        <div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px" id="menu-toggle">>></a></div>
+        <div class="container-fluid" style="margin-top:0px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-lg-12">
+
+
+                    <div id="dvMap" class="mapheight" style="float:left;">
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+

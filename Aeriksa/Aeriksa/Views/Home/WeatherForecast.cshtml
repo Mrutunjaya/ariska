@@ -1,0 +1,474 @@
+﻿@{
+    ViewBag.Title = "WeatherForecast";
+}
+
+<head>
+    <title>ThermoFisher</title>
+
+    @*<link href="style/custom.css" rel="stylesheet" />*@
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+    @*<link href="style/bootstrap.css" rel="stylesheet" />
+        <link href="style/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="assets/main.css?v=5" type="text/css" rel="stylesheet">*@
+    <link href="~/Content/main.css?v=5" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
+
+
+    @*<script src="js/jquery-1.9.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.min.js"></script>*@
+    <script src="~/js/gauge.min.js"></script>
+
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        var markers = [
+            {
+                "title": 'Bombay',
+                "lat": '18.9409388',
+                "lng": '72.82819189999998',
+                "description": 'Bombay Hospital',
+                "type": 'Mumbai'
+            },
+
+
+                    {
+                        "title": 'New Delhi',
+                        "lat": '28.63050',
+                        "lng": '77.13077',
+                        "description": 'Phoenix Mall',
+                        "type": 'Delhi'
+                    },
+                    {
+                        "title": 'Bangalore',
+                        "lat": '12.97666',
+                        "lng": '77.63543',
+                        "description": 'Motifworks',
+                        "type": 'Bangalore'
+                    },
+
+        ];
+        window.onload = function () {
+
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            var i = 0;
+            var interval = setInterval(function () {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var icon = "";
+                switch (data.type) {
+                    case "Mumbai":
+                        icon = "red";
+                        icon ="~/Image/green.png"
+                        break;
+                    case "Delhi":
+                        icon = "blue";
+                        break;
+                    case "Mall":
+                        icon = "yellow";
+                        break;
+                    case "Bangalore":
+                        icon = "green";
+                        break;
+                }
+               // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+                icon = "~/Image/red.png";
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(icon)
+                });
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+
+
+                        $.getJSON("/Home/Piechart/", { type: data.type }, function (successdata) {
+                            var data0 = [];
+                            var data1 = [];
+                            var data2 = [];
+                            for (var i = 0; i <= successdata.length - 1; i++) {
+                                data0.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].PM10) });
+                            }
+                            for (var i = 0; i <= successdata.length - 1; i++) {
+                                data1.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].PM2) });
+                            }
+                            for (var i = 0; i <= successdata.length - 1; i++) {
+                                data2.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].CO2) });
+                            }
+
+
+
+
+
+
+                            var opts = {
+                                lines: 12, // The number of lines to draw
+                                angle: 0.25, // The length of each line
+                                lineWidth: 0.12, // The line thickness
+                                pointer: {
+                                    length: 0.9, // The radius of the inner circle
+                                    strokeWidth: 0.050, // The rotation offset
+                                    color: '#000000' // Fill color
+                                },
+                                limitMax: 'false', // If true, the pointer will not go past the end of the gauge
+                                colorStart: '#FE703A', // Colors
+                                colorStop: '#FE703A', // just experiment with them
+                                strokeColor: '#EEEEEE', // to see which ones work best for you
+                                generateGradient: true
+                            };
+
+                            var temp_opts = {
+                                lines: 12, // The number of lines to draw
+                                angle: 0.25, // The length of each line
+                                lineWidth: 0.12, // The line thickness
+                                pointer: {
+                                    length: 0.9, // The radius of the inner circle
+                                    strokeWidth: 0.050, // The rotation offset
+                                    color: '#000000' // Fill color
+                                },
+                                limitMax: 'false', // If true, the pointer will not go past the end of the gauge
+                                colorStart: '#50BDBB', // Colors
+                                colorStop: '#50BDBB', // just experiment with them
+                                strokeColor: '#EEEEEE', // to see which ones work best for you
+                                generateGradient: true
+                            };
+                            var textRenderer = new TextRenderer(document.getElementById('preview-textfield'));
+                            textRenderer.render = function (demoGauge) {
+                                percentage = demoGauge.displayedValue / demoGauge.maxValue;
+                                this.el.innerHTML = (percentage * 100).toFixed(0) + "%";
+                            };
+
+                            demoGauge = new Donut(document.getElementById("foo"));
+                            demoGauge.setTextField(textRenderer);
+                            demoGauge.maxValue = 30;
+                            demoGauge.setOptions(opts);
+                            demoGauge.animationSpeed = 32;
+                            demoGauge.set(successdata[0].CO2);
+                            $('#lblhumidity').text(successdata[0].CO2+' %')
+                            
+
+
+                            function temp(msg) {
+
+                                var tempTextRenderer = new TextRenderer(document.getElementById('temp-textfield'));
+                                tempTextRenderer.render = function (tempGauge) {
+                                    percentage = tempGauge.displayedValue / tempGauge.maxValue;
+                                    this.el.innerHTML = (percentage * 100).toFixed(0) + msg;
+                                };
+
+                                tempGauge = new Donut(document.getElementById("temprature"));
+                                tempGauge.setTextField(tempTextRenderer);
+                                tempGauge.maxValue = 40;
+                                tempGauge.setOptions(temp_opts);
+                                tempGauge.animationSpeed = 32;
+                                tempGauge.set(successdata[0].PM10);
+                                $('#lbltemp').text(successdata[0].PM10 + ' C')
+
+                            }
+
+                            temp("C");
+
+                            $("#buttonf").click(function () {
+                                alert('button f clicked');
+                                temp("F");
+                            });
+
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                theme: "theme2",//theme1
+                                //title: {
+                                //    text: "Temp/Humidity"
+                                //},
+                                data: [
+                                {
+                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                    type: "spline",
+                                    color: "#00C0EF",
+                                    showInLegend: true,
+                                    name: "PM10",
+                                    dataPoints: data0
+                                },
+                                {
+                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                    type: "spline",
+                                    color: "#DD4B39",
+                                    name: "PM2",
+                                    showInLegend: true,
+                                    dataPoints: data1
+                                },
+                                {
+                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                    type: "spline",
+                                    color: "#00A65A",
+                                    name: "CO2",
+                                    showInLegend: true,
+                                    dataPoints: data2
+                                }
+
+                                ]
+
+                            });
+
+                            chart.render();
+                        });
+
+                    });
+
+
+                })(marker, data);
+                latlngbounds.extend(marker.position);
+                i++;
+                if (i == markers.length) {
+                    clearInterval(interval);
+                    var bounds = new google.maps.LatLngBounds();
+                    map.setCenter(latlngbounds.getCenter());
+                    map.fitBounds(latlngbounds);
+                }
+            }, 80);
+        }
+
+
+
+
+
+
+        $(document).ready(function () {
+
+            $.getJSON("/Home/Piechart/", function (data) {
+                var data0 = [];
+                var data1 = [];
+                var data2 = [];
+                for (var i = 0; i <= data.length - 1; i++) {
+                    data0.push({ label: data[i].ContentDate, y: parseInt(data[i].PM10) });
+                }
+                for (var i = 0; i <= data.length - 1; i++) {
+                    data1.push({ label: data[i].ContentDate, y: parseInt(data[i].PM2) });
+                }
+                for (var i = 0; i <= data.length - 1; i++) {
+                    data2.push({ label: data[i].ContentDate, y: parseInt(data[i].CO2) });
+                }
+                $('#lblhumidity').text(data[0].CO2+' %')
+                $('#lbltemp').text(data[0].PM10+' C')
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    theme: "theme2",//theme1
+                    //title: {
+                    //    text: "Temp/Humidity"
+                    //},
+                    data: [
+                    {
+                       // animationEnabled: false,
+                        animationEnabled: true,
+                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                        type: "spline",
+                        color: "#00C0EF",
+                        showInLegend: true,
+                        name: "PM10",
+                        dataPoints: data0,
+                        
+                    },
+                    {
+                       // animationEnabled: window.requestAnimationFrame(10),
+                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                        animationEnabled: true,
+
+                        type: "spline",
+                        color: "#DD4B39",
+                        name: "PM2",
+                        showInLegend: true,
+                        dataPoints: data1
+                    },
+                    {
+                       // animationEnabled: window.requestAnimationFrame(10),
+                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                        animationEnabled: true,
+
+                        type: "spline",
+                        color: "#00A65A",
+                        name: "CO2",
+                        showInLegend: true,
+                        dataPoints: data2
+                    }
+
+                    ]
+
+                });
+
+                chart.render();
+            });
+
+        });
+
+    </script>
+</head>
+
+<div class="container">
+    <br />
+    <div class="main-content">
+        <div class="left-content">
+            <div class="col-md-8 col-md-offset-2" style="background-color: #ffffff; border: #C3E1FB solid 1px; box-shadow: 10px 10px 5px #888888; ">
+
+                <div id="temp-preview">
+
+                    <div>
+                        <div class="headertest">Temperature</div>
+                        <br /><br /><br />
+                        <canvas id="temprature"></canvas>
+                        <div id="temp-textfield"></div>
+                        <div id="temp-image" style="">
+                            <img width="50" height="50" src="~/Image/temp.png" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2" style="background-color: #ffffff; border: #C3E1FB solid 1px; box-shadow: 10px 10px 5px #888888; margin-top: 40px">
+                <br />
+                <div id="preview" >
+                    <div class="headertest" style="margin-top:-36px" >Humidity</div>
+                    <br /><br /><br />
+                    <canvas id="foo"></canvas>
+                    <div id="preview-textfield"></div>
+                    <div id="preview-image" >
+                        <img width="50" height="50" src="~/Image/humid_icon.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-content">
+            <div style="width:95%;float:left;margin-bottom:20px">
+                <div id="dvMap" class="map" style="float:left">
+                </div>
+                <div class="mapright"></div>
+            </div>
+           
+            @*<div style="width:20%;float:left"></div>*@
+            @*<div style="width:20%;float:left"></div>*@
+            <div style="width:95%;margin-top:20px">
+                <div style="height: 250px; width: 30%; background-color: #ffffff; float: left;border: #C3E1FB solid 1px;">
+                    <div class="headertest" style="margin-top:-15px;width:70%">Today's Summary</div>
+
+                    <div style="margin-left:10px">
+                        <div><label for="a" id="lbltype"></label></div>
+                        <div><span style="font-size:14px;font-weight:bold">Temp - </span> <label for="a" id="lbltemp" style="font-weight:500"></label></div><br />
+                        <div><span style="font-size:14px;font-weight:bold">Humidity - </span><label for="a" id="lblhumidity" style="font-weight:500"></label></div>
+                    </div>
+                    
+                </div>
+
+                <div style="height: 250px; width: 2%; background-color: #F6F3F4; float: left; "></div>
+                
+                <div style="height: 250px; width: 68%; background-color: #ffffff; float: left; border: #C3E1FB solid 1px;">
+                    <div class="headertest" style="margin-top:-15px;width:30%">Historical Data</div>
+                    <div id="chartContainer" style="height: 200px; ">                        
+                        <div style="width:15%"></div>
+                        <div style="width:55%">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var opts = {
+        lines: 12, // The number of lines to draw
+        angle: 0.25, // The length of each line
+        lineWidth: 0.12, // The line thickness
+        pointer: {
+            length: 0.9, // The radius of the inner circle
+            strokeWidth: 0.050, // The rotation offset
+            color: '#000000' // Fill color
+        },
+        limitMax: 'false', // If true, the pointer will not go past the end of the gauge
+        colorStart: '#FE703A', // Colors
+        colorStop: '#FE703A', // just experiment with them
+        strokeColor: '#EEEEEE', // to see which ones work best for you
+        generateGradient: true
+    };
+
+    var temp_opts = {
+        lines: 12, // The number of lines to draw
+        angle: 0.25, // The length of each line
+        lineWidth: 0.12, // The line thickness
+        pointer: {
+            length: 0.9, // The radius of the inner circle
+            strokeWidth: 0.050, // The rotation offset
+            color: '#000000' // Fill color
+        },
+        limitMax: 'false', // If true, the pointer will not go past the end of the gauge
+        colorStart: '#50BDBB', // Colors
+        colorStop: '#50BDBB', // just experiment with them
+        strokeColor: '#EEEEEE', // to see which ones work best for you
+        generateGradient: true
+    };
+    var textRenderer = new TextRenderer(document.getElementById('preview-textfield'));
+    textRenderer.render = function (demoGauge) {
+        percentage = demoGauge.displayedValue / demoGauge.maxValue;
+        this.el.innerHTML = (percentage * 100).toFixed(0) + "%";
+    };
+
+    demoGauge = new Donut(document.getElementById("foo"));
+    demoGauge.setTextField(textRenderer);
+    demoGauge.maxValue = 3000;
+    demoGauge.setOptions(opts);
+    demoGauge.animationSpeed = 32;
+    demoGauge.set(1253);
+
+    function temp(msg) {
+
+
+
+        var tempTextRenderer = new TextRenderer(document.getElementById('temp-textfield'));
+        tempTextRenderer.render = function (tempGauge) {
+            percentage = tempGauge.displayedValue / tempGauge.maxValue;
+            this.el.innerHTML = (percentage * 100).toFixed(0) + msg;
+        };
+
+        tempGauge = new Donut(document.getElementById("temprature"));
+        tempGauge.setTextField(tempTextRenderer);
+        tempGauge.maxValue = 3000;
+        tempGauge.setOptions(temp_opts);
+        tempGauge.animationSpeed = 32;
+        tempGauge.set(2530);
+
+    }
+
+    temp("C");
+
+    $("#buttonf").click(function () {
+        alert('button f clicked');
+        temp("F");
+    });
+
+    $("#buttonc").click(function () {
+        alert('button c clicked');
+        temp("C");
+    });
+
+</script>
+
+
+
+<h2>WeatherForecast</h2>
+

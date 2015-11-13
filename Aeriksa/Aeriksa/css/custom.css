@@ -1,0 +1,195 @@
+.wrapper {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form-signin-heading,
+.checkbox {
+    margin-bottom: 30px;
+}
+
+.checkbox {
+    font-weight: normal;
+}
+
+.form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+}
+
+input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+/*side bar css*/
+.header {
+    background-color: #1D5D9D;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    /*opacity: 0.9;*/
+    color: #ffffff;
+}
+
+
+
+.left_nav {
+    margin-top: 80px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 20px 0 20px;
+    border-bottom: 1px solid #eeeeee;
+    color: #39dbac;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.top {
+    margin-top: 5px;
+}
+
+.content-right {
+    top: 90px;
+    left: 25%;
+    bottom: 0;
+    width: 75%;
+}
+
+#parent {
+   display: table;
+   width: 100%;
+}
+
+#form_login {
+   display: table-cell;
+   text-align: center;
+   vertical-align: middle;
+}
+
+
+
+#googlemaps {
+ 
+height: 100%;
+ 
+width: 100%;
+ 
+position:absolute;
+ 
+top: 0;
+ 
+left: 0;
+ 
+z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+ 
+}
+ 
+#contactform {
+ 
+position: relative;
+ 
+z-index: 1; /* The z-index should be higher than Google Maps */
+ 
+width: 380px;
+ 
+margin: 80px auto 0;
+ 
+padding: 10px;
+padding-top:1px;
+ 
+background: #CFE7F8;
+ 
+height: auto;
+ 
+opacity: 0.9; /* Set the opacity for a slightly transparent Google Form */
+ 
+color: white;
+ 
+}
+
+.login-input {
+    display: block;
+    width: 70%;
+    margin:auto;
+
+    height: 37px;
+    margin-bottom: 20px;
+    padding: 0 9px;
+    color: white;
+    text-shadow: 0 1px black;
+    background: #ffffff;
+    border: 1px solid #0d1827;
+    border-top-color: #0d1827;
+    border-radius: 4px;
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0));
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.2);
+}
+.navbar-inverse {
+     background-color: #F3F3F3; 
+    border-color: #080808;
+}
+
+.btncolor{
+    width: 70%; margin: auto;background-color: #9FE1FB;
+}
+.btn-block1 {
+    display: block;
+    width: 70%;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.btn1 {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}

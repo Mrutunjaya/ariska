@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>LoginKeys</id>
+    <version>2.0.1</version>
+    <title>LoginKeys | Creating Login System</title>
+    <authors>afzaal_ahmad_zeeshan</authors>
+    <owners>afzaal_ahmad_zeeshan</owners>
+    <projectUrl>http://de-codes.tumblr.com/products/open-source/login-keys</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package can be used in your websites, where you want to create simple login systems without having to install and manage the databases. It makes use of JSON files and simple .NET code to create and expose methods to create accounts, let them log in and log out. You can use the UserId and other details of the users to create other dynamic objects too.</description>
+    <summary>Creating a Login System using JSON files and .NET framework, without needing any SQL database.</summary>
+    <releaseNotes>This update is a major release and the entire API is changed making it efficient and better.</releaseNotes>
+    <tags>login system json visual c#</tags>
+  </metadata>
+</package>

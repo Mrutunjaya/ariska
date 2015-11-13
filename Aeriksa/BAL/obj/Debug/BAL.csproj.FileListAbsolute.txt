@@ -1,0 +1,6 @@
+D:\Aeriksa\BAL\bin\Debug\BAL.dll
+D:\Aeriksa\BAL\bin\Debug\BAL.pdb
+D:\Aeriksa\BAL\bin\Debug\Newtonsoft.Json.dll
+D:\Aeriksa\BAL\obj\Debug\BAL.dll
+D:\Aeriksa\BAL\obj\Debug\BAL.pdb
+D:\Aeriksa\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache
