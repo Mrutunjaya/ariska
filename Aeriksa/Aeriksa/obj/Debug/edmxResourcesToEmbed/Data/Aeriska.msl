@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AriskaModelStoreContainer" CdmEntityContainer="AriskaEntities">
+    <EntitySetMapping Name="Airqualities">
+      <EntityTypeMapping TypeName="AriskaModel.Airquality">
+        <MappingFragment StoreEntitySet="Airquality">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="recordeddate" ColumnName="recordeddate" />
+          <ScalarProperty Name="CO2" ColumnName="CO2" />
+          <ScalarProperty Name="PM10" ColumnName="PM10" />
+          <ScalarProperty Name="PM2_5" ColumnName="PM2.5" />
+          <ScalarProperty Name="Temperature_High" ColumnName="Temperature_High" />
+          <ScalarProperty Name="Temperature_Low" ColumnName="Temperature_Low" />
+          <ScalarProperty Name="PM3" ColumnName="PM3" />
+          <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logins">
+      <EntityTypeMapping TypeName="AriskaModel.login">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

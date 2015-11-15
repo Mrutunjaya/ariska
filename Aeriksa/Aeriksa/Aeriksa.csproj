@@ -56,7 +56,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -167,6 +170,27 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\Aeriska.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aeriska.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Aeriska.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aeriska.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Aeriska.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aeriska.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Airquality.cs">
+      <DependentUpon>Aeriska.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\login.cs">
+      <DependentUpon>Aeriska.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,10 +198,17 @@
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\DateTimeXAxisChartData.cs" />
+    <Compile Include="Models\loginModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Ariska.mdf" />
+    <Content Include="App_Data\Ariska_log.ldf">
+      <DependentUpon>Ariska.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.css" />
@@ -192,6 +223,7 @@
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Image\Aerika.jpg" />
+    <Content Include="Image\circle.png" />
     <Content Include="Image\green.png" />
     <Content Include="Image\Humidity.png" />
     <Content Include="Image\humid_icon.png" />
@@ -209,6 +241,23 @@
     <Content Include="Newtonsoft.Json.xml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Data\Aeriska.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Aeriska.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\Aeriska.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Aeriska.edmx</DependentUpon>
+      <LastGenOutput>Aeriska.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Aeriska.edmx.diagram">
+      <DependentUpon>Aeriska.edmx</DependentUpon>
+    </Content>
+    <Content Include="Data\Aeriska.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Aeriska.edmx</DependentUpon>
+      <LastGenOutput>Aeriska.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -250,7 +299,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Graph.cshtml" />
-    <Content Include="Views\Home\test.cshtml" />
     <Content Include="Views\Home\LineChartDateTimeAxis.cshtml" />
     <Content Include="Views\Home\LineChart.cshtml" />
     <Content Include="Views\Home\WeatherForecast.cshtml" />
@@ -258,9 +306,10 @@
     <Content Include="Views\Home\LogIn.cshtml" />
     <Content Include="Views\Home\DashBoard.cshtml" />
     <Content Include="Views\Home\AirQuality.cshtml" />
+    <Content Include="Views\Home\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -275,6 +324,7 @@
       <Name>BAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -293,7 +343,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>16323</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:16323/</IISUrl>
+          <IISUrl>http://localhost:16325/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

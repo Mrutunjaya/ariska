@@ -1,4 +1,4 @@
-﻿
+﻿@model Aeriksa.Models.loginModel
 @{
     Layout = null;
 }
@@ -62,21 +62,65 @@
 
     <div id="contactform" class="col-xs-12">
         <div class="wrapper">
-            <form class="">
+
+
+            @*<form class="">
                 <div class="form-signin-heading" style="margin-left:40%">
                     <img src="~/Image/userlogo.png" />
                 </div>
                 <input type="text" class="login-input " name="username" placeholder="Email Address" required="" autofocus="" /><br />
                 <input type="password" class="login-input " name="password" placeholder="Password" required="" />
-                @*<label class="checkbox">
-                    <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-                </label>*@
-                @*<button style="width: 70%; margin: auto;background-color: #9FE1FB" class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>*@
                 <div style="width:70%;margin:auto"> @Html.ActionLink("Sign In", "DashBoard", "Home", new { @class = "btn btn-lg  btn-block btncolor" });</div>
                 <hr style="color:white" />
 
                 <button style="width: 70%; margin: auto" class="btn btn-lg btn-primary btn-block btncolor" type="submit">Sign Up</button>
-            </form>
+            </form>*@
+
+
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <div class="form-signin-heading" style="margin-left:40%">
+                        <img src="~/Image/userlogo.png" />
+                    </div>
+                  
+                    @Html.ValidationSummary(true)
+
+
+                    <div class="form-group">
+                       
+                        <div class="col-md-offset-2 col-xs-8">
+                            @Html.TextBoxFor(model => model.userid, new { @class = "form-control brdradious", @placeholder = "Username" })
+                            @Html.ValidationMessageFor(model => model.userid, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        
+                        <div class="col-md-offset-2 col-xs-8">
+                            @Html.PasswordFor(model => model.password, new { @class = "form-control brdradious", @placeholder = "Password" })
+
+                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <input type="submit" value="Log In" class="btn btn-lg  btn-block btncolor" />
+                            <hr style="color: white; border-top: 2px solid #eee;" />
+                        </div>
+                        
+                    </div>
+
+                    
+                </div>
+            }
+
+
         </div>
     </div>
 

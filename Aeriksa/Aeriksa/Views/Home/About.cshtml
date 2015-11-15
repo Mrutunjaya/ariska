@@ -1,7 +1,26 @@
-﻿@{
+﻿@model Aeriksa.Data.login
+@{
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.userid, "UserId", htmlAttributes: new { @class = "control-label col-xs-4 required" })
+    <div class="col-xs-8">
+        @Html.EditorFor(model => model.userid, new { htmlAttributes = new { @class = "form-control col-xs-8", @placeholder = "Enter Site Name" } })
+        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" }, })
+        @Html.ValidationMessageFor(model => model.userid, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.password, "Password", htmlAttributes: new { @class = "control-label col-xs-4 required" })
+    <div class="col-xs-8">
+        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control col-xs-8", @placeholder = "Enter Address Line 1" } })
+        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+    </div>
+</div>

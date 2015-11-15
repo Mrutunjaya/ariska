@@ -11,12 +11,18 @@ using System.Net.Http.Headers;
 using System.Collections;
 using Aeriksa.Models;
 using Newtonsoft.Json;
-
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Data;
+using System.Data.Linq;
+using Aeriksa.Data;
 namespace Aeriksa.Controllers
 {
     public class HomeController : Controller
     {
        ServiceBAL serviceBAL = new ServiceBAL();
+
+        
         public ActionResult Index()
         {
           //  serviceBAL.getDataFromService();
@@ -167,11 +173,33 @@ namespace Aeriksa.Controllers
             return View();
         }
 
+
+
         public ActionResult test()
         {
             return View();
 
         }
+
+
+        [HttpPost]
+        public ActionResult test(login test)
+        {
+
+            using (var _db = new AriskaEntities())
+            {
+                var rows = (from myRow in _db.logins
+                            select new loginModel
+                            {
+                                userid = myRow.userid,
+                                password = myRow.password,
+
+                            }).ToList();
+            }
+            return View();
+
+        }
+
 
         public ActionResult LineChartDateTimeAxis()
         {
@@ -196,11 +224,60 @@ namespace Aeriksa.Controllers
 
         public ActionResult LogIn()
         {
+           // string cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+           // string queryString = "Select * FROM dbo.login"; //update as you feel fit of course for insert/update etc
+
+           // using (SqlConnection connection = new SqlConnection(cs))
+           // {
+           //     connection.Open();
+           //     SqlDataAdapter adapter = new SqlDataAdapter();
+           //     SqlCommand command = new SqlCommand(queryString, connection);
+           //     SqlDataAdapter adp = new SqlDataAdapter();
+           //     command.ExecuteNonQuery();
+           //     DataTable dt = new DataTable();
+           //     adp.SelectCommand = command;
+           ////  var data = new DataSet();
+           //     adp.Fill(dt);
+                
+
+           //     connection.Close();
+           // }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LogIn(loginModel loginmodel)
+        {
+            using (var _db = new AriskaEntities())
+            {
+
+
+                var user = (from myRow in _db.logins
+                            where ((loginmodel.userid == myRow.userid) && (loginmodel.password == myRow.password) )
+                            select new loginModel
+                            {
+                                userid = myRow.userid,
+                                password = myRow.password,
+
+                            }).SingleOrDefault();
+
+                if (user != null)
+                {
+                    TempData["UserId"] = user.userid;
+                    return RedirectToAction("DashBoard");
+                }
+                if(loginmodel.userid != null || loginmodel.password != null)
+                {
+                    ModelState.AddModelError("", "Invalid username or password");
+                }
+            }
             return View();
         }
 
         public ActionResult DashBoard()
         {
+
+
             return View();
         }
 

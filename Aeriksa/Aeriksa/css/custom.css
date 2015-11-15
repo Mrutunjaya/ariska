@@ -1,6 +1,9 @@
 .wrapper {
-    margin-top: 80px;
-    margin-bottom: 80px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.brdradious{
+    border-radius:4px;
 }
 
 .form-signin {
@@ -13,7 +16,7 @@
 
 .form-signin-heading,
 .checkbox {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .checkbox {
@@ -192,4 +195,9 @@ color: white;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+.validation-summary-errors {
+    color: red; 
+    font-size: 1em;
+    font-weight: bold;
 }
