@@ -281,6 +281,13 @@ namespace Aeriksa.Controllers
             return View();
         }
 
+        public ActionResult AQI()
+        {
+
+
+            return View();
+        }
+
         public ActionResult AirQuality()
         {
             ContentModel contentModel = new ContentModel();

@@ -34,9 +34,13 @@
 #minheight {
     height: 250px; width: 75%; background-color: #ffffff; float: left; border: #C3E1FB solid 1px;
 }
+#chartheight {
+    height: 150px; width: 800px; background-color: #ffffff; float: left; border: #C3E1FB solid 1px;
+}
 #minheight.toggled1 {
 width: 100%;
 }
+
 #wrapper.toggled1 #page-content-wrapper {
     position: absolute;
     margin-right: -250px;

@@ -1,0 +1,377 @@
+﻿
+
+<h2>DashBoard</h2>
+
+
+
+<head>
+    <title>ThermoFisher</title>
+
+
+    @*<link href="style/custom.css" rel="stylesheet" />*@
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+    @*<link href="style/bootstrap.css" rel="stylesheet" />
+        <link href="style/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="assets/main.css?v=5" type="text/css" rel="stylesheet">*@
+    <link href="~/Content/main.css?v=5" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
+    @*<script src="js/jquery-1.9.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.min.js"></script>*@
+    <script src="~/js/gauge.min.js"></script>
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        var markers = [
+            {
+                "title": 'Bombay',
+                "lat": '18.9409388',
+                "lng": '72.82819189999998',
+                "description": 'Bombay Hospital',
+                "type": 'mumbai'
+            },
+
+                    {
+                        "title": 'New Delhi',
+                        "lat": '28.63050',
+                        "lng": '77.13077',
+                        "description": 'Phoenix Mall',
+                        "type": 'delhi'
+                    },
+                    {
+                        "title": 'Bangalore',
+                        "lat": '12.97666',
+                        "lng": '77.63543',
+                        "description": 'Motifworks',
+                        "type": 'banaglore'
+                    },
+
+        ];
+        window.onload = function () {
+
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            var i = 0;
+            var interval = setInterval(function () {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+
+                var icon = "";
+
+                var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
+
+                switch (data.type) {
+                    case "mumbai":
+                        // icon = "red";
+                        icon = "green";
+                        break;
+                    case "delhi":
+                        icon = "red";
+                        break;
+                    case "Mall":
+                        icon = "yellow";
+                        break;
+                    case "banaglore":
+                        icon = "yellow";
+                        break;
+                }
+                // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+                icon = "../Image/" + icon + ".png";
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(icon)
+                });
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                       // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                        var Ref = new Firebase(myDataRef + '/pdr_' + data.type + '_001');
+                        //Ref.on("child_added", function (snapshot) {
+                        //    snapshot.forEach(function (data) {
+                        //        $('#lblhumidity').text(data.val().humidity);
+                        //        $('#lbltemp').text(data.val().pm10);
+                        //    });
+                        //});
+
+                        Ref.on('child_added', function (snapshot) {
+                            $('#lblhumidity').text(snapshot.val().humidity);
+                            $('#lbltemp').text(snapshot.val().aqi);
+                        });
+                    });
+
+
+                })(marker, data);
+                latlngbounds.extend(marker.position);
+                i++;
+                if (i == markers.length) {
+                    clearInterval(interval);
+                    var bounds = new google.maps.LatLngBounds();
+                    map.setCenter(latlngbounds.getCenter());
+                    map.fitBounds(latlngbounds);
+                }
+            }, 80);
+        }
+
+        $(document).ready(function () {
+
+
+
+
+            function displayChatMessage(humidity, pm10) {
+
+                document.getElementById("messagesDiv").innerHTML = humidity;
+                document.getElementById("messagesname").innerHTML = pm10;
+            };
+
+
+
+
+            var myDataRef = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
+
+            myDataRef.on("child_added", function (snapshot) {
+                snapshot.forEach(function (data) {
+                    displayChatMessage(data.val().humidity, data.val().pm10);
+                });
+            });
+
+            $("#btnSend").click(function () {
+                SendMessage();
+            });
+
+
+            $("#airquality").click(function () {
+                $.getJSON("/Home/Piechart/", function (data) {
+                    var data0 = [];
+                    var data1 = [];
+                    var data2 = [];
+                    for (var i = 0; i <= data.length - 1; i++) {
+                        data0.push({ label: data[i].ContentDate, y: parseInt(data[i].PM10) });
+                    }
+                    for (var i = 0; i <= data.length - 1; i++) {
+                        data1.push({ label: data[i].ContentDate, y: parseInt(data[i].PM2) });
+                    }
+                    for (var i = 0; i <= data.length - 1; i++) {
+                        data2.push({ label: data[i].ContentDate, y: parseInt(data[i].CO2) });
+                    }
+                    $('#lblhumidity').text(data[0].CO2 + ' %')
+                    $('#lbltemp').text(data[0].PM10 + ' C')
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        animationEnabled: true,
+                        theme: "theme2",//theme1
+                        //title: {
+                        //    text: "Temp/Humidity"
+                        //},
+                        data: [
+                        {
+                            // animationEnabled: false,
+                            animationEnabled: true,
+                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                            type: "spline",
+                            color: "#00C0EF",
+                            showInLegend: true,
+                            name: "PM10",
+                            dataPoints: data0,
+
+                        },
+                        {
+                            // animationEnabled: window.requestAnimationFrame(10),
+                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                            animationEnabled: true,
+
+                            type: "spline",
+                            color: "#DD4B39",
+                            name: "PM2",
+                            showInLegend: true,
+                            dataPoints: data1
+                        },
+                        {
+                            // animationEnabled: window.requestAnimationFrame(10),
+                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                            animationEnabled: true,
+
+                            type: "spline",
+                            color: "#00A65A",
+                            name: "CO2",
+                            showInLegend: true,
+                            dataPoints: data2
+                        }
+
+                        ]
+
+                    });
+
+                    chart.render();
+                });
+            });
+
+
+
+        });
+
+
+
+
+
+    </script>
+</head>
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div style="margin-left:30px"><img src="~/Image/Aerika.jpg" /></div>
+        </div>
+        <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
+
+            <ul class="nav navbar-nav" style="margin-left:30px">
+
+                <li id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
+                <li><a href="#">Temperature</a></li>
+                <li><a href="#">Humidity</a></li>
+                <li><a href="#">CO2</a> </li>
+                <li><a href="#">VOC</a></li>
+            </ul>
+            @Html.Partial("_LoginPartial")
+            <div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px" id="menu-toggle">>></a></div>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+
+            </li>
+            <li>
+                <form class="navbar-form" role="search">
+                    <div class="input-group ">
+                        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" style="height:34px">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+        <div class="row" style="padding-left:20px">
+            <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+            @*<div style="margin-left:10px">
+                    <div><label for="a" id="lbltype"></label></div>
+                    <div><span style="font-size:14px;font-weight:bold;color:#ffffff">Temp - </span> <label for="a" id="lbltemp" style="font-weight:500;color:#ffffff"></label></div><br />
+                    <div><span style="font-size:14px;font-weight:bold;color:#ffffff">Humidity - </span><label for="a" id="lblhumidity" style="font-weight:500;color:#ffffff"></label></div>
+                </div>*@
+
+
+            <div class="col-xs-12" id="combineimages">
+
+            </div>
+
+
+            <div class="col-xs-6">
+                <div class="temperature">
+
+                    <div>
+                        <label for="a" id="lbltemp" style="font-weight: 500; color: #ffffff; text-align: center; margin-top: 25px; font-size: 18px;"></label><br />
+                        <span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="humidity">
+
+                    <div>
+                        <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 16px; color: #ffffff; margin-top:25px;margin-left:10px; font-size: 18px; "></label><br />
+                        <span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper" style="padding-top:0px">
+
+
+        <div class="container-fluid" style="margin-top:0px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-lg-12">
+
+
+                    <div id="dvMap" class="mapheight" style="float:left;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:900px;height:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body" style="height:400px">
+                <div id="chartheight">
+                    <div id="chartContainer">
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+        </div>
+
+
+                <script>
+                    $("#menu-toggle").click(function (e) {
+                        e.preventDefault();
+                        $("#wrapper").toggleClass("toggled");
+                    });
+                </script>
+
