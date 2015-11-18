@@ -292,6 +292,23 @@ namespace Aeriksa.Controllers
             return View(contentModel);
         }
 
+        public ActionResult firebase()
+        {
+            //var firebaseClient = new Firebase("https://developer-api.nest.com", _accessToken);
+            //var response = firebaseClient.GetStreaming("devices",
+            //        changed: (s, e) =>
+            //        {
+            //            if (e.Path.Contains("ambient_temperature_f"))
+            //                Console.WriteLine("Current temperature has been updated to: {0}.", e.Data);
+            //        });
+            return View();
+        }
+
+        public ActionResult LoginTest()
+        {
+            return View();
+        }
+
 
         //public JsonResult GetData()
         //{

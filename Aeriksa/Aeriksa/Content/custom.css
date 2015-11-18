@@ -143,6 +143,17 @@ color: red;
     opacity:1.0;
 }
 
+#combineimages{
+
+     background-image:url("../Image/circle.png");
+     width:185px;
+     height:195px;
+     background-repeat:no-repeat;
+     text-align:center; 
+     margin:auto;
+     margin-top:-30px;
+}
+
 
 
 
