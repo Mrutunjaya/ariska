@@ -30,6 +30,8 @@
 
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
+        var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
+        var gpslocation = 'banaglore';
         var markers = [
             {
                 "title": 'Bombay',
@@ -72,7 +74,7 @@
 
                 var icon = "";
 
-                var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
+                
 
                 switch (data.type) {
                     case "mumbai":
@@ -102,7 +104,8 @@
                     google.maps.event.addListener(marker, "click", function (e) {
                         infoWindow.setContent(data.description);
                         infoWindow.open(map, marker);
-                       // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                        // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                        gpslocation = data.type;
                         var Ref = new Firebase(myDataRef + '/pdr_' + data.type + '_001');
                         //Ref.on("child_added", function (snapshot) {
                         //    snapshot.forEach(function (data) {
@@ -157,69 +160,91 @@
             });
 
 
-            $("#airquality").click(function () {
-                $.getJSON("/Home/Piechart/", function (data) {
-                    var data0 = [];
-                    var data1 = [];
-                    var data2 = [];
-                    for (var i = 0; i <= data.length - 1; i++) {
-                        data0.push({ label: data[i].ContentDate, y: parseInt(data[i].PM10) });
-                    }
-                    for (var i = 0; i <= data.length - 1; i++) {
-                        data1.push({ label: data[i].ContentDate, y: parseInt(data[i].PM2) });
-                    }
-                    for (var i = 0; i <= data.length - 1; i++) {
-                        data2.push({ label: data[i].ContentDate, y: parseInt(data[i].CO2) });
-                    }
-                    $('#lblhumidity').text(data[0].CO2 + ' %')
-                    $('#lbltemp').text(data[0].PM10 + ' C')
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
-                        theme: "theme2",//theme1
-                        //title: {
-                        //    text: "Temp/Humidity"
-                        //},
-                        data: [
-                        {
-                            // animationEnabled: false,
-                            animationEnabled: true,
-                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                            type: "spline",
-                            color: "#00C0EF",
-                            showInLegend: true,
-                            name: "PM10",
-                            dataPoints: data0,
+            $("li").click(function () {
+                var idvalue = this.id;
+                var yaxisvalue = 0;
+                var data0 = [];
+                var data1 = [];
+                var data2 = [];
+                var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
 
-                        },
-                        {
-                            // animationEnabled: window.requestAnimationFrame(10),
-                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                            animationEnabled: true,
 
-                            type: "spline",
-                            color: "#DD4B39",
-                            name: "PM2",
-                            showInLegend: true,
-                            dataPoints: data1
-                        },
-                        {
-                            // animationEnabled: window.requestAnimationFrame(10),
-                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                            animationEnabled: true,
 
-                            type: "spline",
-                            color: "#00A65A",
-                            name: "CO2",
-                            showInLegend: true,
-                            dataPoints: data2
+                Ref.on("value", function (snapshot) {
+                    snapshot.forEach(function (data) {
+
+
+                        switch (idvalue) {
+                            case "airquality":
+                                yaxisvalue = data.val().pm10;
+                                break;
+                            case "temperature":
+                                yaxisvalue = data.val().temp;
+                                break;
+                            case "humidity":
+                                yaxisvalue = data.val().humidity;
+                                break;
+                            case "co2":
+                                yaxisvalue = data.val().pm10;
+                                break;
+                            case "voc":
+                                yaxisvalue = data.val().pm25;
+                                break;
                         }
 
-                        ]
+                        data0.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        data1.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            theme: "theme2",//theme1
+                            //title: {
+                            //    text: "Temp/Humidity"
+                            //},
+                            data: [
+                            {
+                                // animationEnabled: false,
+                                animationEnabled: true,
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                type: "spline",
+                                color: "#00C0EF",
+                                showInLegend: true,
+                                name: "PM10",
+                                dataPoints: data0,
+
+                            },
+                            {
+                                // animationEnabled: window.requestAnimationFrame(10),
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                animationEnabled: true,
+
+                                type: "spline",
+                                color: "#DD4B39",
+                                name: "PM2",
+                                showInLegend: true,
+                                dataPoints: data1
+                            },
+                            {
+                                // animationEnabled: window.requestAnimationFrame(10),
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                animationEnabled: true,
+
+                                type: "spline",
+                                color: "#00A65A",
+                                name: "CO2",
+                                showInLegend: true,
+                                dataPoints: data2
+                            }
+
+                            ]
+
+                        });
+
+                        chart.render();
 
                     });
-
-                    chart.render();
                 });
+
             });
 
 
@@ -250,10 +275,10 @@
             <ul class="nav navbar-nav" style="margin-left:30px">
 
                 <li id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
-                <li><a href="#">Temperature</a></li>
-                <li><a href="#">Humidity</a></li>
-                <li><a href="#">CO2</a> </li>
-                <li><a href="#">VOC</a></li>
+                <li id="temperature"><a href="#">Temperature</a></li>
+                <li id="humidity"><a href="#">Humidity</a></li>
+                <li id="co2"><a href="#">CO2</a> </li>
+                <li id="voc"><a href="#">VOC</a></li>
             </ul>
             @Html.Partial("_LoginPartial")
             <div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px" id="menu-toggle">>></a></div>
@@ -373,5 +398,10 @@
                         e.preventDefault();
                         $("#wrapper").toggleClass("toggled");
                     });
+
+
+                    //$("li").click(function () {
+                    //    alert(this.id); // or alert($(this).attr('id'));
+                    //});
                 </script>
 
