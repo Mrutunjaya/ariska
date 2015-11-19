@@ -35,7 +35,7 @@
     height: 250px; width: 75%; background-color: #ffffff; float: left; border: #C3E1FB solid 1px;
 }
 #chartheight {
-    height: 150px; width: 800px; background-color: #ffffff; float: left; border: #C3E1FB solid 1px;
+    height: 150px; width: 800px; background-color: #ffffff; float: left; 
 }
 #minheight.toggled1 {
 width: 100%;
@@ -62,6 +62,25 @@ width: 100%;
     margin-top:-20px;
     opacity: 0.8;
 }
+#sidebar-wrapper1 {
+    z-index: 1000;
+    position: fixed;
+    right: -10px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #3A66A2;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    margin-top:-20px;
+
+}
+        #sidebar-wrapper1 {
+        width: 320px;
+    }
 
 #wrapper.toggled #sidebar-wrapper {
     width: 300px;
@@ -151,6 +170,7 @@ width: 100%;
     #sidebar-wrapper {
         width: 300px;
     }
+
 
     #wrapper.toggled #sidebar-wrapper {
         width: 0;

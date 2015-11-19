@@ -55,6 +55,13 @@
                         "description": 'Motifworks',
                         "type": 'banaglore'
                     },
+                    {
+                        "title": 'Andhra Pradesh',
+                        "lat": '17.387140',
+                        "lng": '78.491684',
+                        "description": 'ThermoFisher',
+                        "type": 'hydrabad'
+                    },
 
         ];
         window.onload = function () {
@@ -89,6 +96,9 @@
                         break;
                     case "banaglore":
                         icon = "yellow";
+                        break;
+                    case "hydrabad":
+                        icon = "blue";
                         break;
                 }
                 // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
@@ -138,11 +148,7 @@
 
 
 
-            function displayChatMessage(humidity, pm10) {
 
-                document.getElementById("messagesDiv").innerHTML = humidity;
-                document.getElementById("messagesname").innerHTML = pm10;
-            };
 
 
 
@@ -151,7 +157,7 @@
 
             myDataRef.on("child_added", function (snapshot) {
                 snapshot.forEach(function (data) {
-                    displayChatMessage(data.val().humidity, data.val().pm10);
+                   // displayChatMessage(data.val().humidity, data.val().pm10);
                 });
             });
 
@@ -160,7 +166,8 @@
             });
 
 
-            $("li").click(function () {
+            $("li").click(function (e) {
+                e.preventDefault();
                 var idvalue = this.id;
                 var yaxisvalue = 0;
                 var data0 = [];
@@ -172,7 +179,6 @@
 
                 Ref.on("value", function (snapshot) {
                     snapshot.forEach(function (data) {
-
 
                         switch (idvalue) {
                             case "airquality":
@@ -251,16 +257,12 @@
 
         });
 
-
-
-
-
     </script>
 </head>
 
 <div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
     <div class="container">
-
+        <div class="col-xs-12" style="background-color:#ffffff;padding-top:10px;padding-bottom:10px"><img src="~/Image/thermofisher_logo.png" /></div>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -272,16 +274,16 @@
         </div>
         <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
 
-            <ul class="nav navbar-nav" style="margin-left:30px">
+            <ul class="nav navbar-nav" style="margin-left:30px;">
 
                 <li id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
-                <li id="temperature"><a href="#">Temperature</a></li>
-                <li id="humidity"><a href="#">Humidity</a></li>
-                <li id="co2"><a href="#">CO2</a> </li>
-                <li id="voc"><a href="#">VOC</a></li>
+                <li id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
+                <li id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
+                <li id="co2"><a href="#" data-toggle="modal" data-target="#myModal">CO2</a> </li>
+                <li style="color:#000000" id="voc"><a href="#" data-toggle="modal" data-target="#myModal">VOC</a></li>
             </ul>
             @Html.Partial("_LoginPartial")
-            <div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px" id="menu-toggle">>></a></div>
+            <div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>
         </div>
 
 
@@ -290,6 +292,8 @@
 
 <div id="wrapper">
     <!-- Sidebar -->
+
+    <div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
@@ -376,16 +380,58 @@
                 <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body" style="height:400px">
+
+                <div class="dropdown">
+                                            
+                            <div class="col-sm-4">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                                    Filter by
+                                    <span class="caret" style="margin-left:80px"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">                                    
+                                    <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Bangalore</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Mumbai</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Hydrabad</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-4">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                                    From
+                                    <span class="caret" style="margin-left:80px"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">                                    
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
+                                </ul>
+                            </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                            To
+                            <span class="caret" style="margin-left:80px"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
+                        </ul>
+                    </div>
+                        
+
+                </div>
+
+
+
+
                 <div id="chartheight">
-                    <div id="chartContainer">
-
-
+                    <div id="chartContainer" style="height: 300px; width: 100%;">
+ 
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
             </div>
         </div>
 

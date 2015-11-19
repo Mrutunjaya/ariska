@@ -42,17 +42,19 @@
                 </div>
                 <div class="col-md-4 ">
                     <div id="chatdiv" class="form-group">
-                        <input type='text' class="form-control" id='dateInput' placeholder='Name'>
+                        <input type='text' class="form-control" id='aqiInput' placeholder='AQI'>
                         <br />
-                        <input type='text' class="form-control" id='co2Input' placeholder='Message'>
+                        <input type='text' class="form-control" id='humidityInput' placeholder='Humidity'>
                         <br />
-                        <input type='text' class="form-control" id='pm10Input' placeholder='Message'>
+                        <input type='text' class="form-control" id='pm10Input' placeholder='pm10'>
                         <br />
-                        <input type='text' class="form-control" id='pm25Input' placeholder='Message'>
+                        <input type='text' class="form-control" id='pm25Input' placeholder='pm25'>
                         <br />
-                        <input type='text' class="form-control" id='TemphighInput' placeholder='Message'>
+                        <input type='text' class="form-control" id='pm3Input' placeholder='pm3'>
                         <br />
-                        <input type='text' class="form-control" id='TemplowInput' placeholder='Message'>
+                        <input type='text' class="form-control" id='tempInput' placeholder='temp'>
+                        <br />
+                        <input type='text' class="form-control" id='timeInput' placeholder='time'>
                         <br />
                         <button id="btnSend" class="form-control btn btn-info"/>
                             Send Messagebutton
@@ -69,7 +71,7 @@
             var ref = Firebase("https://ariska.firebaseio.com/Feeds");
 
 
-            var myDataRef = new Firebase('https://ariska.firebaseio.com/Airquality');
+            var myDataRef = new Firebase('https://incandescent-fire-5051.firebaseio.com/devices/pdr_hydrabad_001');
 
             //myDataRef.on("value", function (snapshot) {
             //    snapshot.forEach(function (data) {
@@ -97,16 +99,17 @@
             //});
           
             function SendMessage() {
-                var date = $('#dateInput').val();
-                var co2 = $('#co2Input').val();
+                var aqi = $('#aqiInput').val();
+                var humidity = $('#humidityInput').val();
                 var pm10 = $('#pm10Input').val();
                 var pm25 = $('#pm25Input').val();
-                var high = $('#TemphighInput').val();
-                var low = $('#TemplowInput').val();
+                var pm3 = $('#pm3Input').val();
+                var temp = $('#tempInput').val();
+                var time = $('#timeInput').val();
 
-                if (co2.trim()) {
+                if (aqi.trim()) {
                     // myDataRef.push({ name: name, text: text });
-                    myDataRef.push({ date: date, CO2: co2, PM10: pm10, PM25: pm25, Temperature_High: high, Temperature_Low: low });
+                    myDataRef.push({ aqi: aqi, humidity: humidity, pm10: pm10, pm25: pm25, temp: temp, time: time });
                     $('#messageInput').val('');
                 }
             }

@@ -223,6 +223,7 @@
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Image\Aerika.jpg" />
+    <Content Include="Image\blue.png" />
     <Content Include="Image\circle.png" />
     <Content Include="Image\green.png" />
     <Content Include="Image\Humidity.png" />
@@ -230,6 +231,7 @@
     <Content Include="Image\red.png" />
     <Content Include="Image\temp.png" />
     <Content Include="Image\Temperature.png" />
+    <Content Include="Image\thermofisher_logo.png" />
     <Content Include="Image\userlogo.png" />
     <Content Include="Image\yellow.png" />
     <Content Include="js\canvasjs.min.js" />
