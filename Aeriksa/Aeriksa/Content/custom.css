@@ -117,16 +117,16 @@ color: red;
 }
 
 .temperature{
-    background-image:url("../Image/Temperature.png");
-    width:100px;
-    height:100px;
+    background-image:url("../Image/Temperature1.png");
+    width:102px;
+    height:99px;
     background-repeat:no-repeat; 
     text-align:center;   
 }
 .humidity {
-     background-image:url("../Image/Humidity.png");
-     width:100px;
-     height:100px;
+     background-image:url("../Image/Humidity1.png");
+     width:102px;
+     height:99px;
      background-repeat:no-repeat;
      text-align:center;  
 }
@@ -148,6 +148,17 @@ color: red;
      background-image:url("../Image/circle.png");
      width:185px;
      height:195px;
+     background-repeat:no-repeat;
+     text-align:center; 
+     margin:auto;
+     margin-top:-30px;
+}
+
+#combineimage{
+
+     background-image:url("../Image/AQI.png");
+     width:182px;
+     height:183px;
      background-repeat:no-repeat;
      text-align:center; 
      margin:auto;
