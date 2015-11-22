@@ -316,6 +316,11 @@ namespace Aeriksa.Controllers
             return View();
         }
 
+        public ActionResult AQIDashboard()
+        {
+
+            return View();
+        }
 
         //public JsonResult GetData()
         //{

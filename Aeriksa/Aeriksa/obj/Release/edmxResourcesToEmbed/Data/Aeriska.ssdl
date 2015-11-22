@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AriskaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Airquality">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="recordeddate" Type="datetime" />
+    <Property Name="CO2" Type="int" />
+    <Property Name="PM10" Type="int" />
+    <Property Name="PM2.5" Type="int" />
+    <Property Name="Temperature_High" Type="nvarchar" MaxLength="10" />
+    <Property Name="Temperature_Low" Type="nvarchar" MaxLength="10" />
+    <Property Name="PM3" Type="int" />
+    <Property Name="Humidity" Type="int" />
+  </EntityType>
+  <EntityType Name="login">
+    <Key>
+      <PropertyRef Name="userid" />
+    </Key>
+    <Property Name="userid" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="password" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityContainer Name="AriskaModelStoreContainer">
+    <EntitySet Name="Airquality" EntityType="Self.Airquality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

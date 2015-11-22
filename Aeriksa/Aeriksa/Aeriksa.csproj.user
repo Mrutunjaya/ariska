@@ -8,6 +8,7 @@
     </WebStackScaffolding_LayoutPageFile>
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_DbContextTypeFullName>Aeriksa.Data.AriskaEntities</WebStackScaffolding_DbContextTypeFullName>
+    <NameOfLastUsedPublishProfile>ariska - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

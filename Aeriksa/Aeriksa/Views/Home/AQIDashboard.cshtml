@@ -1,0 +1,559 @@
+﻿
+
+<h2>DashBoard</h2>
+
+
+
+<head>
+    <title>ThermoFisher</title>
+
+
+    @*<link href="style/custom.css" rel="stylesheet" />*@
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+    @*<link href="style/bootstrap.css" rel="stylesheet" />
+        <link href="style/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="assets/main.css?v=5" type="text/css" rel="stylesheet">*@
+    <link href="~/Content/main.css?v=5" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
+    @*<script src="js/jquery-1.9.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.min.js"></script>*@
+    <script src="~/js/gauge.min.js"></script>
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
+        var gpslocation = 'banaglore';
+        var arr = [];
+        var markers = [
+            {
+                "title": 'Bombay',
+                "lat": '18.9409388',
+                "lng": '72.82819189999998',
+                "description": 'Bombay Hospital',
+                "type": 'mumbai'
+            },
+
+                    {
+                        "title": 'New Delhi',
+                        "lat": '28.63050',
+                        "lng": '77.13077',
+                        "description": 'Phoenix Mall',
+                        "type": 'delhi'
+                    },
+                    {
+                        "title": 'Bangalore',
+                        "lat": '12.97666',
+                        "lng": '77.63543',
+                        "description": 'Motifworks',
+                        "type": 'banaglore'
+                    },
+                    {
+                        "title": 'Andhra Pradesh',
+                        "lat": '17.387140',
+                        "lng": '78.491684',
+                        "description": 'ThermoFisher',
+                        "type": 'hydrabad'
+                    },
+
+        ];
+
+
+
+
+        window.onload = function () {
+
+            //  icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+
+
+            var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
+
+
+            //Ref.startAt().limit(1).once("value", function(snapshot) {
+            //    snapshot.val().aqi
+            //});
+
+
+            Ref.on("value", function (snapshot) {
+                var i = 0;
+
+                $.each(snapshot.val(), function (index, cities) {
+                    $.each(cities, function (i, item) {
+                        // icon = "";
+                        var apivalue = parseInt(item.aqi);
+                        arr.push(apivalue);
+
+                        console.log(item.aqi);
+                        return false;
+                    });
+                });
+
+            });
+
+
+
+            var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
+
+
+            var mapOptions = {
+                center: new google.maps.LatLng(14.096395, 77.570635),
+                zoom: 6,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            var i = 0;
+            var interval = setInterval(function () {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+
+                var icon = "";
+                if (arr.length > 0) {
+                    if ((arr[i] > 0 && arr[i] <= 50)) {
+                        icon = "green";
+                        //return false;
+                    }
+                    else if ((arr[i] > 51 && arr[i] <= 100)) {
+                        icon = "yellow";
+                        // return false;
+                    }
+                    else if ((arr[i] > 101 && arr[i] <= 150)) {
+                        icon = "blue";
+                        // return false;
+                    }
+                    else if ((arr[i] > 151 && arr[i] <= 200)) {
+                        icon = "unhealthy";
+                        //  return false;
+                    }
+                    else if ((arr[i] > 201 && arr[i] <= 300)) {
+                        icon = "veryunhealthy";
+                        //  return false;
+                    }
+                    else if ((arr[i] > 301 && arr[i] <= 500)) {
+                        icon = "hazardous";
+                        // return false;
+                    }
+                    else {
+                        icon = "red"
+                        //  return false;
+                    }
+
+                }
+
+
+
+
+
+
+                //switch (data.type) {
+                //    case "mumbai":
+                //        // icon = "red";
+                //        icon = "green";
+                //        break;
+                //    case "delhi":
+                //        icon = "red";
+                //        break;
+                //    case "Mall":
+                //        icon = "yellow";
+                //        break;
+                //    case "banaglore":
+                //        icon = "yellow";
+                //        break;
+                //    case "hydrabad":
+                //        icon = "blue";
+                //        break;
+                //}
+
+                // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+                icon = "../Image/" + icon + ".png";
+
+                // icon = icon;
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(icon)
+                });
+                (function (marker, data) {
+
+
+
+
+
+
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                        // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                        gpslocation = data.type;
+                        var Ref = new Firebase(myDataRef + '/pdr_' + data.type + '_001');
+                        //Ref.on("child_added", function (snapshot) {
+                        //    snapshot.forEach(function (data) {
+                        //        $('#lblhumidity').text(data.val().humidity);
+                        //        $('#lbltemp').text(data.val().pm10);
+                        //    });
+                        //});
+
+                        Ref.on('child_added', function (snapshot) {
+                            $('#lblhumidity').text(snapshot.val().humidity + '%');
+                            $('#lbltemp').text(snapshot.val().temp);
+                            $('#lblpm25').text(snapshot.val().pm25);
+                            $('#lblpm10').text(snapshot.val().pm10);
+                            $('#lblpm3').text(snapshot.val().pm3);
+                            $('#lblaqi').text(snapshot.val().aqi);
+
+                        });
+                    });
+
+
+                })(marker, data);
+                latlngbounds.extend(marker.position);
+                i++;
+                //if (arr.length!= markers.length) { // any page animations finished
+                //    clearInterval(interval);
+                //    var bounds = new google.maps.LatLngBounds();
+                //}
+
+                if (i == markers.length) {
+                    clearInterval(interval);
+                    var bounds = new google.maps.LatLngBounds();
+                    //map.setCenter(latlngbounds.getCenter());
+                    // map.fitBounds(latlngbounds);
+                    arr = [];
+                }
+            }, 2000);
+        }
+
+        $(document).ready(function () {
+
+
+
+
+
+
+
+
+
+            var myDataRef = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
+            var yaxisindex =
+            myDataRef.on("child_added", function (snapshot) {
+                snapshot.forEach(function (data) {
+                    // displayChatMessage(data.val().humidity, data.val().pm10);
+                });
+            });
+
+            $("#btnSend").click(function () {
+                SendMessage();
+            });
+
+
+            $("li").click(function (e) {
+                e.preventDefault();
+                var idvalue = this.id;
+                var yaxisvalue = 0;
+                var data0 = [];
+                var data1 = [];
+                var data2 = [];
+                var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
+
+                var ylevel = "";
+
+                Ref.on("value", function (snapshot) {
+                    snapshot.forEach(function (data) {
+
+                        switch (idvalue) {
+                            case "airquality":
+                                yaxisvalue = data.val().pm10;
+                                ylevel = "Air Quality Index";
+                                break;
+                            case "temperature":
+                                yaxisvalue = data.val().temp;
+                                ylevel = "Temperature"
+                                break;
+                            case "humidity":
+                                yaxisvalue = data.val().humidity;
+                                ylevel = "Humidity";
+                                break;
+                            case "co2":
+                                yaxisvalue = data.val().pm10;
+                                ylevel = "CO2";
+                                break;
+                            case "voc":
+                                yaxisvalue = data.val().pm25;
+                                ylevel = "VOC";
+                                break;
+                        }
+
+                        data0.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        data1.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            width: 800,
+                            theme: "theme2",
+                            axisY: {
+                                title: ylevel,
+                                titleFontFamily: "comic sans ms"
+                            },
+                            axisX: {
+                                // valueFormatString: "HH",
+                                //  interval: 1,
+                                //  intervalType: "hour",
+                                labelAngle: -90,
+                                labelFontColor: "rgb(0,75,141)",
+
+                            },
+
+                            //theme1
+                            //title: {
+                            //    text: "Temp/Humidity"
+                            //},
+                            data: [
+                            {
+                                // animationEnabled: false,
+                                animationEnabled: true,
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                type: "area",
+                                color: "#CBE8EE",
+                                showInLegend: true,
+                                name: "PM10",
+                                dataPoints: data0,
+
+                            },
+                            {
+                                // animationEnabled: window.requestAnimationFrame(10),
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                animationEnabled: true,
+
+                                type: "area",
+                                color: "#CBE8EE",
+                                name: "PM2",
+                                showInLegend: true,
+                                dataPoints: data1
+                            },
+                            {
+                                // animationEnabled: window.requestAnimationFrame(10),
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                animationEnabled: true,
+
+                                type: "area",
+                                color: "#CBE8EE",
+                                name: "CO2",
+                                showInLegend: true,
+                                dataPoints: data2
+                            }
+
+                            ]
+
+                        });
+
+                        chart.render();
+
+                    });
+                });
+
+            });
+
+
+
+        });
+
+    </script>
+</head>
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
+    <div class="container">
+        <div class="col-xs-12" style="background-color:#ffffff;padding-top:10px;padding-bottom:10px"><img src="~/Image/thermofisher_logo.png" /></div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div style="margin-left:30px"><img src="~/Image/Aerika.jpg" /></div>
+        </div>
+        <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
+
+            <ul class="nav navbar-nav" style="margin-left:30px;">
+
+                <li id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
+                <li id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
+                <li id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
+                <li id="co2"><a href="#" data-toggle="modal" data-target="#myModal">CO2</a> </li>
+                <li style="color:#000000" id="voc"><a href="#" data-toggle="modal" data-target="#myModal">VOC</a></li>
+            </ul>
+            @Html.Partial("_LoginPartial")
+            @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
+        </div>
+
+
+    </div>
+</div>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+
+    @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
+
+
+
+
+
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div class="row" style = "margin:0px;padding:0px">
+        <div class="col-xs-9" style="margin:0px;padding:0px">
+
+
+            <div id="dvMap" class="mapheight" style="float:left;">
+            </div>
+        </div>
+
+        <div class="col-xs-3" style="margin:0px;padding:0px;">
+
+            <div id="sidebar-back">
+                <div class="col-xs-12" style="margin-top:25%">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group ">
+                            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" style="height:34px">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-xs-12" id="combineimage" style="margin-top:40%">
+                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #ffffff; text-align: left; margin-top:10%;margin-right:80px; font-size: 34px;"></label></div>
+                    <div><label for="a" id="lblpm10" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-left: 60%;padding-top:20%"></label></div>
+                    <div>
+                        <label for="a" id="lblpm25" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-right: 20px;"></label>
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-xs-12" style="margin-top:30%">
+                    <div class="col-xs-6">
+                        <div class="temperature">
+
+                            <div>
+                                <label for="a" id="lbltemp" style="font-weight: 700; color: #ffffff; text-align: center; margin-top: 25px; font-size: 20px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="humidity">
+
+                            <div>
+                                <label for="a" id="lblhumidity" style="font-weight: 700; font-size: 16px; color: #ffffff; margin-top:25px;margin-left:20px; font-size: 20px; "></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:900px;height:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body" style="height:400px">
+
+                <div class="dropdown">
+
+                    <div class="col-sm-4">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                            Filter by
+                            <span class="caret" style="margin-left:80px"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Bangalore</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Mumbai</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Hydrabad</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                            From
+                            <span class="caret" style="margin-left:80px"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                            To
+                            <span class="caret" style="margin-left:80px"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div id="chartheight">
+                    <div id="chartContainer" style="height: 300px; width: 100%;">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+
+    //$("li").click(function () {
+    //    alert(this.id); // or alert($(this).attr('id'));
+    //});
+</script>
+

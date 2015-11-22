@@ -263,6 +263,8 @@
       <DependentUpon>Aeriska.edmx</DependentUpon>
       <LastGenOutput>Aeriska.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\ariska - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ariska - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -315,6 +317,7 @@
     <Content Include="Views\Home\firebase.cshtml" />
     <Content Include="Views\Home\LoginTest.cshtml" />
     <Content Include="Views\Home\AQI.cshtml" />
+    <Content Include="Views\Home\AQIDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

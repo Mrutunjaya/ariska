@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AriskaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Airquality">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="recordeddate" Type="DateTime" Precision="3" />
+    <Property Name="CO2" Type="Int32" />
+    <Property Name="PM10" Type="Int32" />
+    <Property Name="PM2_5" Type="Int32" />
+    <Property Name="Temperature_High" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Temperature_Low" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="PM3" Type="Int32" />
+    <Property Name="Humidity" Type="Int32" />
+  </EntityType>
+  <EntityType Name="login">
+    <Key>
+      <PropertyRef Name="userid" />
+    </Key>
+    <Property Name="userid" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="AriskaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Airqualities" EntityType="Self.Airquality" />
+    <EntitySet Name="logins" EntityType="Self.login" />
+  </EntityContainer>
+</Schema>

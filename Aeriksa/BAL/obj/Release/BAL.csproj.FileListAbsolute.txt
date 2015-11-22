@@ -1,0 +1,6 @@
+D:\Aeriska2015\Aeriksa\BAL\bin\Release\BAL.dll
+D:\Aeriska2015\Aeriksa\BAL\bin\Release\BAL.pdb
+D:\Aeriska2015\Aeriksa\BAL\bin\Release\Newtonsoft.Json.dll
+D:\Aeriska2015\Aeriksa\BAL\obj\Release\BAL.csprojResolveAssemblyReference.cache
+D:\Aeriska2015\Aeriksa\BAL\obj\Release\BAL.dll
+D:\Aeriska2015\Aeriksa\BAL\obj\Release\BAL.pdb
