@@ -32,6 +32,7 @@
     <script type="text/javascript">
         var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
         var gpslocation = 'banaglore';
+        var arr = [];
         var markers = [
             {
                 "title": 'Bombay',
@@ -64,63 +65,42 @@
                     },
 
         ];
+
+
+
+
         window.onload = function () {
-            var icon = "";
+            
+          //  icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+
+
             var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
 
 
-                //Ref.startAt().limit(1).once("value", function(snapshot) {
-                //    snapshot.val().aqi
-                //});
-
-           
-            //Ref.on("value", function (snapshot) {
-            //    var i = 0;
-            //    $.each(snapshot.val(), function (index,cities) {                    
-            //        $.each(cities, function (i,item) {
-            //            icon = "";
-            //            var apivalue = parseInt(item.aqi);
-
-
-
-            //            if ((apivalue > 0 && apivalue <= 50)) {
-            //                icon = "green";
-            //                return false;
-            //            }
-            //            else if ((apivalue > 51 && apivalue <= 100)) {
-            //                icon = "yellow";
-            //                return false;
-            //            }
-            //            else if ((apivalue > 101 && apivalue <= 150)) {
-            //                icon = "blue";
-            //                return false;
-            //            }
-            //            else if ((apivalue > 151 && apivalue <= 200)) {
-            //                icon = "unhealthy";
-            //                return false;
-            //            }
-            //            else if ((apivalue > 201 && apivalue <= 300)) {
-            //                icon = "veryunhealthy";
-            //                return false;
-            //            }
-            //            else if ((apivalue > 301 && apivalue <= 500)) {
-            //                icon = "hazardous";
-            //                return false;
-            //            }
-            //            else {
-            //                icon = "red"
-            //                return false;
-            //            }
-
-
-
-            //                console.log(item.aqi);
-            //             //   return false;
-            //        });
-            //    });
-
+            //Ref.startAt().limit(1).once("value", function(snapshot) {
+            //    snapshot.val().aqi
             //});
 
+
+            Ref.on("value", function (snapshot) {
+                var i = 0;
+
+                $.each(snapshot.val(), function (index, cities) {
+                    $.each(cities, function (i, item) {
+                        // icon = "";
+                        var apivalue = parseInt(item.aqi);
+                        arr.push(apivalue);
+
+                        console.log(item.aqi);
+                        return false;
+                    });
+                });
+
+            });
+
+
+
+            var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
 
 
             var mapOptions = {
@@ -136,87 +116,68 @@
                 var data = markers[i]
                 var myLatlng = new google.maps.LatLng(data.lat, data.lng);
 
-                var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
+                var icon = "";
+                if(arr.length>0)
+                {
+                    if ((arr[i] > 0 && arr[i] <= 50)) {
+                        icon = "green";
+                        //return false;
+                    }
+                    else if ((arr[i] > 51 && arr[i] <= 100)) {
+                        icon = "yellow";
+                       // return false;
+                    }
+                    else if ((arr[i] > 101 && arr[i] <= 150)) {
+                        icon = "blue";
+                       // return false;
+                    }
+                    else if ((arr[i] > 151 && arr[i] <= 200)) {
+                        icon = "unhealthy";
+                      //  return false;
+                    }
+                    else if ((arr[i] > 201 && arr[i] <= 300)) {
+                        icon = "veryunhealthy";
+                      //  return false;
+                    }
+                    else if ((arr[i] > 301 && arr[i] <= 500)) {
+                        icon = "hazardous";
+                       // return false;
+                    }
+                    else {
+                        icon = "red"
+                      //  return false;
+                    }
 
-
-
-
-
-                //Ref.on("value", function (snapshot) {
-                //    var i = 0;
-                //    $.each(snapshot.val(), function (index, cities) {
-                //        $.each(cities, function (i, item) {
-                //            icon = "";
-                //            var apivalue = parseInt(item.aqi);
-
-
-
-                //            if ((apivalue > 0 && apivalue <= 50)) {
-                //                icon = "green";
-                //                return false;
-                //            }
-                //            else if ((apivalue > 51 && apivalue <= 100)) {
-                //                icon = "yellow";
-                //                return false;
-                //            }
-                //            else if ((apivalue > 101 && apivalue <= 150)) {
-                //                icon = "blue";
-                //                return false;
-                //            }
-                //            else if ((apivalue > 151 && apivalue <= 200)) {
-                //                icon = "unhealthy";
-                //                return false;
-                //            }
-                //            else if ((apivalue > 201 && apivalue <= 300)) {
-                //                icon = "veryunhealthy";
-                //                return false;
-                //            }
-                //            else if ((apivalue > 301 && apivalue <= 500)) {
-                //                icon = "hazardous";
-                //                return false;
-                //            }
-                //            else {
-                //                icon = "red"
-                //                return false;
-                //            }
-
-
-
-                //            console.log(item.aqi);
-                //            //   return false;
-                //        });
-                //    });
-
-                //});
-
+                }
 
 
 
 
                 
 
-                switch (data.type) {
-                    case "mumbai":
-                        // icon = "red";
-                        icon = "green";
-                        break;
-                    case "delhi":
-                        icon = "red";
-                        break;
-                    case "Mall":
-                        icon = "yellow";
-                        break;
-                    case "banaglore":
-                        icon = "yellow";
-                        break;
-                    case "hydrabad":
-                        icon = "blue";
-                        break;
-                }
+                //switch (data.type) {
+                //    case "mumbai":
+                //        // icon = "red";
+                //        icon = "green";
+                //        break;
+                //    case "delhi":
+                //        icon = "red";
+                //        break;
+                //    case "Mall":
+                //        icon = "yellow";
+                //        break;
+                //    case "banaglore":
+                //        icon = "yellow";
+                //        break;
+                //    case "hydrabad":
+                //        icon = "blue";
+                //        break;
+                //}
 
                 // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
                  icon = "../Image/" + icon + ".png";
-               // icon = window.location.origin + icon + ".png";
+
+               // icon = icon;
                 var marker = new google.maps.Marker({
                     position: myLatlng,
                     map: map,
@@ -259,13 +220,19 @@
                 })(marker, data);
                 latlngbounds.extend(marker.position);
                 i++;
+                //if (arr.length!= markers.length) { // any page animations finished
+                //    clearInterval(interval);
+                //    var bounds = new google.maps.LatLngBounds();
+                //}
+
                 if (i == markers.length) {
                     clearInterval(interval);
                     var bounds = new google.maps.LatLngBounds();
                     //map.setCenter(latlngbounds.getCenter());
-                   // map.fitBounds(latlngbounds);
+                    // map.fitBounds(latlngbounds);
+                    arr = [];
                 }
-            }, 80);
+            }, 2000);
         }
 
         $(document).ready(function () {
@@ -279,7 +246,7 @@
 
 
             var myDataRef = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
-
+            var yaxisindex =
             myDataRef.on("child_added", function (snapshot) {
                 snapshot.forEach(function (data) {
                    // displayChatMessage(data.val().humidity, data.val().pm10);
@@ -300,7 +267,7 @@
                 var data2 = [];
                 var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
 
-
+                var ylevel = "";
 
                 Ref.on("value", function (snapshot) {
                     snapshot.forEach(function (data) {
@@ -308,18 +275,23 @@
                         switch (idvalue) {
                             case "airquality":
                                 yaxisvalue = data.val().pm10;
+                                ylevel = "Air Quality Index";
                                 break;
                             case "temperature":
                                 yaxisvalue = data.val().temp;
+                                ylevel = "Temperature"
                                 break;
                             case "humidity":
                                 yaxisvalue = data.val().humidity;
+                                ylevel = "Humidity";
                                 break;
                             case "co2":
                                 yaxisvalue = data.val().pm10;
+                                ylevel = "CO2";
                                 break;
                             case "voc":
                                 yaxisvalue = data.val().pm25;
+                                ylevel = "VOC";
                                 break;
                         }
 
@@ -329,7 +301,21 @@
                         var chart = new CanvasJS.Chart("chartContainer", {
                             animationEnabled: true,
                             width:800,
-                            theme: "theme2",//theme1
+                            theme: "theme2",
+                            axisY: {
+                                title: ylevel,
+                                titleFontFamily: "comic sans ms"
+                            },
+                            axisX: {
+                               // valueFormatString: "HH",
+                              //  interval: 1,
+                              //  intervalType: "hour",
+                                labelAngle: -90,
+                                labelFontColor: "rgb(0,75,141)",
+                                
+                            },
+
+                            //theme1
                             //title: {
                             //    text: "Temp/Humidity"
                             //},
@@ -338,8 +324,8 @@
                                 // animationEnabled: false,
                                 animationEnabled: true,
                                 // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                type: "spline",
-                                color: "#00C0EF",
+                                type: "area",
+                                color: "#CBE8EE",
                                 showInLegend: true,
                                 name: "PM10",
                                 dataPoints: data0,
@@ -350,8 +336,8 @@
                                 // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
                                 animationEnabled: true,
 
-                                type: "spline",
-                                color: "#DD4B39",
+                                type: "area",
+                                color: "#CBE8EE",
                                 name: "PM2",
                                 showInLegend: true,
                                 dataPoints: data1
@@ -361,8 +347,8 @@
                                 // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
                                 animationEnabled: true,
 
-                                type: "spline",
-                                color: "#00A65A",
+                                type: "area",
+                                color: "#CBE8EE",
                                 name: "CO2",
                                 showInLegend: true,
                                 dataPoints: data2

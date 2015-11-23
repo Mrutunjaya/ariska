@@ -83,6 +83,11 @@ background-color:#F6F3F4;
 max-width:100%;
 max-height:100%;
 }
+.container1 {
+    margin-right: auto;
+    margin-left: auto;
+    width:950px;
+}
 .headertest{
     width: 50%; margin: auto; margin-left: auto; margin: auto; height: 30px; background-color: #1A8CEC; margin-top: -45px;
     color:#ffffff;text-align:center;font-size:16px;font-weight:900;
@@ -118,16 +123,16 @@ color: red;
 }
 
 .temperature{
-    background-image:url("../Image/Temperature1.png");
-    width:102px;
-    height:99px;
+    background-image:url("../Image/Temperatures.png");
+    width:130px;
+    height:130px;
     background-repeat:no-repeat; 
     text-align:center;   
 }
 .humidity {
-     background-image:url("../Image/Humidity1.png");
-     width:102px;
-     height:99px;
+     background-image:url("../Image/Hum.png");
+     width:130px;
+     height:130px;
      background-repeat:no-repeat;
      text-align:center;  
 }
@@ -157,13 +162,31 @@ color: red;
 
 #combineimage{
 
-     background-image:url("../Image/AQI.png");
+     background-image:url("../Image/Circlewithleaf.png");
      width:182px;
      height:183px;
      background-repeat:no-repeat;
      text-align:center; 
      margin:auto;
      margin-top:-30px;
+}
+
+.headercontainer{
+
+}
+.Thermologo{
+
+}
+
+#local-header {
+    background-color: #DCDCDC;
+    height: 49px;
+    text-align: left;
+}
+.bg{
+    background-image:url("../Image/BG.png");
+    text-align:center; 
+    margin:auto;
 }
 
 

@@ -205,7 +205,7 @@
                         //});
 
                         Ref.on('child_added', function (snapshot) {
-                            $('#lblhumidity').text(snapshot.val().humidity + '%');
+                            $('#lblhumidity').text(snapshot.val().humidity);
                             $('#lbltemp').text(snapshot.val().temp);
                             $('#lblpm25').text(snapshot.val().pm25);
                             $('#lblpm10').text(snapshot.val().pm10);
@@ -299,18 +299,23 @@
                         data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
                         var chart = new CanvasJS.Chart("chartContainer", {
                             animationEnabled: true,
+                            backgroundColor: "#278FB0",
                             width: 800,
                             theme: "theme2",
                             axisY: {
                                 title: ylevel,
-                                titleFontFamily: "comic sans ms"
+                                gridColor: "#278FB0",
+                                titleFontColor: "rgb(255,255,255)",
+                                titleFontFamily: "comic sans ms",
+                                labelFontColor: "rgb(255,255,255)",
                             },
                             axisX: {
                                 // valueFormatString: "HH",
                                 //  interval: 1,
                                 //  intervalType: "hour",
+                                gridColor: "#278FB0",
                                 labelAngle: -90,
-                                labelFontColor: "rgb(0,75,141)",
+                                labelFontColor: "rgb(255,255,255)",
 
                             },
 
@@ -324,7 +329,7 @@
                                 animationEnabled: true,
                                 // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
                                 type: "area",
-                                color: "#CBE8EE",
+                                color: "#ffffff",
                                 showInLegend: true,
                                 name: "PM10",
                                 dataPoints: data0,
@@ -336,7 +341,7 @@
                                 animationEnabled: true,
 
                                 type: "area",
-                                color: "#CBE8EE",
+                                color: "#ffffff",
                                 name: "PM2",
                                 showInLegend: true,
                                 dataPoints: data1
@@ -347,7 +352,7 @@
                                 animationEnabled: true,
 
                                 type: "area",
-                                color: "#CBE8EE",
+                                color: "#ffffff",
                                 name: "CO2",
                                 showInLegend: true,
                                 dataPoints: data2
@@ -373,31 +378,39 @@
 
 <div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
     <div class="container">
-        <div class="col-xs-12" style="background-color:#ffffff;padding-top:10px;padding-bottom:10px"><img src="~/Image/thermofisher_logo.png" /></div>
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <div style="margin-left:30px"><img src="~/Image/Aerika.jpg" /></div>
-        </div>
-        <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
-
-            <ul class="nav navbar-nav" style="margin-left:30px;">
-
-                <li id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
-                <li id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
-                <li id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
-                <li id="co2"><a href="#" data-toggle="modal" data-target="#myModal">CO2</a> </li>
-                <li style="color:#000000" id="voc"><a href="#" data-toggle="modal" data-target="#myModal">VOC</a></li>
-            </ul>
-            @Html.Partial("_LoginPartial")
-            @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
+        <div class="col-xs-12" style="background-color:#ffffff">
+        <div class="container1" style="background-color:#ffffff;padding-top:20px;padding-bottom:10px;"><img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
+            <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
+            <span style="margin-left:5px"><img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
+            </span>
+            </div>
         </div>
 
+        <div id="local-header">
+            <div class="container1">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
+
+                </div>
+                <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
+
+                    <ul class="nav navbar-nav">
+
+                        <li class="col-xs-4" id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
+                        <li class="col-xs-4" id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
+                        <li class="col-xs-4" id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                    @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -428,20 +441,20 @@
                         <div class="input-group ">
                             <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" style="height:34px">
                             <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                <button class="btn btn-default" style="color: #ee3134" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
                         </div>
                     </form>
                 </div>
 
-                <div class="col-xs-12" id="combineimage" style="margin-top:40%">
-                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #ffffff; text-align: left; margin-top:10%;margin-right:80px; font-size: 34px;"></label></div>
-                    <div><label for="a" id="lblpm10" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-left: 60%;padding-top:20%"></label></div>
+                <div class="col-xs-12" id="combineimage" style="margin-top:10%">
+                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #000000; text-align: left; margin-top:9%;margin-right:21%;text-align:center; font-size: 34px;"></label></div>
+                    @*<div><label for="a" id="lblpm10" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-left: 60%;padding-top:20%"></label></div>
                     <div>
                         <label for="a" id="lblpm25" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-right: 20px;"></label>
 
 
-                    </div>
+                    </div>*@
 
                 </div>
 
@@ -451,7 +464,7 @@
                         <div class="temperature">
 
                             <div>
-                                <label for="a" id="lbltemp" style="font-weight: 700; color: #ffffff; text-align: center; margin-top: 25px; font-size: 20px;"></label><br />
+                                <label for="a" id="lbltemp" style="font-weight: 500; color: #6C6D6F; margin-right: 32px; margin-top: 15px; font-size: 28px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
                             </div>
                         </div>
@@ -460,7 +473,7 @@
                         <div class="humidity">
 
                             <div>
-                                <label for="a" id="lblhumidity" style="font-weight: 700; font-size: 16px; color: #ffffff; margin-top:25px;margin-left:20px; font-size: 20px; "></label><br />
+                                <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 28px; color: #6C6D6F; margin-top: 15px; margin-right: 32px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
                             </div>
                         </div>
@@ -480,12 +493,12 @@
     <div class="modal-dialog" style="width:900px;height:800px">
 
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" style="background-color: #278FB0">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
-            <div class="modal-body" style="height:400px">
+            <div class="modal-body" style="height: 400px; background-color: #278FB0">
 
                 <div class="dropdown">
 
@@ -536,7 +549,7 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border-top: 0px;">
                 @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
             </div>
         </div>

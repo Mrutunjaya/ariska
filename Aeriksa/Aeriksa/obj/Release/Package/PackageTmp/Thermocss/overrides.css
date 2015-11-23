@@ -1,0 +1,307 @@
+body {
+    /*font-size: 16px;*/
+}
+.cursor {
+    cursor: pointer;
+}
+.modal {
+    width: auto;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 10%;
+    right: 10%;
+    top: 10%;
+    bottom: 10%;
+    overflow: hidden;
+}
+#menu-modal.modal {
+    max-width: 600px;
+    height: auto;
+}
+.modal-body {
+    position: relative;
+    overflow-y: auto;
+    max-height: 80%;
+    padding: 15px;
+    height: auto;
+}
+.modal .thirty-percent {
+    width: 31%;
+    display: inline-block;
+    margin: 0 auto 0 1%;
+}
+.flower-bg {
+    background-image: url("../content-images/color-flower.png");
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    /*border-top:1px solid #dcdcdc;
+                                                        border-bottom:1px solid #dcdcdc;*/
+}
+.jumbotron {
+    border-top: 1px solid #DCDCDC;
+    border-bottom: 1px solid #DCDCDC;
+    background-color: #F3F3F3;
+}
+.masthead {
+    padding: 50px 0px 50px;
+}
+.footer {
+    background-color: #FFFFFF;
+}
+/*Custom Floats*/
+.float-center {
+    display: block;
+    position: relative;
+    margin: 0px auto;
+    width: auto;
+    height: auto;
+}
+.float-left {
+    display: block;
+    position: relative;
+    margin: 10px 10px 10px 0px;
+    float: left;
+}
+.float-right {
+    display: block;
+    position: relative;
+    margin: 10px 0px 10px 10px;
+    float: right;
+}
+.float-clear {
+    clear: both;
+}
+.margin-bottom {
+    margin-bottom: 20px;
+}
+#main-header .navbar {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+#local-header {
+    background-color: #DCDCDC;
+    height: 49px;
+    /*border-top: 1px solid #555759;
+                                                        border-bottom: 1px solid #555759;*/
+    text-align: left;
+}
+#local-header .navbar ul.nav {
+    float: none !important;
+    width: auto;
+    text-align: center;
+}
+.navbar .nav > li {
+    float: none;
+    display: inline-block;
+    padding-right: 0px;
+}
+#local-header .navbar ul.nav a {
+    color: #333333;
+    text-shadow: none;
+}
+#local-header .navbar ul.nav a:hover {
+    color: #333333;
+    text-shadow: none;
+}
+#local-header ul li.active {
+    background-color: transparent;
+}
+#local-header .navbar ul.nav .active a {
+    color: #333333;
+    text-shadow: none;
+}
+/*#local-header .navbar ul.nav a:hover {
+    color: #000000;
+}*/
+.homepage.full-bleed {
+    background-color: #FFFFFF;
+}
+.well.well-clear {
+    background-color: transparent;
+    margin-bottom: 1px;
+}
+.well.well-index {
+    background-color: #FFFFFF;
+    margin-bottom: 1px;
+    border: 1px solid #DCDCDC;
+}
+.well.well-index:hover {
+    background-color: #F3F3F3;
+    border: 1px solid #DCDCDC;
+}
+/*Swatches*/
+.color-swatch {
+    text-align: center;
+    border: 1px solid #E9E9E9;
+    margin-bottom: 20px;
+}
+.color-swatch p {
+    text-align: left;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 11px;
+}
+.color-swatch.inline {
+    margin-right: 0px;
+    width: auto;
+    text-align: left;
+    display: inline-block;
+    border: 0px solid black;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.hex {
+    font-family: Courier, sans-serif;
+    color: #555759;
+    font-size: 13px;
+}
+.color-swatch .color {
+    display: block;
+    height: 50px;
+    width: 100%;
+    margin-right: 8px;
+    border: 1px solid #E9E9E9;
+}
+.color-swatch.inline .color {
+    display: inline-block;
+    height: 10px;
+    width: 30px;
+    margin-right: 4px;
+}
+/*Classes*/
+.img-responsive {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.top-margin {
+    padding-top: 60px;
+}
+.dev-note {
+    display: block;
+    background-color: #BE409B;
+    padding: 23px;
+    color: #FFFFFF;
+    border: 9px double #03B5E3;
+}
+/*Style Overrides*/
+.lead {
+    font-size: 22px;
+}
+.label, .badge {
+    background-color: #7B7C7C;
+}
+.nav-list {
+    /* border-bottom: 1px solid @borderColor; */
+    border-top: 0px solid black;
+    border-left: 0px solid black;
+}
+ul.no-bp li {
+    list-style-type: none;
+}
+ul.nav-list li {
+    border-left: 0px solid black;
+}
+ul.indent-list li {
+    margin-left: 10px;
+}
+.nav-header {
+    background-color: transparent;
+}
+ul.nav-list.bs-docs-sidenav ul.tree {
+    margin-left: 10px;
+    width: 90%;
+    background-color: transparent;
+}
+ul.nav-list.bs-docs-sidenav ul.tree li {
+}
+ul.badge-list {
+}
+ul.badge-list > li {
+    margin-bottom: 10px;
+}
+ul.badge-list .badge {
+    margin-right: 5px;
+}
+ul.badge-list .badge.optional {
+    background-color: #DCDCDC;
+    color: #555759;
+}
+ul.badge-list li ul > li {
+    margin-left: 40px;
+}
+.jumbotron ul.list-unstyled {
+    color: #464646;
+}
+.jumbotron ul.list-unstyled li {
+    width: auto;
+    list-style-type: none;
+    font-size: 19px;
+    line-height: normal;
+    margin-bottom: 5px;
+}
+.bs-docs-sidenav {
+    margin: 30px 0 0;
+    padding: 0;
+    background-color: transparent;
+    border-radius:o;
+    box-shadow: none;
+}
+.unstyled span.muted {
+    color: #999999;
+}
+.jumbotron a {
+    color: #ADACAC;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: border-bottom-style 0.2s ease-in-out;
+}
+.jumbotron a:hover {
+    color: #333;
+    text-shadow: none;
+}
+.jumbotron a.btn-featured:hover {
+    color: #FBFBFB;
+}
+.modal-trigger-thumb {
+    /*width: 84%;*/
+    padding: 0px;
+    margin-bottom: 20px;
+    /*border: 1px solid black;*/
+}
+.modal-body img.img-responsive {
+    max-width: 1100px;
+}
+#modal-reserve-body.modal-body > img {
+    margin: 0 auto;
+    width: 100%;
+}
+/* generic margins and padding */
+.t30 {
+    margin-top: 30px;
+}
+.icon-doc, .icon-pdf, .icon-txt, .icon-xls {
+    background-image: url(../content-images/sprites-icons-document-types-16px.png);
+}
+.icon-doc, .icon-pdf, .icon-txt, .icon-xls {
+    margin-top: 0;
+    line-height: 16px;
+    height: 16px;
+}
+.icon-doc {
+    background-position: 0 -232px;
+}
+.icon-pdf {
+    background-position: 0 -116px;
+}
+.icon-txt {
+    background-position: 0 -348px;
+}
+.icon-xls {
+    background-position: 0 0;
+}
+.icon-outbound {
+    background-image: url(../content-images/icon-outboundlink.gif);
+    background-position: 0 0;
+}

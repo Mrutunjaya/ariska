@@ -223,17 +223,24 @@
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Image\Aerika.jpg" />
+    <Content Include="Image\Aeriksa logo.png" />
     <Content Include="Image\AQI.png" />
+    <Content Include="Image\BG.png" />
     <Content Include="Image\blue.png" />
     <Content Include="Image\circle.png" />
+    <Content Include="Image\Circlewithleaf.png" />
     <Content Include="Image\green.png" />
+    <Content Include="Image\Hum.png" />
     <Content Include="Image\Humidity.png" />
     <Content Include="Image\Humidity1.png" />
     <Content Include="Image\humid_icon.png" />
     <Content Include="Image\red.png" />
+    <Content Include="Image\sidebar.png" />
     <Content Include="Image\temp.png" />
     <Content Include="Image\Temperature.png" />
     <Content Include="Image\Temperature1.png" />
+    <Content Include="Image\Temperatures.png" />
+    <Content Include="Image\thermo-fisher-logo-retina.png" />
     <Content Include="Image\thermofisher_logo.png" />
     <Content Include="Image\userlogo.png" />
     <Content Include="Image\yellow.png" />
@@ -278,6 +285,10 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="System.Web.Helpers.xml" />
+    <Content Include="Thermocss\base.css" />
+    <Content Include="Thermocss\docs.css" />
+    <Content Include="Thermocss\overrides.css" />
+    <Content Include="Thermocss\print.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
