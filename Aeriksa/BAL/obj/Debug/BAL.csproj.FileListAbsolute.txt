@@ -4,9 +4,3 @@ D:\Aeriksa\BAL\bin\Debug\Newtonsoft.Json.dll
 D:\Aeriksa\BAL\obj\Debug\BAL.dll
 D:\Aeriksa\BAL\obj\Debug\BAL.pdb
 D:\Aeriksa\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache
-D:\Aeriska2015\Aeriksa\BAL\bin\Debug\BAL.dll
-D:\Aeriska2015\Aeriksa\BAL\bin\Debug\BAL.pdb
-D:\Aeriska2015\Aeriksa\BAL\bin\Debug\Newtonsoft.Json.dll
-D:\Aeriska2015\Aeriksa\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache
-D:\Aeriska2015\Aeriksa\BAL\obj\Debug\BAL.dll
-D:\Aeriska2015\Aeriksa\BAL\obj\Debug\BAL.pdb

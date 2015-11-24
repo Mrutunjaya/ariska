@@ -246,6 +246,7 @@
     <Content Include="Image\thermofisher_logo.png" />
     <Content Include="Image\userlogo.png" />
     <Content Include="Image\yellow.png" />
+    <Content Include="js\canvasjs.js" />
     <Content Include="js\canvasjs.min.js" />
     <Content Include="js\flipper.js" />
     <Content Include="js\gauge.js" />

@@ -219,12 +219,14 @@
                     if (error) {
                         switch (error.code) {
                             case "INVALID_USER":
+                                $('#lblError').text('Please enter a valid Username.');
                                 console.log("The specified user account does not exist.");
                                 break;
                             default:
                                 console.log("Error resetting password:", error);
                         }
                     } else {
+                        $('#lblError').text('Password reset email sent successfully!');
                         console.log("Password reset email sent successfully!");
                     }
                 });
@@ -241,12 +243,15 @@
                     if (error) {
                         switch (error.code) {
                             case "EMAIL_TAKEN":
+                                $('#lblError').text('The email is already in use.');
                                 console.log("The new user account cannot be created because the email is already in use.");
                                 break;
                             case "INVALID_EMAIL":
+                                $('#lblError').text('Please enter a valid Email.');
                                 console.log("The specified email is not a valid email.");
                                 break;
                             default:
+                                $('#lblError').text('Error creating user.');
                                 console.log("Error creating user:", error);
                         }
                     } else {
