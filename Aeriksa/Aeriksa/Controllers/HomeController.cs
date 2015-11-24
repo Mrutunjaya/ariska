@@ -222,7 +222,7 @@ namespace Aeriksa.Controllers
             return View();
         }
 
-        public ActionResult LogIn()
+        public ActionResult LogIntest1()
         {
            // string cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -246,7 +246,7 @@ namespace Aeriksa.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult LogIn(loginModel loginmodel)
+        public ActionResult LogIntest1(loginModel loginmodel)
         {
             using (var _db = new AriskaEntities())
             {
@@ -271,6 +271,11 @@ namespace Aeriksa.Controllers
                     ModelState.AddModelError("", "Invalid username or password");
                 }
             }
+            return View();
+        }
+
+        public ActionResult Login()
+        {
             return View();
         }
 

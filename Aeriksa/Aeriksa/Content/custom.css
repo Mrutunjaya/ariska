@@ -163,12 +163,31 @@ color: red;
 #combineimage{
 
      background-image:url("../Image/Circlewithleaf.png");
-     width:182px;
-     height:183px;
+     width:152px;
+     height:150px;
      background-repeat:no-repeat;
      text-align:center; 
      margin:auto;
      margin-top:-30px;
+}
+
+.pm10{
+
+     background-image:url("../Image/pm10.png");
+     width:130px;
+     height:130px;
+     background-repeat:no-repeat;
+     text-align:center; 
+     margin:auto;
+}
+.pm25{
+
+     background-image:url("../Image/pm25.png");
+     width:130px;
+     height:130px;
+     background-repeat:no-repeat;
+     text-align:center; 
+     margin:auto;
 }
 
 .headercontainer{

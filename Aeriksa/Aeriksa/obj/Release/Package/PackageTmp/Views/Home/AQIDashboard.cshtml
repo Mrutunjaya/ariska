@@ -299,18 +299,23 @@
                         data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
                         var chart = new CanvasJS.Chart("chartContainer", {
                             animationEnabled: true,
+                            backgroundColor: "#278FB0",
                             width: 800,
                             theme: "theme2",
                             axisY: {
                                 title: ylevel,
-                                titleFontFamily: "comic sans ms"
+                                gridColor: "#278FB0",
+                                titleFontColor: "rgb(255,255,255)",
+                                titleFontFamily: "comic sans ms",
+                                labelFontColor: "rgb(255,255,255)",
                             },
                             axisX: {
                                 // valueFormatString: "HH",
                                 //  interval: 1,
                                 //  intervalType: "hour",
+                                gridColor: "#278FB0",
                                 labelAngle: -90,
-                                labelFontColor: "rgb(0,75,141)",
+                                labelFontColor: "rgb(255,255,255)",
 
                             },
 
@@ -324,7 +329,7 @@
                                 animationEnabled: true,
                                 // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
                                 type: "area",
-                                color: "#CBE8EE",
+                                color: "#ffffff",
                                 showInLegend: true,
                                 name: "PM10",
                                 dataPoints: data0,
@@ -336,7 +341,7 @@
                                 animationEnabled: true,
 
                                 type: "area",
-                                color: "#CBE8EE",
+                                color: "#ffffff",
                                 name: "PM2",
                                 showInLegend: true,
                                 dataPoints: data1
@@ -347,7 +352,7 @@
                                 animationEnabled: true,
 
                                 type: "area",
-                                color: "#CBE8EE",
+                                color: "#ffffff",
                                 name: "CO2",
                                 showInLegend: true,
                                 dataPoints: data2
@@ -443,15 +448,29 @@
                 </div>
 
                 <div class="col-xs-12" id="combineimage" style="margin-top:10%">
-                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #000000; text-align: left; margin-top:9%;margin-right:21%;text-align:center; font-size: 34px;"></label></div>
-                    @*<div><label for="a" id="lblpm10" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-left: 60%;padding-top:20%"></label></div>
-                    <div>
-                        <label for="a" id="lblpm25" style="font-weight: 500; color: #ffffff; text-align: center; font-size: 18px; margin-right: 20px;"></label>
-
-
-                    </div>*@
-
+                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #000000; text-align: left; margin-top:9%;text-align:center; font-size: 34px;"></label></div>
                 </div>
+                <div class="col-md-12 col-md-offset-2">
+                    <div class="col-md-4">
+                        <div class="pm10">
+
+                            <div>
+                                <label for="a" id="lblpm10" style="font-weight: 500; color: #6C6D6F; margin-right: 60px; margin-top: 23px; font-size: 18px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pm25">
+
+                            <div>
+                                <label for="a" id="lblpm25" style="font-weight: 500; font-size: 18px; color: #6C6D6F; margin-top: 23px; margin-right: 60px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
                 <div class="col-xs-12" style="margin-top:30%">
@@ -459,7 +478,7 @@
                         <div class="temperature">
 
                             <div>
-                                <label for="a" id="lbltemp" style="font-weight: 500; color: #55565A;margin-right:32px; margin-top: 15px; font-size: 28px;"></label><br />
+                                <label for="a" id="lbltemp" style="font-weight: 500; color: #6C6D6F; margin-right: 32px; margin-top: 15px; font-size: 28px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
                             </div>
                         </div>
@@ -468,7 +487,7 @@
                         <div class="humidity">
 
                             <div>
-                                <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 28px; color: #55565A; margin-top: 15px; margin-right: 32px;"></label><br />
+                                <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 28px; color: #6C6D6F; margin-top: 15px; margin-right: 32px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
                             </div>
                         </div>
@@ -488,12 +507,12 @@
     <div class="modal-dialog" style="width:900px;height:800px">
 
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" style="background-color: #278FB0">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
-            <div class="modal-body" style="height:400px">
+            <div class="modal-body" style="height: 400px; background-color: #278FB0">
 
                 <div class="dropdown">
 
@@ -544,7 +563,7 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border-top: 0px;">
                 @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
             </div>
         </div>

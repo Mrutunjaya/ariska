@@ -188,7 +188,7 @@
             //});
 
 
-            var ref = new Firebase("https://ariska.firebaseio.com/");
+            var ref = new Firebase("https://incandescent-fire-5051.firebaseio.com");
            // var url = window.location.origin;
             function SendMessage() {
                 var userid = $('#UseridInput').val();
@@ -210,8 +210,58 @@
             }
 
 
+
+            function ForgotPassword() {
+             
+                ref.resetPassword({
+                    email: $('#UseridInput').val(),
+                }, function (error) {
+                    if (error) {
+                        switch (error.code) {
+                            case "INVALID_USER":
+                                console.log("The specified user account does not exist.");
+                                break;
+                            default:
+                                console.log("Error resetting password:", error);
+                        }
+                    } else {
+                        console.log("Password reset email sent successfully!");
+                    }
+                });
+            }
+
+
+            function CreateUser() {
+                var url = window.location.origin;
+                ref.createUser({
+                    email: $('#UseridInput').val(),
+                    password: $('#PasswordInput').val()
+
+                }, function (error, userData) {
+                    if (error) {
+                        switch (error.code) {
+                            case "EMAIL_TAKEN":
+                                console.log("The new user account cannot be created because the email is already in use.");
+                                break;
+                            case "INVALID_EMAIL":
+                                console.log("The specified email is not a valid email.");
+                                break;
+                            default:
+                                console.log("Error creating user:", error);
+                        }
+                    } else {
+                        window.location = url + '/' + 'Home/' + 'DashBoard';
+                        console.log("Successfully created user account with uid:", userData.uid);
+                    }
+                });
+
+            }
+
+
             $("#btnSend").click(function () {
-                SendMessage();
+               //  SendMessage();
+                 CreateUser();
+               //  ForgotPassword();
             });
 
         });

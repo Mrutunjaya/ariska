@@ -234,6 +234,8 @@
     <Content Include="Image\Humidity.png" />
     <Content Include="Image\Humidity1.png" />
     <Content Include="Image\humid_icon.png" />
+    <Content Include="Image\pm10.png" />
+    <Content Include="Image\pm25.png" />
     <Content Include="Image\red.png" />
     <Content Include="Image\sidebar.png" />
     <Content Include="Image\temp.png" />
@@ -321,7 +323,7 @@
     <Content Include="Views\Home\LineChart.cshtml" />
     <Content Include="Views\Home\WeatherForecast.cshtml" />
     <Content Include="Views\Home\Weather.cshtml" />
-    <Content Include="Views\Home\LogIn.cshtml" />
+    <Content Include="Views\Home\LogIntest1.cshtml" />
     <Content Include="Views\Home\DashBoard.cshtml" />
     <Content Include="Views\Home\AirQuality.cshtml" />
     <Content Include="Views\Home\test.cshtml" />
@@ -329,6 +331,7 @@
     <Content Include="Views\Home\LoginTest.cshtml" />
     <Content Include="Views\Home\AQI.cshtml" />
     <Content Include="Views\Home\AQIDashboard.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
