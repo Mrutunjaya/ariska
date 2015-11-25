@@ -17,7 +17,7 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         @*<li>@Html.ActionLink("Username", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-        <li style="padding:5px">@TempData["UserId"]</li>
+        <li style="padding:5px;margin-top:8px">@Session["UserName"]</li>
         <li><img src="~/Image/userlogo.png" width="35" height="35" style="margin-top:7px" /></li>
     </ul>
 }

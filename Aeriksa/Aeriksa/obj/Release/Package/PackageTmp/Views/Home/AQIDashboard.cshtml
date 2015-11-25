@@ -120,15 +120,15 @@
                 var icon = "";
                 if (arr.length > 0) {
                     if ((arr[i] > 0 && arr[i] <= 50)) {
-                        icon = "green";
+                        icon = "good";
                         //return false;
                     }
                     else if ((arr[i] > 51 && arr[i] <= 100)) {
-                        icon = "yellow";
+                        icon = "moderate";
                         // return false;
                     }
                     else if ((arr[i] > 101 && arr[i] <= 150)) {
-                        icon = "blue";
+                        icon = "unhealthysensitive";
                         // return false;
                     }
                     else if ((arr[i] > 151 && arr[i] <= 200)) {
@@ -311,7 +311,7 @@
                                 gridColor: "#278FB0",
                                 titleFontColor: "rgb(255,255,255)",                                
                                 labelFontColor: "rgb(255,255,255)",
-                                titleFontFamily: "Helvetica Neue",
+                                titleFontFamily: "Helvetica",
                                 labelFontFamily: "Helvetica"
                             },
                             axisX: {
@@ -321,7 +321,7 @@
                                 gridColor: "#278FB0",
                                 labelAngle: -90,
                                 labelFontColor: "rgb(255,255,255)",
-                                fontFamily: "Times New Roman",
+                                fontFamily: "Helvetica",
                                 labelFontFamily: "Helvetica"
 
                             },
@@ -394,6 +394,7 @@
         </div>
 
         <div id="local-header">
+            <div id="local-header_top"></div>
             <div class="container1">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -405,17 +406,22 @@
 
                 </div>
                 <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
+                    <div class="col-xs-12">
 
-                    <ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav" style="width:55%">
+                            <li class="col-xs-4" id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
+                            <li class="col-xs-4" id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
+                            <li class="col-xs-4" id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
+                            
+                        </ul>
 
-                        <li class="col-xs-4" id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
-                        <li class="col-xs-4" id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
-                        <li class="col-xs-4" id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
-                    </ul>
+                    </div>
+
                     @Html.Partial("_LoginPartial")
                     @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
                 </div>
             </div>
+            <div id="local-header_top"></div>
 
         </div>
     </div>
@@ -446,7 +452,7 @@
                 <div class="col-xs-12" style="margin-top:25%">
                     <form class="navbar-form" role="search">
                         <div class="input-group ">
-                            <input type="text" class="form-control" placeholder="Search by location" name="srch-term" id="srch-term" style="height:30px;font-style:italic;border-radius:0px;border-color:#ffffff">
+                            <input type="text" class="form-control" placeholder="Search by location" name="srch-term" id="srch-term" style="height:30px;font-style:italic;border-radius:0px;border-color:#ffffff;font-family:Helvetica">
                             <div class="input-group-btn">
                                 <button class="btn btn-default" style="color: #ee3134; height: 30px; border-radius: 0px;border-color:#ffffff" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
@@ -511,19 +517,20 @@
 
 
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog" style="width:900px;height:800px">
+    <div class="modal-dialog" style="width:900px;height:700px">
 
         <!-- Modal content-->
-        <div class="modal-content" style="background-color: #278FB0">
+        <div class="modal-content" style="background-color: #278FB0; border-radius:0px;opacity:0.8">
             <div class="modal-header" style="border-bottom: 0px solid #278FB0;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
-            <div class="modal-body" style="height: 400px; background-color: #278FB0">
+            <div class="modal-body" style="height: 400px; background-color: #278FB0;padding-top:0px">
 
                 <div class="dropdown">
 
                     <div class="col-sm-4">
+
                         <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
                             Filter by
                             <span class="caret" style="margin-left:80px"></span>
@@ -563,7 +570,7 @@
 
 
 
-                <div id="chartheight">
+                <div id="chartheight" style="margin-top:15px">
                     <div id="chartContainer" style="height: 300px; width: 100%;">
 
                     </div>
@@ -585,7 +592,10 @@
         $("#wrapper").toggleClass("toggled");
     });
 
-
+    //$("li").click(function (e) {
+    //    e.preventDefault();
+    //    $(".navbar-inverse .navbar-nav > li > a").addClass("active1");
+    //});
     //$("li").click(function () {
     //    alert(this.id); // or alert($(this).attr('id'));
     //});

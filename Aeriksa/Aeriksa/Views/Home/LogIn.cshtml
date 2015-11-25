@@ -60,7 +60,7 @@
                 <div class="form-group">
 
                     <div class="col-md-offset-4 col-xs-4">
-                        <div style="font-weight:bold">Username</div>
+                        <div style="font-weight:bold">Email</div>
                         <input type='text' class="form-control" id='UseridInput' style="border-radius:0px;height:30px">
                     </div>
 
@@ -157,20 +157,24 @@
 
         var ref = new Firebase("https://incandescent-fire-5051.firebaseio.com");
         // var url = window.location.origin;
+
         function SendMessage() {
             var userid = $('#UseridInput').val();
             var password = $('#PasswordInput').val();
+            '<%Session["UserName"] = "' + userid + '"; %>';
+           // @Session["test"] = userid ;
             var url = window.location.origin;
             ref.authWithPassword({
                 email: userid,
                 password: password
             }, function (error, authData) {
                 if (error) {
-                    $('#lblError').text('Invalid Userid/Passowrd');
+                    $('#lblError').text('Invalid Userid/Password');
                     console.log("Login Failed!", error);
                 } else {
 
-                    window.location = url + '/' + 'Home/' + 'AQIDashboard';
+                   // $.getScript("/Home/AQIDashboard");
+                    window.location = url + '/' + 'Home/' + 'AQIDashboard?username=' + userid;
                     console.log("Authenticated successfully with payload:", authData);
                 }
             });

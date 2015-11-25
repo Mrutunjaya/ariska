@@ -321,11 +321,14 @@ namespace Aeriksa.Controllers
             return View();
         }
 
-        public ActionResult AQIDashboard()
+        public ActionResult AQIDashboard(string username)
         {
+            Session["UserName"] = username;
 
             return View();
         }
+
+
 
         //public JsonResult GetData()
         //{
