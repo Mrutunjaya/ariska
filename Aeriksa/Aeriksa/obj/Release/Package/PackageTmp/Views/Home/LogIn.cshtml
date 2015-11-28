@@ -1,37 +1,19 @@
 ﻿
-
 <h2>DashBoard</h2>
-
-
 
 <head>
     <title>ThermoFisher</title>
     <style type="text/css">
-
     </style>
-
-    @*<link href="style/custom.css" rel="stylesheet" />*@
     <link href="~/Content/custom.css" rel="stylesheet" />
-    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
-
-    @*<link href="style/bootstrap.css" rel="stylesheet" />
-        <link href="style/bootstrap.min.css" rel="stylesheet" />*@
-    @*<link href="assets/main.css?v=5" type="text/css" rel="stylesheet">*@
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-
-    @*<script src="js/jquery-1.9.1.js"></script>
-        <script src="js/bootstrap.js"></script>
-        <script src="js/bootstrap.min.js"></script>*@
     <script src="~/js/gauge.min.js"></script>
     <link href="~/css/simple-sidebar.css" rel="stylesheet" />
-
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-
 </head>
 
 <div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
@@ -45,8 +27,6 @@
                 </span>
             </div>
         </div>
-
-
     </div>
 </div>
 
@@ -55,63 +35,36 @@
         <div class="row fixedwidth">
             <div class="form-horizontal" style="margin-top:20%">
                 @Html.ValidationSummary(true)
-
-
                 <div class="form-group">
-
                     <div class="col-md-offset-4 col-xs-4">
                         <div style="font-weight:bold">Email</div>
                         <input type='text' class="form-control" id='UseridInput' style="border-radius:0px;height:30px">
                     </div>
-
                 </div>
-
                 <div class="form-group">
-
                     <div class="col-md-offset-4 col-xs-4">
                         <div style="font-weight:bold">Password</div>
                         <input type='password' class="form-control" id='PasswordInput' style=" margin-bottom:0px;border-radius:0px;height:30px">
                         <label for="a" id="lblError" style="font-weight: 500;margin-left:50px; font-size: 14px; color: red;"></label>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-4">
-                        <div> <input type="button" value="Sign In >" class="btn btn-danger" id="btnSend"  style="background-color: #ee3134;"/></div>
+                        <div> <input type="button" value="Sign In >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" /></div>
 
                         @*<hr style="color: white; border-top: 2px solid #eee;" />*@
                         <br />
                         <div><a id="forgorpassword" style="color:#000000;font-weight:600; cursor:pointer">Forgot password?</a></div>
                         <div><a id="createanaccount" style="color: #000000; font-weight: 600;  cursor: pointer; ">Create an account <strong>></strong></a></div>
                     </div>
-
                 </div>
-
-
             </div>
         </div>
     </div>
 </div>
 
-
-@*<script>
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
-
-    //$("li").click(function () {
-    //    alert(this.id); // or alert($(this).attr('id'));
-    //});
-</script>*@
-
-
 <script type="text/javascript">
     $(document).ready(function () {
-
-
-
         // function authDataCallback(authData) {
         //     if (authData) {
         //         console.log("User " + authData.uid + " is logged in with " + authData.provider);
@@ -120,12 +73,7 @@
         //     }
         // }
 
-
-
-
         //// var ref = Firebase("https://ariska.firebaseio.com/Feeds");
-
-
         // // var myDataRef = new Firebase('https://ariska.firebaseio.com/Airquality');
         // var myDataRef = new Firebase('https://ariska.firebaseio.com/');
         // myDataRef.onAuth(authDataCallback);
@@ -162,7 +110,7 @@
             var userid = $('#UseridInput').val();
             var password = $('#PasswordInput').val();
             '<%Session["UserName"] = "' + userid + '"; %>';
-           // @Session["test"] = userid ;
+            // @Session["test"] = userid ;
             var url = window.location.origin;
             ref.authWithPassword({
                 email: userid,
@@ -173,15 +121,12 @@
                     console.log("Login Failed!", error);
                 } else {
 
-                   // $.getScript("/Home/AQIDashboard");
+                    // $.getScript("/Home/AQIDashboard");
                     window.location = url + '/' + 'Home/' + 'AQIDashboard?username=' + userid;
                     console.log("Authenticated successfully with payload:", authData);
                 }
             });
         }
-
-
-
         function ForgotPassword() {
 
             ref.resetPassword({
@@ -202,8 +147,6 @@
                 }
             });
         }
-
-
         function CreateUser() {
             var url = window.location.origin;
             ref.createUser({
@@ -229,17 +172,15 @@
                     $('#lblError').text('user created Successfully.');
                     $('#UseridInput').val('');
                     $('#PasswordInput').val('');
-                  //  window.location = url + '/' + 'Home/' + 'AQIDashboard';
+                    //  window.location = url + '/' + 'Home/' + 'AQIDashboard';
                     console.log("Successfully created user account with uid:", userData.uid);
                 }
             });
-
         }
 
-
         $("#btnSend").click(function () {
-              SendMessage();
-           // CreateUser();
+            SendMessage();
+            // CreateUser();
             //  ForgotPassword();
         });
         $("#createanaccount").click(function () {
@@ -249,16 +190,9 @@
         });
         $("#forgorpassword").click(function () {
             //  SendMessage();
-           // CreateUser();
-              ForgotPassword();
+            // CreateUser();
+            ForgotPassword();
         });
 
     });
 </script>
-
-
-
-
-
-
-

@@ -328,8 +328,6 @@ namespace Aeriksa.Controllers
             return View();
         }
 
-
-
         //public JsonResult GetData()
         //{
         //    using (var db = new ContosoUniversityEntities())

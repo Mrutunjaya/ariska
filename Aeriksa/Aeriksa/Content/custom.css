@@ -2,7 +2,7 @@
 body{
 padding:0;
 margin:0;
-background-color:#F6F3F4;
+background-color:#F3F3F3;
 font-family:Helvetica;
 }
 .main-content{
@@ -16,6 +16,13 @@ padding-top:60px
 
 }
 #myModal {
+top:17%;
+right:25%;
+outline: none;
+overflow-y:hidden;
+overflow-x:hidden;
+}
+#mapinfoModal {
 top:17%;
 right:25%;
 outline: none;
@@ -246,6 +253,38 @@ color: red;
     margin:auto;
    padding:0px;
 }
+.homescreen{
+    background-color:#ffffff;
+    position:fixed;
+    width:950px;
+    height:80%;
+    margin:auto;
+   padding:0px;
+}
+.footergap{
+    position:fixed;
+    width:950px;
+    height:5%;
+    margin:auto;
+   padding:0px;
+}
+.dashboardfooter{
+    background-color:#ffffff;
+    position:fixed;
+    width:950px;
+    height:10%;
+    margin:auto;
+    padding:0px;
+    bottom:0px;
+}
+#footer {
+    position:fixed;
+    left:3%;
+    bottom:15px;
+    margin:0;
+    /*width:10%;*/
+}
+/*#footer img {width:100%;}*/
 
 
 

@@ -225,6 +225,12 @@
     <Content Include="Image\Aerika.jpg" />
     <Content Include="Image\Aeriksa logo.png" />
     <Content Include="Image\AQI.png" />
+    <Content Include="Image\AQI_Good.png" />
+    <Content Include="Image\AQI_hazardous.png" />
+    <Content Include="Image\AQI_Moderate.png" />
+    <Content Include="Image\AQI_Unhealthy for sensitive.png" />
+    <Content Include="Image\AQI_Unhealthy.png" />
+    <Content Include="Image\AQI_Very Unhealthy.png" />
     <Content Include="Image\BG.png" />
     <Content Include="Image\blue.png" />
     <Content Include="Image\circle.png" />
@@ -233,11 +239,15 @@
     <Content Include="Image\good.png" />
     <Content Include="Image\green.png" />
     <Content Include="Image\hazardous.png" />
+    <Content Include="Image\Homedashboard.png" />
     <Content Include="Image\Hum.png" />
     <Content Include="Image\Humidity.png" />
     <Content Include="Image\Humidity1.png" />
     <Content Include="Image\humid_icon.png" />
+    <Content Include="Image\Info.png" />
+    <Content Include="Image\Info_Select.png" />
     <Content Include="Image\moderate.png" />
+    <Content Include="Image\navg Icon.png" />
     <Content Include="Image\pm10.png" />
     <Content Include="Image\pm25.png" />
     <Content Include="Image\red.png" />
@@ -311,7 +321,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -340,6 +349,7 @@
     <Content Include="Views\Home\AQI.cshtml" />
     <Content Include="Views\Home\AQIDashboard.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

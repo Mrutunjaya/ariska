@@ -1,31 +1,94 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿
+<h2></h2>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+<head>
+    <title>ThermoFisher</title>
+    <style type="text/css">
+    </style>
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/main.css?v=5" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="~/js/gauge.min.js"></script>
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+</head>
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
+    <div class="container">
+        <div class="col-xs-12" style="background-color:#ffffff">
+            <div class="container1" style="background-color:#ffffff;padding-top:20px;padding-bottom:10px;">
+                <img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
+                <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
+                <span style="margin-left:5px">
+                    <img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
+                </span>
+                <span class="pull-right"><input type="button" value="My Aeriksa >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" /></span>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div id="wrapper">
+    <div class="container1">
+        <div class="row homescreen">
+
+            <div>
+
+                <div class="form-horizontal">
+                    <div><img src="~/Image/Homedashboard.png" /></div>
+                    <div class="dashboardfooter"></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // function authDataCallback(authData) {
+        //     if (authData) {
+        //         console.log("User " + authData.uid + " is logged in with " + authData.provider);
+        //     } else {
+        //         console.log("User is logged out");
+        //     }
+        // }
+
+        //// var ref = Firebase("https://ariska.firebaseio.com/Feeds");
+        // // var myDataRef = new Firebase('https://ariska.firebaseio.com/Airquality');
+        // var myDataRef = new Firebase('https://ariska.firebaseio.com/');
+        // myDataRef.onAuth(authDataCallback);
+
+        var ref = new Firebase("https://ariska.firebaseio.com/");
+        //ref.createUser({
+        //    email: "admin@motifworks.com",
+        //    password: "motifworks"
+        //}, function (error, userData) {
+        //    if (error) {
+        //        console.log("Error creating user:", error);
+        //    } else {
+        //        console.log("Successfully created user account with uid:", userData.uid);
+        //    }
+        //});
+
+        //var ref = new Firebase("https://ariska.firebaseio.com/");
+        //ref.authWithPassword({
+        //    email: "admin@motifworks.com",
+        //    password: "motifworks"
+        //}, function (error, authData) {
+        //    if (error) {
+        //        console.log("Login Failed!", error);
+        //    } else {
+        //        console.log("Authenticated successfully with payload:", authData);
+        //    }
+        //});
+
+
+        var ref = new Firebase("https://incandescent-fire-5051.firebaseio.com");
+        // var url = window.location.origin;
+
+    });
+</script>

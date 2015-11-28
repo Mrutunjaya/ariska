@@ -1,109 +1,23 @@
-﻿
-
-<h2>DashBoard</h2>
-
-
-
+﻿<h2 style="color: #F3F3F3">DashBoard</h2>
 <head>
     <title>ThermoFisher</title>
-
-
-    @*<link href="style/custom.css" rel="stylesheet" />*@
     <link href="~/Content/custom.css" rel="stylesheet" />
-    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
-
-    @*<link href="style/bootstrap.css" rel="stylesheet" />
-        <link href="style/bootstrap.min.css" rel="stylesheet" />*@
-    @*<link href="assets/main.css?v=5" type="text/css" rel="stylesheet">*@
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     @*<script type="text/javascript" src="~/js/canvasjs.min.js"></script>*@
     <script src="~/js/canvasjs.js"></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-
-    @*<script src="js/jquery-1.9.1.js"></script>
-        <script src="js/bootstrap.js"></script>
-        <script src="js/bootstrap.min.js"></script>*@
     <script src="~/js/gauge.min.js"></script>
     <link href="~/css/simple-sidebar.css" rel="stylesheet" />
-
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
         var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
         var gpslocation = 'banaglore';
         var arr = [];
-        var markers = [
-            {
-                "title": 'Bombay',
-                "lat": '18.9409388',
-                "lng": '72.82819189999998',
-                "description": 'Bombay Hospital',
-                "type": 'mumbai'
-            },
-
-                    {
-                        "title": 'New Delhi',
-                        "lat": '28.63050',
-                        "lng": '77.13077',
-                        "description": 'Phoenix Mall',
-                        "type": 'delhi'
-                    },
-                    {
-                        "title": 'Bangalore',
-                        "lat": '12.97666',
-                        "lng": '77.63543',
-                        "description": 'Motifworks',
-                        "type": 'banaglore'
-                    },
-                    {
-                        "title": 'Andhra Pradesh',
-                        "lat": '17.387140',
-                        "lng": '78.491684',
-                        "description": 'ThermoFisher',
-                        "type": 'hydrabad'
-                    },
-
-        ];
-
-
 
 
         window.onload = function () {
-
-            //  icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
-
-
             var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
-
-
-            //Ref.startAt().limit(1).once("value", function(snapshot) {
-            //    snapshot.val().aqi
-            //});
-
-
-            Ref.on("value", function (snapshot) {
-                var i = 0;
-
-                $.each(snapshot.val(), function (index, cities) {
-                    $.each(cities, function (i, item) {
-                        // icon = "";
-                        var apivalue = parseInt(item.aqi);
-                        arr.push(apivalue);
-
-                        console.log(item.aqi);
-                        return false;
-                    });
-                });
-
-            });
-
-
-
-            var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
-
-
             var mapOptions = {
                 center: new google.maps.LatLng(14.096395, 77.570635),
                 zoom: 6,
@@ -114,137 +28,100 @@
             var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
             var i = 0;
             var interval = setInterval(function () {
-                var data = markers[i]
-                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                Ref.on("value", function (snapshot) {
+                    var i = 0;
+                    $.each(snapshot.val(), function (index, cities) {
+                        $.each(cities, function (i, item) {
+                            // icon = "";
+                           // var data = markers[k]
+                            var myLatlng = new google.maps.LatLng(item.geolocation.lat, item.geolocation.lang);
 
-                var icon = "";
-                if (arr.length > 0) {
-                    if ((arr[i] > 0 && arr[i] <= 50)) {
-                        icon = "good";
-                        //return false;
-                    }
-                    else if ((arr[i] > 51 && arr[i] <= 100)) {
-                        icon = "moderate";
-                        // return false;
-                    }
-                    else if ((arr[i] > 101 && arr[i] <= 150)) {
-                        icon = "unhealthysensitive";
-                        // return false;
-                    }
-                    else if ((arr[i] > 151 && arr[i] <= 200)) {
-                        icon = "unhealthy";
-                        //  return false;
-                    }
-                    else if ((arr[i] > 201 && arr[i] <= 300)) {
-                        icon = "veryunhealthy";
-                        //  return false;
-                    }
-                    else if ((arr[i] > 301 && arr[i] <= 500)) {
-                        icon = "hazardous";
-                        // return false;
-                    }
-                    else {
-                        icon = "red"
-                        //  return false;
-                    }
+                            var icon = "";
+                            var apivalue = parseInt(item.aqi);
+                            if (apivalue > 0) {
+                                if ((apivalue > 0 && apivalue <= 50)) {
+                                    icon = "good";
+                                    //return false;
+                                }
+                                else if ((apivalue > 51 && apivalue <= 100)) {
+                                    icon = "moderate";
+                                    // return false;
+                                }
+                                else if ((apivalue > 101 && apivalue <= 150)) {
+                                    icon = "unhealthysensitive";
+                                    // return false;
+                                }
+                                else if ((apivalue > 151 && apivalue <= 200)) {
+                                    icon = "unhealthy";
+                                    //  return false;
+                                }
+                                else if ((apivalue > 201 && apivalue <= 300)) {
+                                    icon = "veryunhealthy";
+                                    //  return false;
+                                }
+                                else if ((apivalue > 301 && apivalue <= 500)) {
+                                    icon = "hazardous";
+                                    // return false;
+                                }
+                                else {
+                                    icon = "red"
+                                    //  return false;
+                                }
+                            }
 
-                }
-
-
-
-
-
-
-                //switch (data.type) {
-                //    case "mumbai":
-                //        // icon = "red";
-                //        icon = "green";
-                //        break;
-                //    case "delhi":
-                //        icon = "red";
-                //        break;
-                //    case "Mall":
-                //        icon = "yellow";
-                //        break;
-                //    case "banaglore":
-                //        icon = "yellow";
-                //        break;
-                //    case "hydrabad":
-                //        icon = "blue";
-                //        break;
-                //}
-
-                // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
-                icon = "../Image/" + icon + ".png";
-
-                // icon = icon;
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: data.title,
-                    animation: google.maps.Animation.DROP,
-                    icon: new google.maps.MarkerImage(icon)
-                });
-                (function (marker, data) {
+                            icon = "../Image/" + icon + ".png";
+                            // icon = icon;
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                map: map,
+                               // title: data.title,
+                                animation: google.maps.Animation.DROP,
+                                icon: new google.maps.MarkerImage(icon)
+                            });
 
 
+                            (function (marker, item) {
+                                google.maps.event.addListener(marker, "click", function (e) {
+                                    infoWindow.setContent(item.description);
+                                    infoWindow.open(map, marker);
+                                    // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                                    gpslocation = item.type;
+                                    var Ref = new Firebase(myDataRef + '/pdr_' + item.type + '_001');
 
+                                    Ref.startAt().limit(1).once("child_added", function (snapshot) {
+                                        // Ref.on('child_added', function (snapshot) {
 
+                                        $('#lblhumidity').text(snapshot.val().humidity);
+                                        $('#lbltemp').text(snapshot.val().temp);
+                                        $('#lblpm25').text(snapshot.val().pm25);
+                                        $('#lblpm10').text(snapshot.val().pm10);
+                                        $('#lblpm3').text(snapshot.val().pm3);
+                                        $('#lblaqi').text(snapshot.val().aqi);
+                                    });
+                                });
 
+                            })(marker, item);
+                            latlngbounds.extend(marker.position);
 
-                    google.maps.event.addListener(marker, "click", function (e) {
-                        infoWindow.setContent(data.description);
-                        infoWindow.open(map, marker);
-                        // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
-                        gpslocation = data.type;
-                        var Ref = new Firebase(myDataRef + '/pdr_' + data.type + '_001');
-                        //Ref.on("child_added", function (snapshot) {
-                        //    snapshot.forEach(function (data) {
-                        //        $('#lblhumidity').text(data.val().humidity);
-                        //        $('#lbltemp').text(data.val().pm10);
-                        //    });
-                        //});
-
-                        Ref.on('child_added', function (snapshot) {
-                            $('#lblhumidity').text(snapshot.val().humidity);
-                            $('#lbltemp').text(snapshot.val().temp);
-                            $('#lblpm25').text(snapshot.val().pm25);
-                            $('#lblpm10').text(snapshot.val().pm10);
-                            $('#lblpm3').text(snapshot.val().pm3);
-                            $('#lblaqi').text(snapshot.val().aqi);
-
+                           // console.log(item.aqi);
+                            return false;
                         });
                     });
 
+                });
 
-                })(marker, data);
-                latlngbounds.extend(marker.position);
                 i++;
-                //if (arr.length!= markers.length) { // any page animations finished
-                //    clearInterval(interval);
-                //    var bounds = new google.maps.LatLngBounds();
-                //}
-
-                if (i == markers.length) {
+                if (i == 1) {
                     clearInterval(interval);
                     var bounds = new google.maps.LatLngBounds();
                     //map.setCenter(latlngbounds.getCenter());
                     // map.fitBounds(latlngbounds);
                     arr = [];
                 }
-            }, 2000);
+            }, 80);
         }
 
         $(document).ready(function () {
-
-
-
-
-
-
-
-
-
             var myDataRef = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
             var yaxisindex =
             myDataRef.on("child_added", function (snapshot) {
@@ -252,12 +129,9 @@
                     // displayChatMessage(data.val().humidity, data.val().pm10);
                 });
             });
-
             $("#btnSend").click(function () {
                 SendMessage();
             });
-
-
             $("li").click(function (e) {
                 e.preventDefault();
                 var idvalue = this.id;
@@ -266,7 +140,6 @@
                 var data1 = [];
                 var data2 = [];
                 var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
-
                 var ylevel = "";
 
                 Ref.on("value", function (snapshot) {
@@ -294,7 +167,6 @@
                                 ylevel = "VOC";
                                 break;
                         }
-
                         data0.push({ label: data.val().time, y: parseInt(yaxisvalue) });
                         data1.push({ label: data.val().time, y: parseInt(yaxisvalue) });
                         data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
@@ -309,7 +181,7 @@
                             axisY: {
                                 title: ylevel,
                                 gridColor: "#278FB0",
-                                titleFontColor: "rgb(255,255,255)",                                
+                                titleFontColor: "rgb(255,255,255)",
                                 labelFontColor: "rgb(255,255,255)",
                                 titleFontFamily: "Helvetica",
                                 labelFontFamily: "Helvetica"
@@ -323,7 +195,6 @@
                                 labelFontColor: "rgb(255,255,255)",
                                 fontFamily: "Helvetica",
                                 labelFontFamily: "Helvetica"
-
                             },
 
                             //theme1
@@ -337,7 +208,7 @@
                                 // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
                                 type: "area",
                                 color: "#CDEAF0",
-                              //  showInLegend: true,
+                                //  showInLegend: true,
                                 name: "",
                                 dataPoints: data0,
 
@@ -350,7 +221,7 @@
                                 type: "area",
                                 color: "#CDEAF0",
                                 name: "",
-                               // showInLegend: true,
+                                // showInLegend: true,
                                 dataPoints: data1
                             },
                             {
@@ -361,22 +232,17 @@
                                 type: "area",
                                 color: "#CDEAF0",
                                 name: "",
-                               // showInLegend: true,
+                                // showInLegend: true,
                                 dataPoints: data2
                             }
-
                             ]
-
                         });
 
                         chart.render();
-
                     });
                 });
 
             });
-
-
 
         });
 
@@ -386,13 +252,14 @@
 <div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
     <div class="container">
         <div class="col-xs-12" style="background-color:#ffffff">
-        <div class="container1" style="background-color:#ffffff;padding-top:20px;padding-bottom:10px;"><img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
-            <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
-            <span style="margin-left:5px"><img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
-            </span>
+            <div class="container1" style="background-color:#ffffff;padding-top:20px;padding-bottom:10px;">
+                <img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
+                <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
+                <span style="margin-left:5px">
+                    <img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
+                </span>
             </div>
         </div>
-
         <div id="local-header">
             <div id="local-header_top"></div>
             <div class="container1">
@@ -402,50 +269,32 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
-
                 </div>
                 <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
                     <div class="col-xs-12">
 
-                        <ul class="nav navbar-nav" style="width:55%">
+                        <ul class="nav navbar-nav" style="width:48%">
                             <li class="col-xs-4" id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
                             <li class="col-xs-4" id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
                             <li class="col-xs-4" id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
-                            
                         </ul>
-
                     </div>
-
                     @Html.Partial("_LoginPartial")
                     @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
                 </div>
             </div>
             <div id="local-header_top"></div>
-
         </div>
     </div>
 </div>
 
 <div id="wrapper">
-    <!-- Sidebar -->
-
-    @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
-
-
-
-
-
-    <!-- /#sidebar-wrapper -->
     <!-- Page Content -->
-    <div class="row" style = "margin:0px;padding:0px">
+    <div class="row" style="margin:0px;padding:0px">
         <div class="col-xs-9" style="margin:0px;padding:0px">
-
-
             <div id="dvMap" class="mapheight" style="position: fixed !important;float:left;">
             </div>
         </div>
-
         <div class="col-xs-3" style="margin:0px;padding:0px;">
 
             <div id="sidebar-back">
@@ -459,14 +308,12 @@
                         </div>
                     </form>
                 </div>
-
                 <div class="col-xs-12" id="combineimage" style="margin-top:10%">
                     <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #000000; text-align: left; margin-top:9%;text-align:center; font-size: 34px;"></label></div>
                 </div>
                 <div class="col-md-12 col-md-offset-2">
                     <div class="col-md-4">
                         <div class="pm10">
-
                             <div>
                                 <label for="a" id="lblpm10" style="font-weight: 500; color: #6C6D6F; margin-right: 60px; margin-top: 23px; font-size: 18px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
@@ -475,7 +322,6 @@
                     </div>
                     <div class="col-md-4">
                         <div class="pm25">
-
                             <div>
                                 <label for="a" id="lblpm25" style="font-weight: 500; font-size: 18px; color: #6C6D6F; margin-top: 23px; margin-right: 60px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
@@ -483,9 +329,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <div class="col-xs-12" style="margin-top:30%">
                     <div class="col-xs-6">
                         <div class="temperature">
@@ -498,7 +341,6 @@
                     </div>
                     <div class="col-xs-6">
                         <div class="humidity">
-
                             <div>
                                 <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 28px; color: #6C6D6F; margin-top: 15px; margin-right: 32px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
@@ -510,15 +352,15 @@
         </div>
     </div>
     <!-- /#page-content-wrapper -->
+    <div id="footer">
+        @*<img src="http://i.imgur.com/FZoaLd0.jpg" />*@
+        <span style="float:left"><img src="~/Image/navg%20Icon.png" width="30" height="30"/></span>       
+        <span style="float:left;margin-left:5px"><a href="#" data-toggle="modal" data-target="#mapinfoModal"><img src="~/Image/Info.png" width="30" height="30" /></a></span>
+    </div>
 </div>
-
-
-
-
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog" style="width:900px;height:700px">
-
         <!-- Modal content-->
         <div class="modal-content" style="background-color: #278FB0; border-radius:0px;opacity:0.8">
             <div class="modal-header" style="border-bottom: 0px solid #278FB0;">
@@ -526,11 +368,8 @@
                 @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
             <div class="modal-body" style="height: 400px; background-color: #278FB0;padding-top:0px">
-
                 <div class="dropdown">
-
                     <div class="col-sm-4">
-
                         <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
                             Filter by
                             <span class="caret" style="margin-left:80px"></span>
@@ -563,28 +402,47 @@
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
                         </ul>
                     </div>
-
-
                 </div>
-
-
-
-
                 <div id="chartheight" style="margin-top:15px">
                     <div id="chartContainer" style="height: 300px; width: 100%;">
 
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer" style="border-top: 0px;">
                 @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
             </div>
         </div>
-
     </div>
+
+
 </div>
 
+<div id="mapinfoModal" class="modal fade" role="dialog">
+    
+    <div class="modal-dialog" style="width:97%;height:700px">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color: #000000; border-radius: 0px;opacity:0.7">
+            <div class="modal-header" style="border-bottom: 0px solid #278FB0;">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                @*<h4 class="modal-title">Modal Header</h4>*@
+            </div>
+            <div class="modal-body" style="background-color: #000000; height: 400px; text-align: right; color: #ffffff; margin-bottom: -20px">                
+                <div style="padding: 10px;"><span>Hazardous (301 to 500)</span><span style="margin-left:40px"><img src="~/Image/AQI_hazardous.png" width="30" height="30" /></span></div> 
+                <div style="padding:10px"><span> Very Unhealthy (201 to 300)</span><span style="margin-left:40px"><img src="~/Image/AQI_Very%20Unhealthy.png" width="30" height="30" /></span></div> 
+                <div style="padding:10px"><span> Unhealthy (151 to 200)</span><span style="margin-left:40px"><img src="~/Image/AQI_Unhealthy.png" width="30" height="30" /></span></div> 
+                <div style="padding:10px"><span style="text-align:right"> Unhealthy for sensitive groups (101 to 150)</span><span style="margin-left:40px"><img src="~/Image/AQI_Unhealthy%20for%20sensitive.png" width="30" height="30" /></span></div> 
+                <div style="padding:10px"><span> Moderate (51 to 100)</span><span style="margin-left:40px"><img src="~/Image/AQI_Moderate.png" width="30" height="30" /></span></div> 
+                <div style="padding:10px"><span> Good (0 to 50)</span><span style="margin-left:40px"><img src="~/Image/AQI_Good.png" width="30" height="30" /></span></div>             
+            </div>
+            <div class="modal-footer" style="border-top: 0px;">
+                <div class="" data-dismiss="modal"><img src="~/Image/Info_Select.png" width="30" height="30" style="cursor:pointer"/></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
 
 <script>
     $("#menu-toggle").click(function (e) {
@@ -600,4 +458,3 @@
     //    alert(this.id); // or alert($(this).attr('id'));
     //});
 </script>
-
