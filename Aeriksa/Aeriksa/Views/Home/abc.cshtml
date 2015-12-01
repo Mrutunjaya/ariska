@@ -27,6 +27,7 @@
             var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
             var i = 0;
             var gmarkers = [];
+            var tst = [];
 
 
 
@@ -48,40 +49,58 @@
 
                             var icon = "";
                             var apivalue = parseInt(item.aqi);
-                            if (apivalue > 0) {
-                                if ((apivalue > 0 && apivalue <= 50)) {
-                                    icon = "good";
-                                    //return false;
-                                }
-                                else if ((apivalue > 51 && apivalue <= 100)) {
-                                    icon = "moderate";
-                                    // return false;
-                                }
-                                else if ((apivalue > 101 && apivalue <= 150)) {
-                                    icon = "unhealthysensitive";
-                                    // return false;
-                                }
-                                else if ((apivalue > 151 && apivalue <= 200)) {
-                                    icon = "unhealthy";
-                                    //  return false;
-                                }
-                                else if ((apivalue > 201 && apivalue <= 300)) {
-                                    icon = "veryunhealthy";
-                                    //  return false;
-                                }
-                                else if ((apivalue > 301 && apivalue <= 500)) {
-                                    icon = "hazardous";
-                                    // return false;
-                                }
-                                else {
-                                    icon = "red"
-                                    //  return false;
-                                }
+                            //if (apivalue > 0) {
+                            //    if ((apivalue > 0 && apivalue <= 50)) {
+                            //        icon = "good";
+                            //        //return false;
+                            //    }
+                            //    else if ((apivalue > 51 && apivalue <= 100)) {
+                            //        icon = "moderate";
+                            //        // return false;
+                            //    }
+                            //    else if ((apivalue > 101 && apivalue <= 150)) {
+                            //        icon = "unhealthysensitive";
+                            //        // return false;
+                            //    }
+                            //    else if ((apivalue > 151 && apivalue <= 200)) {
+                            //        icon = "unhealthy";
+                            //        //  return false;
+                            //    }
+                            //    else if ((apivalue > 201 && apivalue <= 300)) {
+                            //        icon = "veryunhealthy";
+                            //        //  return false;
+                            //    }
+                            //    else if ((apivalue > 301 && apivalue <= 500)) {
+                            //        icon = "hazardous";
+                            //        // return false;
+                            //    }
+                            //    else {
+                            //        icon = "red"
+                            //        //  return false;
+                            //    }
+                            //}
+
+                            switch (item.description) {
+                                case "Thermofisher, Delhi":
+                                    // icon = "red";
+                                    icon = "green";
+                                    break;
+                                case "Tech Mahindra, Bangalore.":
+                                    icon = "red";
+                                    break;
+                                case "ThermoFisher, Hydrabad":
+                                    icon = "yellow";
+                                    break;
+                                case "Thermofisher, Mumbai":
+                                    icon = "yellow";
+                                    break;
+                                case "hydrabad":
+                                    icon = "blue";
+                                    break;
                             }
 
-
-
-                            icon = "../Image/" + icon + ".png";
+                            icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+                           // icon = "../Image/" + icon + ".png";
 
 
 
@@ -90,7 +109,7 @@
                                 map: map,
                                 visible: false,
                                 description: item.description,
-                                icon: new google.maps.MarkerImage(icon)
+                               // icon: new google.maps.MarkerImage(icon)
 
                             });
                             gmarkers.push(googlemarker);
@@ -103,9 +122,10 @@
                                 map: map,
                                 // title: data.title,
                                 animation: google.maps.Animation.DROP,
-                                icon: new google.maps.MarkerImage(icon)
+                                icon: new google.maps.MarkerImage(icon),
+                                description: item.description
                             });
-
+                            tst.push(marker);
 
                             var select = false;
 
@@ -125,7 +145,7 @@
                                     }
                                     var data = $.data(this);//Get plugin data for 'this'
                                     var selecteditem = data.autocomplete.selectedItem.value;
-                                    clearMarkers();
+                                  //  clearMarkers();
 
                                     setMarkerVisibility(selecteditem);
                                     console.log(data.autocomplete.selectedItem.value);
@@ -157,13 +177,13 @@
                             }
 
                             function setMapOnAll(map) {
-                                for (var i = 0; i < gmarkers.length; i++) {
-                                    gmarkers[i].setMap(map);
+                                for (var i = 0; i < tst.length; i++) {
+                                    tst[i].setMap(map);
                                 }
                             }
 
                             function setMarkerVisibility(selecteditem) {
-                                gmarkers.forEach(function (tmarker) {
+                                tst.forEach(function (tmarker) {
                                     console.log(tmarker.get('description'));
                                     if (tmarker.get('description') == selecteditem) {
                                         console.log('match');
