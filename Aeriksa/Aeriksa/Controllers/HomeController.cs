@@ -320,11 +320,19 @@ namespace Aeriksa.Controllers
         {
             return View();
         }
+        public ActionResult hello()
+        {
+            return View();
+        }
 
         public ActionResult AQIDashboard(string username)
         {
             Session["UserName"] = username;
 
+            return View();
+        }
+        public ActionResult abc()
+        {
             return View();
         }
 

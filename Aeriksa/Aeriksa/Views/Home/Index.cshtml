@@ -1,11 +1,8 @@
-﻿
-<h2></h2>
-
+﻿<h2></h2>
 <head>
     <title>ThermoFisher</title>
     <style type="text/css">
     </style>
-    <link href="~/Content/custom.css" rel="stylesheet" />
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -25,7 +22,10 @@
                 <span style="margin-left:5px">
                     <img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
                 </span>
-                <span class="pull-right"><input type="button" value="My Aeriksa >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" /></span>
+                <span class="pull-right">
+                @*<input type="button" value="My Aeriksa >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" />*@
+                @Html.ActionLink("My Aeriksa >", "Login", "Home", null, new { @class = "btn btn-danger", @style = "background-color: #ee3134;" })
+                </span>
             </div>
         </div>
     </div>
@@ -34,61 +34,26 @@
 <div id="wrapper">
     <div class="container1">
         <div class="row homescreen">
-
             <div>
-
                 <div class="form-horizontal">
-                    <div><img src="~/Image/Homedashboard.png" /></div>
-                    <div class="dashboardfooter"></div>
+                    <div><img src="~/Image/Homedashboard.png" /></div>                  
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-offset-4 col-xs-4" style="background-color: #04B1EB;height:55px;margin-top:10%">
+                                <div style="text-align:center;margin-top:7px;color:#ffffff">Aeriksa Platform
+                                 <hr style="color:#ffffff;margin-top:0px;margin-bottom:0px" />
+                                <div style="color:#ffffff;font-style:italic">How it works</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="dashboardfooter">
+                        <div style="text-align:center"><img src="~/Image/downarrow.png" width="25" height="15" style="bottom:5px;position:fixed" /></div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        // function authDataCallback(authData) {
-        //     if (authData) {
-        //         console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        //     } else {
-        //         console.log("User is logged out");
-        //     }
-        // }
-
-        //// var ref = Firebase("https://ariska.firebaseio.com/Feeds");
-        // // var myDataRef = new Firebase('https://ariska.firebaseio.com/Airquality');
-        // var myDataRef = new Firebase('https://ariska.firebaseio.com/');
-        // myDataRef.onAuth(authDataCallback);
-
-        var ref = new Firebase("https://ariska.firebaseio.com/");
-        //ref.createUser({
-        //    email: "admin@motifworks.com",
-        //    password: "motifworks"
-        //}, function (error, userData) {
-        //    if (error) {
-        //        console.log("Error creating user:", error);
-        //    } else {
-        //        console.log("Successfully created user account with uid:", userData.uid);
-        //    }
-        //});
-
-        //var ref = new Firebase("https://ariska.firebaseio.com/");
-        //ref.authWithPassword({
-        //    email: "admin@motifworks.com",
-        //    password: "motifworks"
-        //}, function (error, authData) {
-        //    if (error) {
-        //        console.log("Login Failed!", error);
-        //    } else {
-        //        console.log("Authenticated successfully with payload:", authData);
-        //    }
-        //});
-
-
-        var ref = new Firebase("https://incandescent-fire-5051.firebaseio.com");
-        // var url = window.location.origin;
-
-    });
-</script>

@@ -211,7 +211,9 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\component.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\main.css" />
     <Content Include="css\custom.css" />
     <Content Include="css\flipper.css" />
@@ -235,6 +237,8 @@
     <Content Include="Image\blue.png" />
     <Content Include="Image\circle.png" />
     <Content Include="Image\Circlewithleaf.png" />
+    <Content Include="Image\close_icon.png" />
+    <Content Include="Image\downarrow.png" />
     <Content Include="Image\gazardous.png" />
     <Content Include="Image\good.png" />
     <Content Include="Image\green.png" />
@@ -265,10 +269,12 @@
     <Content Include="Image\yellow.png" />
     <Content Include="js\canvasjs.js" />
     <Content Include="js\canvasjs.min.js" />
+    <Content Include="js\classie.js" />
     <Content Include="js\flipper.js" />
     <Content Include="js\gauge.js" />
     <Content Include="js\gauge.min.js" />
     <Content Include="js\material.min.js" />
+    <Content Include="js\modalEffects.js" />
     <Content Include="js\ripples.min.js" />
     <Content Include="Newtonsoft.Json.xml" />
     <Content Include="Scripts\bootstrap.js" />
@@ -290,12 +296,29 @@
       <DependentUpon>Aeriska.edmx</DependentUpon>
       <LastGenOutput>Aeriska.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\HelveticaNeueLTCom-Bd.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-BdIt.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-It.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-Lt.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-LtIt.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-Md.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-MdCn.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-MdIt.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-Roman.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-Th.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-ThCn.ttf" />
+    <Content Include="fonts\HelveticaNeueLTCom-ThIt.ttf" />
+    <Content Include="fonts\helveticaneueltstd-bd.otf" />
+    <Content Include="fonts\helveticaneueltstd-lt.otf" />
+    <Content Include="fonts\helveticaneueltstd-md.otf" />
+    <Content Include="fonts\helveticaneueltstd-roman.otf" />
     <None Include="Properties\PublishProfiles\ariska - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ariska - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -350,6 +373,8 @@
     <Content Include="Views\Home\AQIDashboard.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\hello.cshtml" />
+    <Content Include="Views\Home\abc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

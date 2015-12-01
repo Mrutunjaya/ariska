@@ -44,7 +44,7 @@
                     <div id="chatdiv" class="form-group">
                         <input type='text' class="form-control" id='aqiInput' placeholder='AQI'>
                         <br />
-                        <input type='text' class="form-control" id='humidityInput' placeholder='Humidity'>
+                        <input type='text' class="form-control" id='timedescription' placeholder='Desctiption'>              
                         <br />
                         <input type='text' class="form-control" id='pm10Input' placeholder='pm10'>
                         <br />
@@ -55,6 +55,8 @@
                         <input type='text' class="form-control" id='tempInput' placeholder='temp'>
                         <br />
                         <input type='text' class="form-control" id='timeInput' placeholder='time'>
+                        <br />
+                        <input type='text' class="form-control" id='humidityInput' placeholder='Humidity'>
                         <br />
                         <button id="btnSend" class="form-control btn btn-info"/>
                             Send Messagebutton
@@ -71,7 +73,7 @@
             var ref = Firebase("https://ariska.firebaseio.com/Feeds");
 
 
-            var myDataRef = new Firebase('https://incandescent-fire-5051.firebaseio.com/devices/pdr_hydrabad_001');
+            var myDataRef = new Firebase('https://incandescent-fire-5051.firebaseio.com/devices/pdr_delhi_001');
 
             //myDataRef.on("value", function (snapshot) {
             //    snapshot.forEach(function (data) {
@@ -104,12 +106,13 @@
                 var pm10 = $('#pm10Input').val();
                 var pm25 = $('#pm25Input').val();
                 var pm3 = $('#pm3Input').val();
-                var temp = $('#tempInput').val();
+                var temp = $('#tempInput').val(); 
                 var time = $('#timeInput').val();
+                var desc = $('#timedescription').val();
 
                 if (aqi.trim()) {
                     // myDataRef.push({ name: name, text: text });
-                    myDataRef.push({ aqi: aqi, humidity: humidity, pm10: pm10, pm25: pm25, temp: temp, time: time });
+                    myDataRef.push({ aqi: aqi,description:desc, humidity: humidity, pm10: pm10, pm25: pm25, temp: temp, time: time });
                     $('#messageInput').val('');
                 }
             }

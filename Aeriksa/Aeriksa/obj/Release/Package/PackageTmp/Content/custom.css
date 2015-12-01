@@ -2,7 +2,7 @@
 body{
 padding:0;
 margin:0;
-background-color:#F6F3F4;
+background-color:#F3F3F3;
 font-family:Helvetica;
 }
 .main-content{
@@ -230,6 +230,7 @@ color: red;
     background-color: #2B3E69;
     border-radius: 4px;
     text-align:center;
+    font-family:Helveticabold;
 }
 .active1 {
     color: #ffffff;
@@ -253,6 +254,30 @@ color: red;
     margin:auto;
    padding:0px;
 }
+.homescreen{
+    background-color:#ffffff;
+    position:fixed;
+    width:950px;
+    height:80%;
+    margin:auto;
+   padding:0px;
+}
+.footergap{
+    position:fixed;
+    width:950px;
+    height:5%;
+    margin:auto;
+   padding:0px;
+}
+.dashboardfooter{
+    background-color:#ffffff;
+    position:fixed;
+    width:950px;
+    height:10%;
+    margin:auto;
+    padding:0px;
+    bottom:0px;
+}
 #footer {
     position:fixed;
     left:3%;
@@ -261,7 +286,53 @@ color: red;
     /*width:10%;*/
 }
 /*#footer img {width:100%;}*/
+@font-face {
+    font-family: 'Helveticamedium';
+    src: url('../fonts/HelveticaNeueLTCom-Md.ttf') format('truetype');
+}
 
+@font-face {
+    font-family: 'Helveticabold';
+    src: url('../fonts/HelveticaNeueLTCom-Bd.ttf') format('truetype');
+}
+.helveticabold{
+    font-family:Helveticabold;
+}
+.helveticamedium{
+    font-family:Helveticamedium;
+}
+   .menuitems{
+    font-family:HelveticaNeueLTCom-Md;
+    font-size:18px;
+    line-height:22px;
+    letter-spacing:1em;
+    color:#33333c;
+}
+
+   .thermoscnificlogo{
+       width:180px;
+       height:40px;
+       margin-top:16px;
+       margin-bottom:14px;
+   }
+   .myariskabutton{
+    background-color:#ee3134;
+    font-size:16px;
+    height:46px;
+    font-weight:bold;
+    padding:0px 19px 0px 19px;
+    font-family:''Helveticabold;
+    margin-top:11px;
+    margin-bottom:11px;
+    padding-top:11px;
+    color:#ffffff;
+   }
+
+    .myariskabutton :hover{
+    background-color:#dd1f25;
+    border: 2px solid #dd1f25;
+    color:#ffffff;
+   }
 
 
 

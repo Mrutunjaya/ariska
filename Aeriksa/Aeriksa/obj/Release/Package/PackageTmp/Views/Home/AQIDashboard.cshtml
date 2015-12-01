@@ -1,7 +1,6 @@
-﻿<h2>DashBoard</h2>
+﻿<h2 style="color: #F3F3F3">DashBoard</h2>
 <head>
     <title>ThermoFisher</title>
-    <link href="~/Content/custom.css" rel="stylesheet" />
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     @*<script type="text/javascript" src="~/js/canvasjs.min.js"></script>*@
@@ -10,63 +9,13 @@
     <script src="~/js/gauge.min.js"></script>
     <link href="~/css/simple-sidebar.css" rel="stylesheet" />
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="//www.google.fr/jsapi"></script>
     <script type="text/javascript">
         var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
         var gpslocation = 'banaglore';
         var arr = [];
-        var markers = [
-                    {
-                        "title": 'Bombay',
-                        "lat": '18.9409388',
-                        "lng": '72.82819189999998',
-                        "description": 'Bombay Hospital',
-                        "type": 'mumbai'
-                    },
-
-                    {
-                        "title": 'New Delhi',
-                        "lat": '28.63050',
-                        "lng": '77.13077',
-                        "description": 'Phoenix Mall',
-                        "type": 'delhi'
-                    },
-                    {
-                        "title": 'Bangalore',
-                        "lat": '12.97666',
-                        "lng": '77.63543',
-                        "description": 'Motifworks',
-                        "type": 'banaglore'
-                    },
-                    {
-                        "title": 'Andhra Pradesh',
-                        "lat": '17.387140',
-                        "lng": '78.491684',
-                        "description": 'ThermoFisher',
-                        "type": 'hydrabad'
-                    },
-        ];
 
         window.onload = function () {
-
-            //  icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
-
-            var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
-            Ref.on("value", function (snapshot) {
-                var i = 0;
-
-                $.each(snapshot.val(), function (index, cities) {
-                    $.each(cities, function (i, item) {
-                        // icon = "";
-                        var apivalue = parseInt(item.aqi);
-                        arr.push(apivalue);
-
-                        console.log(item.aqi);
-                        return false;
-                    });
-                });
-
-            });
-
             var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
             var mapOptions = {
                 center: new google.maps.LatLng(14.096395, 77.570635),
@@ -77,106 +26,143 @@
             var latlngbounds = new google.maps.LatLngBounds();
             var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
             var i = 0;
+
+
+
+
+
             var interval = setInterval(function () {
-                var data = markers[i]
-                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                Ref.on("value", function (snapshot) {
+                    var i = 0;
+                    $.each(snapshot.val(), function (index, cities) {
+                        $.each(cities, function (i, item) {
+                            // icon = "";
+                            // var data = markers[k]
+                            arr.push(item.description);
+                            var myLatlng = new google.maps.LatLng(item.geolocation.lat, item.geolocation.lang);
 
-                var icon = "";
-                if (arr.length > 0) {
-                    if ((arr[i] > 0 && arr[i] <= 50)) {
-                        icon = "good";
-                        //return false;
-                    }
-                    else if ((arr[i] > 51 && arr[i] <= 100)) {
-                        icon = "moderate";
-                        // return false;
-                    }
-                    else if ((arr[i] > 101 && arr[i] <= 150)) {
-                        icon = "unhealthysensitive";
-                        // return false;
-                    }
-                    else if ((arr[i] > 151 && arr[i] <= 200)) {
-                        icon = "unhealthy";
-                        //  return false;
-                    }
-                    else if ((arr[i] > 201 && arr[i] <= 300)) {
-                        icon = "veryunhealthy";
-                        //  return false;
-                    }
-                    else if ((arr[i] > 301 && arr[i] <= 500)) {
-                        icon = "hazardous";
-                        // return false;
-                    }
-                    else {
-                        icon = "red"
-                        //  return false;
-                    }
-                }
-                //switch (data.type) {
-                //    case "mumbai":
-                //        // icon = "red";
-                //        icon = "green";
-                //        break;
-                //    case "delhi":
-                //        icon = "red";
-                //        break;
-                //    case "Mall":
-                //        icon = "yellow";
-                //        break;
-                //    case "banaglore":
-                //        icon = "yellow";
-                //        break;
-                //    case "hydrabad":
-                //        icon = "blue";
-                //        break;
-                //}
+                            var icon = "";
+                            var apivalue = parseInt(item.aqi);
+                            if (apivalue > 0) {
+                                if ((apivalue > 0 && apivalue <= 50)) {
+                                    icon = "good";
+                                    //return false;
+                                }
+                                else if ((apivalue > 51 && apivalue <= 100)) {
+                                    icon = "moderate";
+                                    // return false;
+                                }
+                                else if ((apivalue > 101 && apivalue <= 150)) {
+                                    icon = "unhealthysensitive";
+                                    // return false;
+                                }
+                                else if ((apivalue > 151 && apivalue <= 200)) {
+                                    icon = "unhealthy";
+                                    //  return false;
+                                }
+                                else if ((apivalue > 201 && apivalue <= 300)) {
+                                    icon = "veryunhealthy";
+                                    //  return false;
+                                }
+                                else if ((apivalue > 301 && apivalue <= 500)) {
+                                    icon = "hazardous";
+                                    // return false;
+                                }
+                                else {
+                                    icon = "red"
+                                    //  return false;
+                                }
+                            }
 
-                // icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
-                icon = "../Image/" + icon + ".png";
-                // icon = icon;
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: data.title,
-                    animation: google.maps.Animation.DROP,
-                    icon: new google.maps.MarkerImage(icon)
-                });
-                (function (marker, data) {
-                    google.maps.event.addListener(marker, "click", function (e) {
-                        infoWindow.setContent(data.description);
-                        infoWindow.open(map, marker);
-                        // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
-                        gpslocation = data.type;
-                        var Ref = new Firebase(myDataRef + '/pdr_' + data.type + '_001');
+                            icon = "../Image/" + icon + ".png";
+                            // icon = icon;
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                map: map,
+                               // title: data.title,
+                                animation: google.maps.Animation.DROP,
+                                icon: new google.maps.MarkerImage(icon)
+                            });
 
-                        Ref.startAt().limit(1).once("child_added", function(snapshot) {
-                       // Ref.on('child_added', function (snapshot) {
+                            (function (marker, item) {
+                                google.maps.event.addListener(marker, "click", function (e) {
+                                    infoWindow.setContent(item.description);
+                                    infoWindow.open(map, marker);
+                                    // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                                    gpslocation = item.type;
+                                    var Ref = new Firebase(myDataRef + '/pdr_' + item.type + '_001');
 
-                            $('#lblhumidity').text(snapshot.val().humidity);
-                            $('#lbltemp').text(snapshot.val().temp);
-                            $('#lblpm25').text(snapshot.val().pm25);
-                            $('#lblpm10').text(snapshot.val().pm10);
-                            $('#lblpm3').text(snapshot.val().pm3);
-                            $('#lblaqi').text(snapshot.val().aqi);                            
+                                    Ref.startAt().limit(1).once("child_added", function (snapshot) {
+                                        // Ref.on('child_added', function (snapshot) {
+
+                                        $('#lblhumidity').text(snapshot.val().humidity);
+                                        $('#lbltemp').text(snapshot.val().temp);
+                                        $('#lblpm25').text(snapshot.val().pm25);
+                                        $('#lblpm10').text(snapshot.val().pm10);
+                                        $('#lblpm3').text(snapshot.val().pm3);
+                                        $('#lblaqi').text(snapshot.val().aqi);
+                                    });
+                                });
+
+                            })(marker, item);
+                            latlngbounds.extend(marker.position);
+
+                           // console.log(item.aqi);
+                            return false;
                         });
                     });
 
-                })(marker, data);
-                latlngbounds.extend(marker.position);
+                    var availableTags = arr;
+                    //$("#txtsearch").autocomplete({
+                    //    source: availableTags                   
+                    //});
+
+                    var select = false;
+
+                    $("#txtsearch").autocomplete({
+                        source: availableTags,
+                        autoFocus: true,
+                        selectFirst: true,
+                        open: function (event, ui) { if (select) select = false; },
+                        select: function (event, ui) {
+                            $('#txtsearch').val(ui.item.label);
+                            select = true;
+                            return false;
+                        },
+                        change: function (event, ui) {
+                            if (!select) {
+                                $('ul.ui-autocomplete li:first a').trigger('click');
+                            }
+                            var data = $.data(this);//Get plugin data for 'this'
+                            var selecteditem = data.autocomplete.selectedItem.value;
+                            console.log(data.autocomplete.selectedItem.value);
+
+                        }
+                    });
+
+
+
+                });
+
                 i++;
-                if (i == markers.length) {
+                if (i == 1) {
                     clearInterval(interval);
                     var bounds = new google.maps.LatLngBounds();
                     //map.setCenter(latlngbounds.getCenter());
                     // map.fitBounds(latlngbounds);
                     arr = [];
                 }
-            }, 2000);
+            }, 80);
         }
 
         $(document).ready(function () {
+           // var txtchanged = $('#txtsearch').val();
+            //$("#txtsearch").keydown(function () {
+            //    var test = $("#txtsearch").val();
+            //    console.log(test);
+            //});
+
             var myDataRef = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
-            var yaxisindex =
             myDataRef.on("child_added", function (snapshot) {
                 snapshot.forEach(function (data) {
                     // displayChatMessage(data.val().humidity, data.val().pm10);
@@ -241,8 +227,8 @@
                             },
                             axisX: {
                                 // valueFormatString: "HH",
-                                //  interval: 1,
-                                //  intervalType: "hour",
+                                  interval: 1,
+                                //  intervalType: "1hour",
                                 gridColor: "#278FB0",
                                 labelAngle: -90,
                                 labelFontColor: "rgb(255,255,255)",
@@ -354,7 +340,7 @@
                 <div class="col-xs-12" style="margin-top:25%">
                     <form class="navbar-form" role="search">
                         <div class="input-group ">
-                            <input type="text" class="form-control" placeholder="Search by location" name="srch-term" id="srch-term" style="height:30px;font-style:italic;border-radius:0px;border-color:#ffffff;font-family:Helvetica">
+                            <input id="txtsearch" type="text" class="form-control" placeholder="Search by location" name="srch-term" id="srch-term" style="height:30px;font-style:italic;border-radius:0px;border-color:#ffffff;font-family:Helvetica">
                             <div class="input-group-btn">
                                 <button class="btn btn-default" style="color: #ee3134; height: 30px; border-radius: 0px;border-color:#ffffff" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
@@ -413,14 +399,15 @@
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog" style="width:900px;height:700px">
+    <div class="modal-dialog" style="width:900px;height:740px">
         <!-- Modal content-->
         <div class="modal-content" style="background-color: #278FB0; border-radius:0px;opacity:0.8">
-            <div class="modal-header" style="border-bottom: 0px solid #278FB0;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-header" style="border-bottom: 17px solid #278FB0;">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <div class="pull-right" data-dismiss="modal"><img src="~/Image/close_icon.png" width="30" height="30" style="cursor:pointer" /></div>
                 @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
-            <div class="modal-body" style="height: 400px; background-color: #278FB0;padding-top:0px">
+            <div class="modal-body" style="height: 410px; background-color: #278FB0;padding-top:10px">
                 <div class="dropdown">
                     <div class="col-sm-4">
                         <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">

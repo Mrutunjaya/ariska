@@ -1,21 +1,25 @@
-﻿
-<h2>DashBoard</h2>
+﻿<!DOCTYPE html>
+<!-- saved from url=(0051)http://tympanus.net/Development/ModalWindowEffects/ -->
 
 <head>
-    <title>ThermoFisher</title>
-    <style type="text/css">
-    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nifty Modal Window Effects</title>
+    <meta name="description" content="Nifty Modal Window Effects with CSS Transitions and Animations">
+    <meta name="keywords" content="modal, window, overlay, modern, box, css transition, css animation, effect, 3d, perspective">
+    <meta name="author" content="Codrops">
+    <link rel="shortcut icon" href="http://tympanus.net/Development/favicon.ico">
+    <link href="~/Content/component.css" rel="stylesheet" />
     <link href="~/Content/custom.css" rel="stylesheet" />
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-    <script src="~/js/gauge.min.js"></script>
     <link href="~/css/simple-sidebar.css" rel="stylesheet" />
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 </head>
 
+<!-- All modals added here for the demo. You would of course just have one, dynamically created -->
 <div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
     <div class="container">
         <div class="col-xs-12" style="background-color:#ffffff">
@@ -24,6 +28,10 @@
                 <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
                 <span style="margin-left:5px">
                     <img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
+                </span>
+                <span class="pull-right">
+                    @*<input type="button" value="My Aeriksa >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" />*@
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-default", @style = "padding:6px 30px;border-radious:4px" })
                 </span>
             </div>
         </div>
@@ -37,14 +45,14 @@
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="col-md-offset-4 col-xs-4">
-                        <div style="font-weight:bold">Email</div>
-                        <input type='text' class="form-control" id='UseridInput' style="border-radius:0px;height:30px">
+                        <div  style="font-weight:bold">Username</div>
+                        <input type='text' class="form-control" id='UseridInput' style="border-radius:0px;height:36px">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-xs-4">
                         <div style="font-weight:bold">Password</div>
-                        <input type='password' class="form-control" id='PasswordInput' style=" margin-bottom:0px;border-radius:0px;height:30px">
+                        <input type='password' class="form-control" id='PasswordInput' style=" margin-bottom:0px;border-radius:0px;height:35px">
                         <label for="a" id="lblError" style="font-weight: 500;margin-left:50px; font-size: 14px; color: red;"></label>
                     </div>
                 </div>
@@ -54,8 +62,41 @@
 
                         @*<hr style="color: white; border-top: 2px solid #eee;" />*@
                         <br />
-                        <div><a id="forgorpassword" style="color:#000000;font-weight:600; cursor:pointer">Forgot password?</a></div>
-                        <div><a id="createanaccount" style="color: #000000; font-weight: 600;  cursor: pointer; ">Create an account <strong>></strong></a></div>
+                        <div><a class="md-trigger md-setperspective" style="color: #000000; font-weight: 600;  cursor: pointer;" data-modal="modal-9">Forgot password?</a></div>
+                        <div><a class="md-trigger md-setperspective" style="color: #000000; font-weight: 600;  cursor: pointer;" data-modal="modal-13">Create an account <strong>></strong></a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="md-modal md-effect-13" id="modal-13">
+    <div class="md-content">
+        <h3>
+            <span class="helveticamedium">Register User</span>
+            @*<span class="pull-right"> <button class="md-close" style="color: red; background-color: #2F3F60; border: 0px;margin-top: 10px;font-size: 0.5em;">X</button></span>*@
+            <span class="md-close pull-right"><img src="~/Image/close_icon.png" width="30" height="30" style="cursor:pointer" /></span>
+        </h3>
+        <div class="form-horizontal" style="margin-top:7%">
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                <div class="col-md-offset-3 col-xs-6">
+                    <div class="helveticamedium" style="font-weight: bold;">Email</div>
+                    <input type='text' class="form-control" id='uidInput' style="border-radius: 0px; height: 30px; font-family: Helvetica">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-xs-6">
+                    <div class="helveticamedium" style="font-weight:bold;">Password</div>
+                    <input type='password' class="form-control" id='pwdInput' style=" margin-bottom: 0px; border-radius: 0px; height: 30px; font-family: Helvetica">
+                    <label for="a" id="Errmsg" style="font-weight: 500;margin-left:50px; font-size: 14px; color: red;"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-6">
+                    <div>
+                        <input id="createanaccount" type="button" value="Register" class="btn btn-danger helveticamedium" style="background-color: #ee3134;" />
                     </div>
                 </div>
             </div>
@@ -63,46 +104,49 @@
     </div>
 </div>
 
+
+<div class="md-modal md-effect-9" id="modal-9">
+    <div class="md-content">
+        <h3>
+            <span class="helveticamedium">Forgot password</span>
+            @*<span class="pull-right"> <button class="md-close" style="color: red; background-color: #2F3F60; border: 0px; margin-top: 10px; font-size: 0.5em;">X</button></span>*@
+            <span class="md-close pull-right"><img src="~/Image/close_icon.png" width="30" height="30" style="cursor:pointer" /></span>
+        </h3>
+        <div class="form-horizontal" style="margin-top:7%">
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                <div class="helveticamedium" style="color:#ffffff">Forgot your password? Enter the Email address of your account to reset your password</div>
+                <div class="col-md-offset-3 col-xs-6">
+                    <div class="helveticamedium" style="font-weight: bold;">Email</div>
+                    <input type='text' class="form-control" id='ForgotUidInput' style="border-radius: 0px; height: 30px; font-family: Helvetica">
+                    <label for="a" id="lblforgotpwd" style="font-weight: 500; font-size: 14px; color: green;"></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-6">
+                    <div>
+                        <input id="forgorpassword" type="button" value="Reset password" class="btn btn-success helveticamedium"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="md-overlay"></div><!-- the overlay element -->
+<script src="~/js/classie.js"></script>
+<script src="~/js/modalEffects.js"></script>
+<script>
+    // this is important for IEs
+    var polyfilter_scriptpath = '/js/';
+</script>
+
+
 <script type="text/javascript">
     $(document).ready(function () {
-        // function authDataCallback(authData) {
-        //     if (authData) {
-        //         console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        //     } else {
-        //         console.log("User is logged out");
-        //     }
-        // }
-
-        //// var ref = Firebase("https://ariska.firebaseio.com/Feeds");
-        // // var myDataRef = new Firebase('https://ariska.firebaseio.com/Airquality');
-        // var myDataRef = new Firebase('https://ariska.firebaseio.com/');
-        // myDataRef.onAuth(authDataCallback);
-
-        var ref = new Firebase("https://ariska.firebaseio.com/");
-        //ref.createUser({
-        //    email: "admin@motifworks.com",
-        //    password: "motifworks"
-        //}, function (error, userData) {
-        //    if (error) {
-        //        console.log("Error creating user:", error);
-        //    } else {
-        //        console.log("Successfully created user account with uid:", userData.uid);
-        //    }
-        //});
-
-        //var ref = new Firebase("https://ariska.firebaseio.com/");
-        //ref.authWithPassword({
-        //    email: "admin@motifworks.com",
-        //    password: "motifworks"
-        //}, function (error, authData) {
-        //    if (error) {
-        //        console.log("Login Failed!", error);
-        //    } else {
-        //        console.log("Authenticated successfully with payload:", authData);
-        //    }
-        //});
-
-
+       // var ref = new Firebase("https://ariska.firebaseio.com/");
         var ref = new Firebase("https://incandescent-fire-5051.firebaseio.com");
         // var url = window.location.origin;
 
@@ -120,8 +164,6 @@
                     $('#lblError').text('Invalid Userid/Password');
                     console.log("Login Failed!", error);
                 } else {
-
-                    // $.getScript("/Home/AQIDashboard");
                     window.location = url + '/' + 'Home/' + 'AQIDashboard?username=' + userid;
                     console.log("Authenticated successfully with payload:", authData);
                 }
@@ -130,7 +172,7 @@
         function ForgotPassword() {
 
             ref.resetPassword({
-                email: $('#UseridInput').val(),
+                email: $('#ForgotUidInput').val(),
             }, function (error) {
                 if (error) {
                     switch (error.code) {
@@ -142,36 +184,37 @@
                             console.log("Error resetting password:", error);
                     }
                 } else {
-                    $('#lblError').text('Password reset email sent successfully!');
-                    console.log("Password reset email sent successfully!");
+                    $('#lblforgotpwd').text('Password reset email sent successfully!');
+                    console.log("Password reset email sent successfully! Check your mail");
                 }
             });
         }
         function CreateUser() {
             var url = window.location.origin;
             ref.createUser({
-                email: $('#UseridInput').val(),
-                password: $('#PasswordInput').val()
+                email: $('#uidInput').val(),
+                password: $('#pwdInput').val()
 
             }, function (error, userData) {
                 if (error) {
                     switch (error.code) {
                         case "EMAIL_TAKEN":
-                            $('#lblError').text('The email is already in use.');
+                            $('#Errmsg').text('The email is already in use .');
                             console.log("The new user account cannot be created because the email is already in use.");
                             break;
                         case "INVALID_EMAIL":
-                            $('#lblError').text('Please enter a valid Email.');
+                            $('#Errmsg').text('Please enter a valid Email .');
                             console.log("The specified email is not a valid email.");
                             break;
                         default:
-                            $('#lblError').text('Error creating user.');
+                            $('#Errmsg').text('Error creating user .');
                             console.log("Error creating user:", error);
                     }
                 } else {
-                    $('#lblError').text('user created Successfully.');
-                    $('#UseridInput').val('');
-                    $('#PasswordInput').val('');
+                    $('#Errmsg').text('user created Successfully .');
+                    $('#createanaccount').addClass("md-close");
+                    $('#uidInput').val('');
+                    $('#pwdInput').val('');
                     //  window.location = url + '/' + 'Home/' + 'AQIDashboard';
                     console.log("Successfully created user account with uid:", userData.uid);
                 }
@@ -180,19 +223,15 @@
 
         $("#btnSend").click(function () {
             SendMessage();
-            // CreateUser();
-            //  ForgotPassword();
         });
         $("#createanaccount").click(function () {
-            //  SendMessage();
+            $('#Errmsg').text('');
             CreateUser();
-            //  ForgotPassword();
         });
         $("#forgorpassword").click(function () {
-            //  SendMessage();
-            // CreateUser();
             ForgotPassword();
         });
 
     });
 </script>
+
