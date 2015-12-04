@@ -1,316 +1,457 @@
-﻿
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
+﻿<h2 style="color: #F3F3F3">DashBoard</h2>
 <head>
     <title>ThermoFisher</title>
-
-
-    <link href="~/Content/custom.css" rel="stylesheet" />
-
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
-
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="~/css/ripples.min.css" rel="stylesheet" />
-    <link href="~/css/material-wfont.min.css" rel="stylesheet" />
-    <link href="~/css/flipper.css" rel="stylesheet" />
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="~/js/canvasjs.min.js"></script>
-
+    @*<script type="text/javascript" src="~/js/canvasjs.min.js"></script>*@
+    <script src="~/js/canvasjs.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src="~/js/gauge.min.js"></script>
-    <script src="~/js/material.min.js"></script>
-    <script src="~/js/ripples.min.js"></script>
-    <script src="~/js/flipper.js"></script>
-
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="//www.google.fr/jsapi"></script>
     <script type="text/javascript">
-        var markers = [
-            {
-                "title": 'Bombay',
-                "lat": '18.9409388',
-                "lng": '72.82819189999998',
-                "description": 'Bombay Hospital',
-                "type": 'Mumbai'
-            },
+        var myDataRef = "https://incandescent-fire-5051.firebaseio.com/devices";
+        var gpslocation = 'banaglore';
+        var arr = [];
 
-
-                    {
-                        "title": 'New Delhi',
-                        "lat": '28.63050',
-                        "lng": '77.13077',
-                        "description": 'Phoenix Mall',
-                        "type": 'Delhi'
-                    },
-                    {
-                        "title": 'Bangalore',
-                        "lat": '12.97666',
-                        "lng": '77.63543',
-                        "description": 'Motifworks',
-                        "type": 'Bangalore'
-                    },
-
-        ];
         window.onload = function () {
-
+            var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
             var mapOptions = {
-                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-                zoom: 8,
+                center: new google.maps.LatLng(14.096395, 77.570635),
+                zoom: 6,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var infoWindow = new google.maps.InfoWindow();
             var latlngbounds = new google.maps.LatLngBounds();
             var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
             var i = 0;
+            var gmarkers = [];
+
+
+
+
             var interval = setInterval(function () {
-                var data = markers[i]
-                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-                var icon = "";
-                switch (data.type) {
-                    case "Mumbai":
-                        icon = "red";
-                        break;
-                    case "Delhi":
-                        icon = "blue";
-                        break;
-                    case "Mall":
-                        icon = "yellow";
-                        break;
-                    case "Bangalore":
-                        icon = "green";
-                        break;
-                }
-                icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: data.title,
-                    animation: google.maps.Animation.DROP,
-                    icon: new google.maps.MarkerImage(icon)
-                });
-                (function (marker, data) {
-                    google.maps.event.addListener(marker, "click", function (e) {
-                        infoWindow.setContent(data.description);
-                        infoWindow.open(map, marker);
-
-
-                        $.getJSON("/Home/Piechart/", { type: data.type }, function (successdata) {
-                            var data0 = [];
-                            var data1 = [];
-                            var data2 = [];
-                            for (var i = 0; i <= successdata.length - 1; i++) {
-                                data0.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].PM10) });
-                            }
-                            for (var i = 0; i <= successdata.length - 1; i++) {
-                                data1.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].PM2) });
-                            }
-                            for (var i = 0; i <= successdata.length - 1; i++) {
-                                data2.push({ label: successdata[i].ContentDate, y: parseInt(successdata[i].CO2) });
-                            }
+                Ref.on("value", function (snapshot) {
+                    var i = 0;
+                    $.each(snapshot.val(), function (index, cities) {
+                        $.each(cities, function (i, item) {
+                            // icon = "";
+                            // var data = markers[k]
 
 
 
 
 
+                            arr.push(item.description);
+                            var myLatlng = new google.maps.LatLng(item.geolocation.lat, item.geolocation.lang);
 
-                            var opts = {
-                                lines: 12, // The number of lines to draw
-                                angle: 0.25, // The length of each line
-                                lineWidth: 0.12, // The line thickness
-                                pointer: {
-                                    length: 0.9, // The radius of the inner circle
-                                    strokeWidth: 0.050, // The rotation offset
-                                    color: '#000000' // Fill color
-                                },
-                                limitMax: 'false', // If true, the pointer will not go past the end of the gauge
-                                colorStart: '#FE703A', // Colors
-                                colorStop: '#FE703A', // just experiment with them
-                                strokeColor: '#EEEEEE', // to see which ones work best for you
-                                generateGradient: true
-                            };
-
-                            var temp_opts = {
-                                lines: 12, // The number of lines to draw
-                                angle: 0.25, // The length of each line
-                                lineWidth: 0.12, // The line thickness
-                                pointer: {
-                                    length: 0.9, // The radius of the inner circle
-                                    strokeWidth: 0.050, // The rotation offset
-                                    color: '#000000' // Fill color
-                                },
-                                limitMax: 'false', // If true, the pointer will not go past the end of the gauge
-                                colorStart: '#50BDBB', // Colors
-                                colorStop: '#50BDBB', // just experiment with them
-                                strokeColor: '#EEEEEE', // to see which ones work best for you
-                                generateGradient: true
-                            };
-                            var textRenderer = new TextRenderer(document.getElementById('preview-textfield'));
-                            textRenderer.render = function (demoGauge) {
-                                percentage = demoGauge.displayedValue / demoGauge.maxValue;
-                                this.el.innerHTML = (percentage * 100).toFixed(0) + "%";
-                            };
-
-                            demoGauge = new Donut(document.getElementById("foo"));
-                            demoGauge.setTextField(textRenderer);
-                            demoGauge.maxValue = 30;
-                            demoGauge.setOptions(opts);
-                            demoGauge.animationSpeed = 32;
-                            demoGauge.set(successdata[0].CO2);
-                            $('#lblhumidity').text(successdata[0].CO2 + ' %')
-
-
-
-                            function temp(msg) {
-
-                                var tempTextRenderer = new TextRenderer(document.getElementById('temp-textfield'));
-                                tempTextRenderer.render = function (tempGauge) {
-                                    percentage = tempGauge.displayedValue / tempGauge.maxValue;
-                                    this.el.innerHTML = (percentage * 100).toFixed(0) + msg;
-                                };
-
-                                tempGauge = new Donut(document.getElementById("temprature"));
-                                tempGauge.setTextField(tempTextRenderer);
-                                tempGauge.maxValue = 40;
-                                tempGauge.setOptions(temp_opts);
-                                tempGauge.animationSpeed = 32;
-                                tempGauge.set(successdata[0].PM10);
-                                $('#lbltemp').text(successdata[0].PM10 + ' C')
-
-                            }
-
-                            temp("C");
-
-                            $("#buttonf").click(function () {
-                                alert('button f clicked');
-                                temp("F");
-                            });
-
-                            var chart = new CanvasJS.Chart("chartContainer", {
-                                theme: "theme2",//theme1
-                                //title: {
-                                //    text: "Temp/Humidity"
-                                //},
-                                data: [
-                                {
-                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                    type: "spline",
-                                    color: "#00C0EF",
-                                    showInLegend: true,
-                                    name: "PM10",
-                                    dataPoints: data0
-                                },
-                                {
-                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                    type: "spline",
-                                    color: "#DD4B39",
-                                    name: "PM2",
-                                    showInLegend: true,
-                                    dataPoints: data1
-                                },
-                                {
-                                    // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                    type: "spline",
-                                    color: "#00A65A",
-                                    name: "CO2",
-                                    showInLegend: true,
-                                    dataPoints: data2
+                            var icon = "";
+                            var apivalue = parseInt(item.aqi);
+                            if (apivalue > 0) {
+                                if ((apivalue > 0 && apivalue <= 50)) {
+                                    icon = "good";
+                                    //return false;
                                 }
+                                else if ((apivalue > 51 && apivalue <= 100)) {
+                                    icon = "moderate";
+                                    // return false;
+                                }
+                                else if ((apivalue > 101 && apivalue <= 150)) {
+                                    icon = "unhealthysensitive";
+                                    // return false;
+                                }
+                                else if ((apivalue > 151 && apivalue <= 200)) {
+                                    icon = "unhealthy";
+                                    //  return false;
+                                }
+                                else if ((apivalue > 201 && apivalue <= 300)) {
+                                    icon = "veryunhealthy";
+                                    //  return false;
+                                }
+                                else if ((apivalue > 301 && apivalue <= 500)) {
+                                    icon = "hazardous";
+                                    // return false;
+                                }
+                                else {
+                                    icon = "red"
+                                    //  return false;
+                                }
+                            }
 
-                                ]
 
+
+                            icon = "../Image/" + icon + ".png";
+
+
+
+                            //var googlemarker = new google.maps.Marker({
+                            //    position: new google.maps.LatLng(item.geolocation.lat, item.geolocation.lang),
+                            //    map: map,
+                            //    visible: false,
+                            //    description: item.description,
+                            //    icon: new google.maps.MarkerImage(icon)
+
+                            //});
+                            //gmarkers.push(googlemarker);
+
+
+
+                            // icon = icon;
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                map: map,
+                                // title: data.title,
+                                animation: google.maps.Animation.DROP,
+                                icon: new google.maps.MarkerImage(icon),
+                                description: item.description,
+                            });
+                            gmarkers.push(marker);
+
+                            var select = false;
+
+                            $("#txtsearch").autocomplete({
+                                source: arr,
+                                autoFocus: true,
+                                selectFirst: true,
+                                open: function (event, ui) { if (select) select = false; },
+                                select: function (event, ui) {
+                                    $('#txtsearch').val(ui.item.label);
+                                    select = true;
+                                    return false;
+                                },
+                                change: function (event, ui) {
+                                    if (!select) {
+                                        $('ul.ui-autocomplete li:first a').trigger('click');
+                                    }
+                                    var data = $.data(this);//Get plugin data for 'this'
+                                    var selecteditem = data.autocomplete.selectedItem.value;
+                                    // clearMarkers();
+
+                                    setMarkerVisibility(selecteditem);
+                                    console.log(data.autocomplete.selectedItem.value);
+                                    //if (selecteditem == 'Thermofisher, Delhi') {
+                                    //  ////  var usa = new google.maps.LatLng(28.6305, 77.13077);
+                                    //  //  var test = map;
+                                    //  //   marker = new google.maps.Marker({
+                                    //  //      position: usa,
+                                    //  //      map: map,
+                                    //    //  });
+
+                                    //    marker.setPosition(usa);
+                                    //    marker.setVisible(false);
+                                    //   //  marker.setMap(null);
+                                    //   // setMapOnAll(null);
+                                    //}
+                                }
                             });
 
-                            chart.render();
-                        });
 
+                            //function setMapOnAll(map) {
+                            //    for (var i = 0; i < arr.length; i++) {
+                            //        marker[i].setMap(map);
+                            //    }
+                            //}
+
+                            function clearMarkers() {
+                                setMapOnAll(null);
+                            }
+
+                            function setMapOnAll(map) {
+                                for (var i = 0; i < gmarkers.length; i++) {
+                                    gmarkers[i].setMap(map);
+                                }
+                            }
+
+                            function setMarkerVisibility(selecteditem) {
+                                gmarkers.forEach(function (tmarker) {
+                                    console.log(tmarker.get('description'));
+                                    if (tmarker.get('description') == selecteditem) {
+                                        console.log('match');
+                                        // marker.setVisible(true);
+                                        setTimeout(function () { tmarker.setVisible(true); }, 300);
+                                    }
+                                    else {
+                                        tmarker.setVisible(false);
+                                    }
+                                });
+                            }
+
+
+
+                            (function (marker, item) {
+                                google.maps.event.addListener(marker, "click", function (e) {
+                                    infoWindow.setContent(item.description);
+                                    infoWindow.open(map, marker);
+                                    // myDataRef = myDataRef + '/pdr_' + data.type + '_001';
+                                    gpslocation = item.type;
+                                    var Ref = new Firebase(myDataRef + '/pdr_' + item.type + '_001');
+
+                                    Ref.startAt().limit(1).once("child_added", function (snapshot) {
+                                        // Ref.on('child_added', function (snapshot) {
+
+                                        $('#lblhumidity').text(snapshot.val().humidity);
+                                        $('#lbltemp').text(snapshot.val().temp);
+                                        $('#lblpm25').text(snapshot.val().pm25);
+                                        $('#lblpm10').text(snapshot.val().pm10);
+                                        $('#lblpm3').text(snapshot.val().pm3);
+                                        $('#lblaqi').text(snapshot.val().aqi);
+                                    });
+                                });
+
+                            })(marker, item);
+                            latlngbounds.extend(marker.position);
+
+                            // console.log(item.aqi);
+                            return false;
+                        });
                     });
 
+                    var availableTags = arr;
+                    //$("#txtsearch").autocomplete({
+                    //    source: availableTags
+                    //});
 
-                })(marker, data);
-                latlngbounds.extend(marker.position);
+                    //var select = false;
+
+                    //$("#txtsearch").autocomplete({
+                    //    source: availableTags,
+                    //    autoFocus: true,
+                    //    selectFirst: true,
+                    //    open: function (event, ui) { if (select) select = false; },
+                    //    select: function (event, ui) {
+                    //        $('#txtsearch').val(ui.item.label);
+                    //        select = true;
+                    //        return false;
+                    //    },
+                    //    change: function (event, ui) {
+                    //        if (!select) {
+                    //            $('ul.ui-autocomplete li:first a').trigger('click');
+                    //        }
+                    //        var data = $.data(this);//Get plugin data for 'this'
+                    //        var selecteditem = data.autocomplete.selectedItem.value;
+                    //        console.log(data.autocomplete.selectedItem.value);
+                    //        if (selecteditem == 'Thermofisher, Delhi') {
+                    //            marker.setMap(null);
+                    //        }
+                    //    }
+                    //});
+
+
+
+                });
+
                 i++;
-                if (i == markers.length) {
+                if (i == 1) {
                     clearInterval(interval);
                     var bounds = new google.maps.LatLngBounds();
-                    map.setCenter(latlngbounds.getCenter());
-                    map.fitBounds(latlngbounds);
+                    //map.setCenter(latlngbounds.getCenter());
+                    // map.fitBounds(latlngbounds);
+                    arr = [];
                 }
             }, 80);
         }
 
-
-
-
-
-
         $(document).ready(function () {
+            // var txtchanged = $('#txtsearch').val();
+            //$("#txtsearch").keydown(function () {
+            //    var test = $("#txtsearch").val();
+            //    console.log(test);
+            //});
 
-            $.getJSON("/Home/Piechart/", function (data) {
+            var myDataRef = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
+            myDataRef.on("child_added", function (snapshot) {
+                snapshot.forEach(function (data) {
+                    // displayChatMessage(data.val().humidity, data.val().pm10);
+                });
+            });
+            $("#btnSend").click(function () {
+                SendMessage();
+            });
+            $("li").click(function (e) {
+                e.preventDefault();
+                var idvalue = this.id;
+                var yaxisvalue = 0;
                 var data0 = [];
                 var data1 = [];
                 var data2 = [];
-                for (var i = 0; i <= data.length - 1; i++) {
-                    data0.push({ label: data[i].ContentDate, y: parseInt(data[i].PM10) });
-                }
-                for (var i = 0; i <= data.length - 1; i++) {
-                    data1.push({ label: data[i].ContentDate, y: parseInt(data[i].PM2) });
-                }
-                for (var i = 0; i <= data.length - 1; i++) {
-                    data2.push({ label: data[i].ContentDate, y: parseInt(data[i].CO2) });
-                }
-                $('#lblhumidity').text(data[0].CO2 + ' %')
-                $('#lbltemp').text(data[0].PM10 + ' C')
-                var chart = new CanvasJS.Chart("chartContainer", {
-                    animationEnabled: true,
-                    theme: "theme2",//theme1
-                    //title: {
-                    //    text: "Temp/Humidity"
-                    //},
-                    data: [
-                    {
-                        // animationEnabled: false,
-                        animationEnabled: true,
-                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                        type: "spline",
-                        color: "#00C0EF",
-                        showInLegend: true,
-                        name: "PM10",
-                        dataPoints: data0,
+                var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
+                var ylevel = "";
+                var filtercontainer = [];
+                Ref.on("value", function (snapshot) {
+                   
+                    snapshot.forEach(function (data) {
+                        $('#select1').append('<option>' + data.val().time + '</option');
 
-                    },
-                    {
-                        // animationEnabled: window.requestAnimationFrame(10),
-                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                        animationEnabled: true,
 
-                        type: "spline",
-                        color: "#DD4B39",
-                        name: "PM2",
-                        showInLegend: true,
-                        dataPoints: data1
-                    },
-                    {
-                        // animationEnabled: window.requestAnimationFrame(10),
-                        // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                        animationEnabled: true,
+                        // this function must be wrapped inside onload event
+                        // var select1 = document.getElementById("select1");
+                        // var select2 = document.getElementById("select2");
+                        select1.onchange = function () {
+                            // empty select2
+                            while (select2.firstChild) {
+                                select2.removeChild(select2.firstChild);
+                            }
+                            if (select1.selectedIndex == 0) {
+                                return;
+                            }
+                            for (var i = select1.selectedIndex; i < select1.options.length; i++) {
+                                var o = document.createElement("option");
+                                o.value = select1.options[i].value;
+                                o.text = select1.options[i].text;
+                                select2.appendChild(o);
+                            }
+                        }
 
-                        type: "spline",
-                        color: "#00A65A",
-                        name: "CO2",
-                        showInLegend: true,
-                        dataPoints: data2
-                    }
+                        select2.onchange = function () {
+                           // filtercontainer = [];
+                            // empty select2
+                            //while (select2.firstChild) {
+                            //    select2.removeChild(select2.firstChild);
+                            //}
+                            var selected1 = parseInt($('#select1>option:selected').text())
+                            var selected2 = parseInt($('#select2>option:selected').text())
 
-                    ]
+                            if (select1.selectedIndex == 0) {
+                                return;
+                            }
+                            //for (var i = select1.selectedIndex; i < select2.options.length; i++) {
+                            //    filtercontainer.push(data.val());
+                            //}
+                            //for (var i = selected1; i < selected2; i++) {
+                            //    filtercontainer.push(data.val());
+                            //    return false;
+                            //}
+                            //for(var i=0;data.count;i++)
+                            //{
+                            //    if(data.val().time>= select1.val && data.val().time<= sele2.val)
+                            //    {
+                            //        filtercon.apush(data.val())
+                            //    }
+                            //}
 
+
+                            Ref.on("value", function (snap) {
+                                 filtercontainer = [];
+                                snap.forEach(function (datas) {
+                                    var currenttime = parseInt(datas.val().time);
+                                    if (currenttime >= selected1 && currenttime <= selected2) {
+                                        filtercontainer.push(datas.val());
+                                    }
+
+                                });
+                            });
+
+                            //for (var i = 0; i < 24; i++) {
+                            //    if (data.val().time >= $('#select1>option:selected').text() && data.val().time <= $('#select2>option:selected').text()) {
+                            //        filtercontainer.apush(data.val())
+                            //    }
+                            //}
+                        }
+
+                        switch (idvalue) {
+                            case "airquality":
+                                yaxisvalue = data.val().pm10;
+                                ylevel = "Air Quality Index";
+                                break;
+                            case "temperature":
+                                yaxisvalue = data.val().temp;
+                                ylevel = "Temperature"
+                                break;
+                            case "humidity":
+                                yaxisvalue = data.val().humidity;
+                                ylevel = "Humidity";
+                                break;
+                            case "co2":
+                                yaxisvalue = data.val().pm10;
+                                ylevel = "CO2";
+                                break;
+                            case "voc":
+                                yaxisvalue = data.val().pm25;
+                                ylevel = "VOC";
+                                break;
+                        }
+                        data0.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        data1.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            backgroundColor: "#278FB0",
+                            width: 800,
+                            theme: "theme2",
+                            legend: {
+                                fontFamily: "Times New Roman",
+                            },
+                            axisY: {
+                                title: ylevel,
+                                gridColor: "#278FB0",
+                                titleFontColor: "rgb(255,255,255)",
+                                labelFontColor: "rgb(255,255,255)",
+                                titleFontFamily: "Helvetica",
+                                labelFontFamily: "Helvetica",
+                                labelFontSize: 10,
+                                titleFontSize: 15,
+                            },
+                            axisX: {
+                                // valueFormatString: "HH",
+                                title: "Hours",
+                                interval: 1,
+                                //  intervalType: "1hour",
+                                gridColor: "#278FB0",
+                                labelAngle: 91,
+                                titleFontColor: "rgb(255,255,255)",
+                                labelFontColor: "rgb(255,255,255)",
+                                fontFamily: "Helvetica",
+                                labelFontFamily: "Helvetica",
+                                labelFontSize: 10,
+                                titleFontSize: 15,
+                            },
+
+                            //theme1
+                            //title: {
+                            //    text: "Temp/Humidity"
+                            //},
+                            data: [
+                            {
+                                // animationEnabled: false,
+                                animationEnabled: true,
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                type: "area",
+                                color: "#CDEAF0",
+                                //  showInLegend: true,
+                                name: "",
+                                dataPoints: data0,
+
+                            },
+                            {
+                                // animationEnabled: window.requestAnimationFrame(10),
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                animationEnabled: true,
+
+                                type: "area",
+                                color: "#CDEAF0",
+                                name: "",
+                                // showInLegend: true,
+                                dataPoints: data1
+                            },
+                            {
+                                // animationEnabled: window.requestAnimationFrame(10),
+                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                                animationEnabled: true,
+
+                                type: "area",
+                                color: "#CDEAF0",
+                                name: "",
+                                // showInLegend: true,
+                                dataPoints: data2
+                            }
+                            ]
+                        });
+
+                        chart.render();
+                    });
                 });
 
-                chart.render();
             });
 
         });
@@ -318,257 +459,222 @@
     </script>
 </head>
 
-<body>
-    <div class="navbar navbar-inverse">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @*<a class="navbar-brand" href="javascript:void(0)">Xerdi&nbsp;&nbsp;&nbsp;<span class="icon-material-keyboard-arrow-right"></span>&nbsp;&nbsp;&nbsp;Flipper</a>*@
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin-top:0px">
+    <div class="container">
+        <div class="col-xs-12" style="background-color:#ffffff">
+            <div class="container1" style="background-color:#ffffff;padding-top:20px;padding-bottom:10px;">
+                <img src="~/Image/TS.png" width="160" height="39" />
+                <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
+                @*<img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
+                    <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>*@
+                <span style="margin-left:5px">
+                    @*<img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />*@
+                    <img src="~/Image/Aeriksa_logo.png" width="160" height="39" />
+                </span>
+            </div>
+        </div>
+        <div id="local-header">
+            <div id="local-header_top"></div>
+            <div class="container1">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" style="border-color:#A6C9FF">
+                    <div class="col-xs-12">
+
+                        <ul class="nav navbar-nav" style="width:48%">
+                            <li class="col-xs-4" id="airquality"><a href="#" data-toggle="modal" data-target="#myModal">Air Quality</a></li>
+                            <li class="col-xs-4" id="temperature"><a href="#" data-toggle="modal" data-target="#myModal">Temperature</a></li>
+                            <li class="col-xs-4" id="humidity"><a href="#" data-toggle="modal" data-target="#myModal">Humidity</a></li>
+                        </ul>
+                    </div>
+                    @Html.Partial("_LoginPartial")
+                    @*<div class="col-lg-12"><a href="#menu-toggle" class="btn btn-default pull-right" style="margin-right:250px;margin-top:7px" id="menu-toggle">>></a></div>*@
+                </div>
+            </div>
+            <div id="local-header_top"></div>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper">
+    <!-- Page Content -->
+    <div class="row" style="margin:0px;padding:0px">
+        <div class="col-xs-9" style="margin:0px;padding:0px">
+            <div id="dvMap" class="mapheight" style="position: fixed !important;float:left;">
+            </div>
+        </div>
+        <div class="col-xs-3 pull-right" style="margin:0px;padding:0px;">
+
+            <div id="sidebar-back">
+                <div class="col-xs-12" style="margin-top:25%">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group ">
+                            <input id="txtsearch" type="text" class="form-control Helveticaregular" placeholder="Search by location" name="srch-term" style="height:30px;border-radius:0px;border-color:#ffffff;">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" style="color: #ee3134; height: 30px; border-radius: 0px;border-color:#ffffff" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xs-12" id="combineimage" style="margin-top:10%">
+                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #33333c; text-align: left; margin-top: 9%; text-align: center; font-size: 27px;"></label></div>
+                </div>
+                <div class="col-md-12 col-md-offset-2">
+                    <div class="col-md-4" style="padding-left:0px">
+                        <div class="pm10">
+                            <div>
+                                <label for="a" id="lblpm10" style="font-weight: 500; color: #6C6D6F; margin-right: 60px; margin-top: 23px; font-size: 18px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="padding-left:0px">
+                        <div class="pm25">
+                            <div>
+                                <label for="a" id="lblpm25" style="font-weight: 500; font-size: 18px; color: #6C6D6F; margin-top: 23px; margin-right: 60px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12" style="margin-top:30%">
+                    <div class="col-xs-6" style="padding-left:0px">
+                        <div class="temperature">
+
+                            <div>
+                                <label for="a" id="lbltemp" style="font-weight: 500; color: #6C6D6F; margin-right: 26px; margin-top: 22px; font-size: 23px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" style="padding-left:0px">
+                        <div class="humidity">
+                            <div>
+                                <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 23px; color: #6C6D6F; margin-top: 22px; margin-right: 26px;"></label><br />
+                                @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <div id="footer">
+        @*<img src="http://i.imgur.com/FZoaLd0.jpg" />*@
+        <span style="float:left"><img src="~/Image/navg%20Icon.png" width="30" height="30" /></span>
+        <span style="float:left;margin-left:5px"><a href="#" data-toggle="modal" data-target="#mapinfoModal"><img src="~/Image/Info.png" width="30" height="30" /></a></span>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:900px;height:740px">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color: #278FB0; border-radius:0px;opacity:0.8">
+            <div class="modal-header" style="border-bottom: 16px solid #278FB0;padding-top:8px">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <div class="pull-right" data-dismiss="modal"><img src="~/Image/close_icon.png" width="30" height="30" style="cursor:pointer" /></div>
+                @*<h4 class="modal-title">Modal Header</h4>*@
+            </div>
+            <div class="modal-body" style="height: 410px; background-color: #278FB0;padding-top:1px">
+                <div class="dropdown">
+                    <div class="col-sm-4">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                            Filter by
+                            <span class="caret" style="margin-left:80px"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Hour</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Day</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Month</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        @*<button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                                From
+                                <span class="caret" style="margin-left:80px"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
+                            </ul>*@
+                        <select class="btn btn-default dropdown-toggle" style="padding-right:50px" id="select1">
+                            <option class="caret" style="margin-left:75px" selected="selected">From</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        @*<button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                                To
+                                <span class="caret" style="margin-left:80px"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
+                            </ul>*@
+                        <select class="btn btn-default dropdown-toggle" style="padding-right:50px" id="select2">
+                            <option class="caret" style="margin-left:75px" selected="selected">To</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartheight" style="margin-top:15px">
+                    <div id="chartContainer" style="height: 300px; width: 100%;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 0px;">
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+            </div>
         </div>
     </div>
 
 
-    <div class="">
+</div>
 
-        <div class="main-contnt">
-            <div class="left-content">
-                <div class="col-md-8 col-md-offset-2" style="background-color: #ffffff; border: #C3E1FB solid 1px; box-shadow: 5px 5px 5px #888888; ">
+<div id="mapinfoModal" class="modal fade" role="dialog">
 
-                    <div id="temp-preview">
-
-                        <div>
-                            <div class="headertest">Temperature</div>
-                            <br /><br /><br />
-                            <canvas id="temprature"></canvas>
-                            <div id="temp-textfield"></div>
-                            <div id="temp-image" style="">
-                                <img width="50" height="50" src="~/Image/temp.png" />
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-8 col-md-offset-2" style="background-color: #ffffff; border: #C3E1FB solid 1px; box-shadow: 5px 5px 5px #888888; margin-top: 40px">
-                    <br />
-                    <div id="preview">
-                        <div class="headertest" style="margin-top:-36px">Humidity</div>
-                        <br /><br /><br />
-                        <canvas id="foo"></canvas>
-                        <div id="preview-textfield"></div>
-                        <div id="preview-image">
-                            <img width="50" height="50" src="~/Image/humid_icon.png">
-                        </div>
-                    </div>
-                </div>
+    <div class="modal-dialog" style="width:97%;height:700px">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color: #000000; border-radius: 0px;opacity:0.7">
+            <div class="modal-header" style="border-bottom: 0px solid #278FB0;">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
-
-            <div class="right-content">
-                <div style="width:95%;float:left;margin-bottom:20px">
-                    <div id="dvMap" class="map" style="float:left">
-                    </div>
-                    <div class="mapgap"></div>
-                    <div class="mapright"></div>
-                </div>
-
-
-                <div style="width:95%;margin-top:20px">
-                    <div style="height: 250px; width: 30%; background-color: #ffffff; float: left;border: #C3E1FB solid 1px;">
-                        <div class="headertest" style="margin-top:-15px;width:70%">Today's Summary</div>
-
-                        <div style="margin-left:10px">
-                            <div><label for="a" id="lbltype"></label></div>
-                            <div><span style="font-size:14px;font-weight:bold">Temp - </span> <label for="a" id="lbltemp" style="font-weight:500"></label></div><br />
-                            <div><span style="font-size:14px;font-weight:bold">Humidity - </span><label for="a" id="lblhumidity" style="font-weight:500"></label></div>
-                        </div>
-
-                    </div>
-
-                    <div style="height: 250px; width: 2%; background-color: #F6F3F4; float: left; "></div>
-
-                    <div style="height: 250px; width: 68%; background-color: #ffffff; float: left; border: #C3E1FB solid 1px;">
-                        <div class="headertest" style="margin-top:-15px;width:30%">Historical Data</div>
-                        <div id="chartContainer" style="height: 200px; ">
-                            <div style="width:15%"></div>
-                            <div style="width:55%">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body" style="background-color: #000000; height: 400px; text-align: right; color: #ffffff; margin-bottom: -20px">
+                <div style="padding: 10px;"><span>Hazardous (301 to 500)</span><span style="margin-left:40px"><img src="~/Image/AQI_hazardous.png" width="30" height="30" /></span></div>
+                <div style="padding:10px"><span> Very Unhealthy (201 to 300)</span><span style="margin-left:40px"><img src="~/Image/AQI_Very%20Unhealthy.png" width="30" height="30" /></span></div>
+                <div style="padding:10px"><span> Unhealthy (151 to 200)</span><span style="margin-left:40px"><img src="~/Image/AQI_Unhealthy.png" width="30" height="30" /></span></div>
+                <div style="padding:10px"><span style="text-align:right"> Unhealthy for sensitive groups (101 to 150)</span><span style="margin-left:40px"><img src="~/Image/AQI_Unhealthy%20for%20sensitive.png" width="30" height="30" /></span></div>
+                <div style="padding:10px"><span> Moderate (51 to 100)</span><span style="margin-left:40px"><img src="~/Image/AQI_Moderate.png" width="30" height="30" /></span></div>
+                <div style="padding:10px"><span> Good (0 to 50)</span><span style="margin-left:40px"><img src="~/Image/AQI_Good.png" width="30" height="30" /></span></div>
+            </div>
+            <div class="modal-footer" style="border-top: 0px;">
+                <div class="" data-dismiss="modal"><img src="~/Image/Info_Select.png" width="30" height="30" style="cursor:pointer" /></div>
             </div>
         </div>
-
     </div>
 
 
+</div>
 
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
 
-    @*<div class="container" style="width:99%">
-        <div id="example-row" class="row">
-            <a href="javascript:void(0)" class="btn btn-default btn-lg btn-block">Material Design Cards</a>
-
-
-            <div class="col-xs-12 col-md-4 full-card">
-                <div class="flip-card active-card">
-                    <div class="card label-info">
-                        <div class="col-md-8 col-md-offset-2" style="background-color: #ffffff; border: #C3E1FB solid 1px; box-shadow: 10px 10px 5px #888888; ">
-
-                            <div id="temp-preview">
-
-                                <div>
-                                    <div class="headertest">Temperature</div>
-                                    
-                                    <canvas id="temprature"></canvas>
-                                    <div id="temp-textfield"></div>
-                                    <div id="temp-image" style="">
-                                        <img width="50" height="50" src="~/Image/temp.png" />
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-md-offset-2" style="background-color: #ffffff; border: #C3E1FB solid 1px; box-shadow: 10px 10px 5px #888888; margin-top: 40px">
-                            <br />
-                            <div id="preview">
-                                <div class="headertest" style="margin-top:-36px">Humidity</div>
-                                <br /><br /><br />
-                                <canvas id="foo"></canvas>
-                                <div id="preview-textfield"></div>
-                                <div id="preview-image">
-                                    <img width="50" height="50" src="~/Image/humid_icon.png">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="javascript:void(0)" class="btn btn-primary btn-fab btn-raised icon-material-replay" id="first"></a>
-                    <div class="well">
-                        <h1>Card 1</h1>
-                    </div>
-                </div>
-                <div class="flip-card">
-                    <div class="card" style="background-color: #F1BF26;color: white;">
-                        <h6>2</h6>
-                    </div>
-                    <div class="well">
-                        <h1>Card 2</h1>
-                    </div>
-                </div>
-                <div class="flip-card">
-                    <div class="card alert-success">
-                        <h6>3</h6>
-                    </div>
-                    <div class="well">
-                        <h1>Card 3</h1>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-xs-12 col-md-8 ">
-                <div class="card" style="background-color: #F1BF26;color: white;">
-                    <div class="label-info">
-                        <div style="width:95%;float:left;margin-bottom:20px">
-                            <h6 id="dvMap" class="map" style="float:left"></h6>
-                            <div class="mapright">xzxfadfsadf</div>
-                        </div>
-                    </div>
-
-                    <div class="well">
-                        <h1>Card 1</h1>
-                    </div>
-                </div>
-               
-              
-            </div>
-
-
-
-        </div>
-    </div>*@
-
-    <script>
-        var opts = {
-            lines: 12, // The number of lines to draw
-            angle: 0.25, // The length of each line
-            lineWidth: 0.12, // The line thickness
-            pointer: {
-                length: 0.9, // The radius of the inner circle
-                strokeWidth: 0.050, // The rotation offset
-                color: '#000000' // Fill color
-            },
-            limitMax: 'false', // If true, the pointer will not go past the end of the gauge
-            colorStart: '#FE703A', // Colors
-            colorStop: '#FE703A', // just experiment with them
-            strokeColor: '#EEEEEE', // to see which ones work best for you
-            generateGradient: true
-        };
-
-        var temp_opts = {
-            lines: 12, // The number of lines to draw
-            angle: 0.25, // The length of each line
-            lineWidth: 0.12, // The line thickness
-            pointer: {
-                length: 0.9, // The radius of the inner circle
-                strokeWidth: 0.050, // The rotation offset
-                color: '#000000' // Fill color
-            },
-            limitMax: 'false', // If true, the pointer will not go past the end of the gauge
-            colorStart: '#50BDBB', // Colors
-            colorStop: '#50BDBB', // just experiment with them
-            strokeColor: '#EEEEEE', // to see which ones work best for you
-            generateGradient: true
-        };
-        var textRenderer = new TextRenderer(document.getElementById('preview-textfield'));
-        textRenderer.render = function (demoGauge) {
-            percentage = demoGauge.displayedValue / demoGauge.maxValue;
-            this.el.innerHTML = (percentage * 100).toFixed(0) + "%";
-        };
-
-        demoGauge = new Donut(document.getElementById("foo"));
-        demoGauge.setTextField(textRenderer);
-        demoGauge.maxValue = 3000;
-        demoGauge.setOptions(opts);
-        demoGauge.animationSpeed = 32;
-        demoGauge.set(1253);
-
-        function temp(msg) {
-
-
-
-            var tempTextRenderer = new TextRenderer(document.getElementById('temp-textfield'));
-            tempTextRenderer.render = function (tempGauge) {
-                percentage = tempGauge.displayedValue / tempGauge.maxValue;
-                this.el.innerHTML = (percentage * 100).toFixed(0) + msg;
-            };
-
-            tempGauge = new Donut(document.getElementById("temprature"));
-            tempGauge.setTextField(tempTextRenderer);
-            tempGauge.maxValue = 3000;
-            tempGauge.setOptions(temp_opts);
-            tempGauge.animationSpeed = 32;
-            tempGauge.set(2530);
-
-        }
-
-        temp("C");
-
-        $("#buttonf").click(function () {
-            alert('button f clicked');
-            temp("F");
-        });
-
-        $("#buttonc").click(function () {
-            alert('button c clicked');
-            temp("C");
-        });
-
-    </script>
-
-
-</body>
-</html>
+    //$("li").click(function (e) {
+    //    e.preventDefault();
+    //    $(".navbar-inverse .navbar-nav > li > a").addClass("active1");
+    //});
+    //$("li").click(function () {
+    //    alert(this.id); // or alert($(this).attr('id'));
+    //});
+</script>

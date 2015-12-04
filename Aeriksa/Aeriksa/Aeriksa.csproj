@@ -226,6 +226,7 @@
     <Content Include="HtmlPage1.html" />
     <Content Include="Image\Aerika.jpg" />
     <Content Include="Image\Aeriksa logo.png" />
+    <Content Include="Image\Aeriksa_logo.png" />
     <Content Include="Image\AQI.png" />
     <Content Include="Image\AQI_Good.png" />
     <Content Include="Image\AQI_hazardous.png" />
@@ -243,6 +244,7 @@
     <Content Include="Image\good.png" />
     <Content Include="Image\green.png" />
     <Content Include="Image\hazardous.png" />
+    <Content Include="Image\headerLogo.gif" />
     <Content Include="Image\Homedashboard.png" />
     <Content Include="Image\Hum.png" />
     <Content Include="Image\Humidity.png" />
@@ -253,6 +255,7 @@
     <Content Include="Image\moderate.png" />
     <Content Include="Image\navg Icon.png" />
     <Content Include="Image\pm10.png" />
+    <Content Include="Image\PM2.5.png" />
     <Content Include="Image\pm25.png" />
     <Content Include="Image\red.png" />
     <Content Include="Image\sidebar.png" />
@@ -262,6 +265,7 @@
     <Content Include="Image\Temperatures.png" />
     <Content Include="Image\thermo-fisher-logo-retina.png" />
     <Content Include="Image\thermofisher_logo.png" />
+    <Content Include="Image\TS.png" />
     <Content Include="Image\unhealthy.png" />
     <Content Include="Image\unhealthysensitive.png" />
     <Content Include="Image\userlogo.png" />
@@ -374,7 +378,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\hello.cshtml" />
-    <Content Include="Views\Home\abc.cshtml" />
+    <Content Include="Views\Home\testDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

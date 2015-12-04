@@ -331,7 +331,7 @@ namespace Aeriksa.Controllers
 
             return View();
         }
-        public ActionResult abc()
+        public ActionResult testDashboard()
         {
             return View();
         }

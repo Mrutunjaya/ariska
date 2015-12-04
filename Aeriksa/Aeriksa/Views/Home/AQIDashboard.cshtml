@@ -277,9 +277,64 @@
                 var data2 = [];
                 var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
                 var ylevel = "";
-
+                
                 Ref.on("value", function (snapshot) {
+                    var filtercontainer = [];
                     snapshot.forEach(function (data) {
+                        $('#select1').append('<option>' + data.val().time + '</option');
+
+
+                        // this function must be wrapped inside onload event
+                        // var select1 = document.getElementById("select1");
+                        // var select2 = document.getElementById("select2");
+                        select1.onchange = function () {
+                            // empty select2
+                            while (select2.firstChild) {
+                                select2.removeChild(select2.firstChild);
+                            }
+                            if (select1.selectedIndex == 0) {
+                                return;
+                            }
+                            for (var i = select1.selectedIndex; i < select1.options.length; i++) {
+                                var o = document.createElement("option");
+                                o.value = select1.options[i].value;
+                                o.text = select1.options[i].text;
+                                select2.appendChild(o);
+                            }
+                        }
+
+                        select2.onchange = function () {
+                            filtercontainer = [];
+                            // empty select2
+                            //while (select2.firstChild) {
+                            //    select2.removeChild(select2.firstChild);
+                            //}
+                            var selected1 = parseInt($('#select1>option:selected').text())
+                            var selected2 = parseInt($('#select2>option:selected').text())
+
+                            if (select1.selectedIndex == 0) {
+                                return;
+                            }
+                            //for (var i = select1.selectedIndex; i < select2.options.length; i++) {
+                            //    filtercontainer.push(data.val());
+                            //}
+                            //for (var i = selected1; i < selected2; i++) {
+                            //    filtercontainer.push(data.val());
+                            //    return false;
+                            //}
+                            //for(var i=0;data.count;i++)
+                            //{
+                            //    if(data.val().time>= select1.val && data.val().time<= sele2.val)
+                            //    {
+                            //        filtercon.apush(data.val())
+                            //    }
+                            //}
+                            for (var i = 0; i<24; i++) {
+                            if (data.val().time >= $('#select1>option:selected').text() && data.val().time <= $('#select2>option:selected').text()) {
+                                filtercontainer.push(data.val())
+                                }
+                            }
+                        }
 
                         switch (idvalue) {
                             case "airquality":
@@ -320,17 +375,23 @@
                                 titleFontColor: "rgb(255,255,255)",
                                 labelFontColor: "rgb(255,255,255)",
                                 titleFontFamily: "Helvetica",
-                                labelFontFamily: "Helvetica"
+                                labelFontFamily: "Helvetica",
+                                labelFontSize: 10,
+                                titleFontSize: 15,
                             },
                             axisX: {
                                 // valueFormatString: "HH",
+                                title: "Hours",
                                   interval: 1,
                                 //  intervalType: "1hour",
                                 gridColor: "#278FB0",
-                                labelAngle: -90,
+                                labelAngle: 91,
+                                titleFontColor: "rgb(255,255,255)",
                                 labelFontColor: "rgb(255,255,255)",
                                 fontFamily: "Helvetica",
-                                labelFontFamily: "Helvetica"
+                                labelFontFamily: "Helvetica",
+                                labelFontSize: 10,
+                                titleFontSize: 15,
                             },
 
                             //theme1
@@ -389,10 +450,13 @@
     <div class="container">
         <div class="col-xs-12" style="background-color:#ffffff">
             <div class="container1" style="background-color:#ffffff;padding-top:20px;padding-bottom:10px;">
-                <img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
+                <img src="~/Image/TS.png" width="160" height="39" />
                 <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>
+                @*<img src="~/Image/thermo-fisher-logo-retina.png" width="160" height="39" />
+                <span style="margin-left:5px"><img src="~/Image/sidebar.png" /></span>*@
                 <span style="margin-left:5px">
-                    <img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />
+                    @*<img src="~/Image/Aeriksa%20logo.png" width="160" height="39" />*@
+                    <img src="~/Image/Aeriksa_logo.png" width="160" height="39" />
                 </span>
             </div>
         </div>
@@ -431,13 +495,13 @@
             <div id="dvMap" class="mapheight" style="position: fixed !important;float:left;">
             </div>
         </div>
-        <div class="col-xs-3" style="margin:0px;padding:0px;">
+        <div class="col-xs-3 pull-right" style="margin:0px;padding:0px;">
 
             <div id="sidebar-back">
                 <div class="col-xs-12" style="margin-top:25%">
                     <form class="navbar-form" role="search">
                         <div class="input-group ">
-                            <input id="txtsearch" type="text" class="form-control" placeholder="Search by location" name="srch-term" id="srch-term" style="height:30px;font-style:italic;border-radius:0px;border-color:#ffffff;font-family:Helvetica">
+                            <input id="txtsearch" type="text" class="form-control Helveticaregular" placeholder="Search by location" name="srch-term"  style="height:30px;border-radius:0px;border-color:#ffffff;">
                             <div class="input-group-btn">
                                 <button class="btn btn-default" style="color: #ee3134; height: 30px; border-radius: 0px;border-color:#ffffff" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
@@ -445,10 +509,10 @@
                     </form>
                 </div>
                 <div class="col-xs-12" id="combineimage" style="margin-top:10%">
-                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #000000; text-align: left; margin-top:9%;text-align:center; font-size: 34px;"></label></div>
+                    <div> <label for="a" id="lblaqi" style="font-weight: 500; color: #33333c; text-align: left; margin-top: 9%; text-align: center; font-size: 27px;"></label></div>
                 </div>
                 <div class="col-md-12 col-md-offset-2">
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="padding-left:0px">
                         <div class="pm10">
                             <div>
                                 <label for="a" id="lblpm10" style="font-weight: 500; color: #6C6D6F; margin-right: 60px; margin-top: 23px; font-size: 18px;"></label><br />
@@ -456,7 +520,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="padding-left:0px">
                         <div class="pm25">
                             <div>
                                 <label for="a" id="lblpm25" style="font-weight: 500; font-size: 18px; color: #6C6D6F; margin-top: 23px; margin-right: 60px;"></label><br />
@@ -466,19 +530,19 @@
                     </div>
                 </div>
                 <div class="col-xs-12" style="margin-top:30%">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding-left:0px">
                         <div class="temperature">
 
                             <div>
-                                <label for="a" id="lbltemp" style="font-weight: 500; color: #6C6D6F; margin-right: 32px; margin-top: 15px; font-size: 28px;"></label><br />
+                                <label for="a" id="lbltemp" style="font-weight: 500; color: #6C6D6F; margin-right: 26px; margin-top: 22px; font-size: 23px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; text-align: center; margin-top: 20px">Temperature </span>*@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding-left:0px">
                         <div class="humidity">
                             <div>
-                                <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 28px; color: #6C6D6F; margin-top: 15px; margin-right: 32px;"></label><br />
+                                <label for="a" id="lblhumidity" style="font-weight: 500; font-size: 23px; color: #6C6D6F; margin-top: 22px; margin-right: 26px;"></label><br />
                                 @*<span style="font-size: 13px; font-weight: 200; color: #ffffff; margin-top: 20px;  ">Humidity</span>*@
                             </div>
                         </div>
@@ -499,12 +563,12 @@
     <div class="modal-dialog" style="width:900px;height:740px">
         <!-- Modal content-->
         <div class="modal-content" style="background-color: #278FB0; border-radius:0px;opacity:0.8">
-            <div class="modal-header" style="border-bottom: 17px solid #278FB0;">
+            <div class="modal-header" style="border-bottom: 16px solid #278FB0;padding-top:8px">
                 @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
                 <div class="pull-right" data-dismiss="modal"><img src="~/Image/close_icon.png" width="30" height="30" style="cursor:pointer" /></div>
                 @*<h4 class="modal-title">Modal Header</h4>*@
             </div>
-            <div class="modal-body" style="height: 410px; background-color: #278FB0;padding-top:10px">
+            <div class="modal-body" style="height: 410px; background-color: #278FB0;padding-top:1px">
                 <div class="dropdown">
                     <div class="col-sm-4">
                         <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
@@ -512,13 +576,13 @@
                             <span class="caret" style="margin-left:80px"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Bangalore</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Mumbai</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Hydrabad</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Hour</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Day</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Month</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-4">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                        @*<button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
                             From
                             <span class="caret" style="margin-left:80px"></span>
                         </button>
@@ -526,10 +590,13 @@
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
-                        </ul>
+                        </ul>*@
+                        <select class="btn btn-default dropdown-toggle" style="padding-right:50px" id="select1">
+                            <option class="caret" style="margin-left:75px" selected="selected">From</option>
+                        </select>
                     </div>
                     <div class="col-sm-4">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                        @*<button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
                             To
                             <span class="caret" style="margin-left:80px"></span>
                         </button>
@@ -537,7 +604,10 @@
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">12 AM</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3 AM</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
-                        </ul>
+                        </ul>*@
+                        <select class="btn btn-default dropdown-toggle" style="padding-right:50px" id="select2">
+                            <option class="caret" style="margin-left:75px" selected="selected">To</option>
+                        </select>
                     </div>
                 </div>
                 <div id="chartheight" style="margin-top:15px">

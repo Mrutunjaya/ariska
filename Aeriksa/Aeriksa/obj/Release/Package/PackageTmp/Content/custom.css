@@ -72,6 +72,12 @@ background-color:#F6F3F4;
     position:fixed !important;
 
 }
+.mapheight1 {
+    width:650px;
+    height:100%;
+    position:fixed !important;
+
+}
 
 
 .mapgap {
@@ -102,7 +108,13 @@ max-height:100%;
 .container1 {
     margin-right: auto;
     margin-left: auto;
-    width:950px;
+}
+.container1 {
+    position: relative;
+    z-index: 2;
+}
+.container1 {
+    width: 950px;
 }
 .headertest{
     width: 50%; margin: auto; margin-left: auto; margin: auto; height: 30px; background-color: #1A8CEC; margin-top: -45px;
@@ -139,18 +151,42 @@ color: red;
 }
 
 .temperature{
-    background-image:url("../Image/Temperatures.png");
-    width:130px;
-    height:130px;
+    background-image:url("../Image/Temperature.png");
+    background-size: 125px 125px;
+    background-repeat: no-repeat;
+    width:125px;
+    height:125px;
+    /*width: 160px;
+    height: 160px;*/
     background-repeat:no-repeat; 
     text-align:center;   
 }
 .humidity {
+     background-image:url("../Image/Humidity.png");
+     background-size: 125px 125px;
+    background-repeat: no-repeat;
+     width:125px;
+     height:125px;
+     /*width: 160px;
+     height: 160px;*/
+     background-repeat:no-repeat;
+     text-align:center;  
+}
+.temperature1{
+    background-image:url("../Image/Temperatures.png");
+    width:130px;
+    height:130px;
+    background-repeat:no-repeat; 
+    text-align:center;
+    margin-bottom:35px;   
+}
+.humidity1 {
      background-image:url("../Image/Hum.png");
      width:130px;
      height:130px;
      background-repeat:no-repeat;
-     text-align:center;  
+     text-align:center;
+     margin-bottom:35px;  
 }
 
 #circle {
@@ -178,9 +214,11 @@ color: red;
 
 #combineimage{
 
-     background-image:url("../Image/Circlewithleaf.png");
-     width:152px;
-     height:150px;
+     background-image:url("../Image/AQI.png");
+     width:150px;
+     height:148px;
+     /*width: 197px;
+     height: 199px;*/
      background-repeat:no-repeat;
      text-align:center; 
      margin:auto;
@@ -189,18 +227,38 @@ color: red;
 
 .pm10{
 
-     background-image:url("../Image/pm10.png");
+     background-image:url("../Image/PM10.png");
      width:130px;
      height:130px;
      background-repeat:no-repeat;
      text-align:center; 
      margin:auto;
 }
+
 .pm25{
+
+     background-image:url("../Image/PM2.5.png");
+     width:130px;
+     height:130px;
+     background-repeat:no-repeat;
+     text-align:center; 
+     margin:auto;
+}
+.pm10_1{
+
+     background-image:url("../Image/pm10.png");
+     width:130px;
+     height:90px;
+     background-repeat:no-repeat;
+     text-align:center; 
+     margin:auto;
+}
+
+.pm25_1{
 
      background-image:url("../Image/pm25.png");
      width:130px;
-     height:130px;
+     height:90px;
      background-repeat:no-repeat;
      text-align:center; 
      margin:auto;
@@ -285,6 +343,14 @@ color: red;
     margin:0;
     /*width:10%;*/
 }
+
+#footer1 {
+    position:fixed;
+    left:16%;
+    bottom:15px;
+    margin:0;
+    /*width:10%;*/
+}
 /*#footer img {width:100%;}*/
 @font-face {
     font-family: 'Helveticamedium';
@@ -295,12 +361,20 @@ color: red;
     font-family: 'Helveticabold';
     src: url('../fonts/HelveticaNeueLTCom-Bd.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'Helveticaregular';
+    src: url('../fonts/HelveticaNeueLTCom-Th.ttf') format('truetype');
+}
 .helveticabold{
     font-family:Helveticabold;
 }
 .helveticamedium{
     font-family:Helveticamedium;
 }
+.Helveticaregular{
+    font-family:Helveticaregular;
+}
+
    .menuitems{
     font-family:HelveticaNeueLTCom-Md;
     font-size:18px;
