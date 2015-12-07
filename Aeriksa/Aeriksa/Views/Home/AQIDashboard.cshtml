@@ -94,9 +94,31 @@
                                     if (!select) {
                                         $('ul.ui-autocomplete li:first a').trigger('click');
                                     }
-                                    if (ui.item.label == 'Thermo Fisher Scientific Inc') {
-                                        clickroute(42.08046, -71.38973);
+                                   if (ui.item.label == 'Thermo Fisher Scientific Inc') {
+                                       clickroute(42.08046, -71.38973);
+                                      // $('#txtsearch').empty();
+                                       $('#txtsearch').val("");
                                     }
+                                   else if (ui.item.label == 'Tech Mahindra, Bangalore.') {
+                                       clickroute(12.97666, 77.63543);
+                                     //  $('#txtsearch').empty();
+                                       $('#txtsearch').val("");
+                                    }
+                                   else if (ui.item.label == 'Thermofisher, Delhi') {
+                                       clickroute(28.6305, 77.13077);
+                                     //  $('#txtsearch').empty();
+                                       $('#txtsearch').val("");
+                                   }
+                                   else if (ui.item.label == 'ThermoFisher, Hyderabad') {
+                                       clickroute(17.38714, 78.491684);
+                                     //  $('#txtsearch').empty();
+                                       $('#txtsearch').val("");
+                                   }
+                                   else if (ui.item.label == 'Thermofisher, Mumbai') {
+                                       clickroute(18.9409388, 72.82819189999998);
+                                      // $('#txtsearch').empty();
+                                       $('#txtsearch').val("");
+                                   }
                                     var data = $.data(this);//Get plugin data for 'this'
                                     var selecteditem = data.autocomplete.selectedItem.value;
                                     // clearMarkers();
