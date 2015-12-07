@@ -235,6 +235,7 @@
     <Content Include="Image\AQI_Unhealthy.png" />
     <Content Include="Image\AQI_Very Unhealthy.png" />
     <Content Include="Image\BG.png" />
+    <Content Include="Image\blackrightarrow.png" />
     <Content Include="Image\blue.png" />
     <Content Include="Image\circle.png" />
     <Content Include="Image\Circlewithleaf.png" />
@@ -258,6 +259,7 @@
     <Content Include="Image\PM2.5.png" />
     <Content Include="Image\pm25.png" />
     <Content Include="Image\red.png" />
+    <Content Include="Image\rightarrow.png" />
     <Content Include="Image\sidebar.png" />
     <Content Include="Image\temp.png" />
     <Content Include="Image\Temperature.png" />

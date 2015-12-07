@@ -18,8 +18,8 @@
         window.onload = function () {
             var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
             var mapOptions = {
-                center: new google.maps.LatLng(14.096395, 77.570635),
-                zoom: 6,
+                center: new google.maps.LatLng(29.169255, 22.396216),
+                zoom: 3,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var infoWindow = new google.maps.InfoWindow();
@@ -110,7 +110,7 @@
 
                             var select = false;
 
-                            $("#txtsearch").autocomplete({
+                            $("#txtsearch").autocomplete({                               
                                 source: arr,
                                 autoFocus: true,
                                 selectFirst: true,
@@ -124,6 +124,7 @@
                                     if (!select) {
                                         $('ul.ui-autocomplete li:first a').trigger('click');
                                     }
+                                    clickroute(42.08046, -71.38973);
                                     var data = $.data(this);//Get plugin data for 'this'
                                     var selecteditem = data.autocomplete.selectedItem.value;
                                     // clearMarkers();
@@ -152,6 +153,11 @@
                             //        marker[i].setMap(map);
                             //    }
                             //}
+
+                            function clickroute(lati, long) {
+                                map.panTo(new google.maps.LatLng(lati, long));
+                                return true; //this will cancel your navigation
+                            }
 
                             function clearMarkers() {
                                 setMapOnAll(null);

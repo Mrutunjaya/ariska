@@ -12,9 +12,9 @@
     <meta name="author" content="Codrops">
     <link rel="shortcut icon" href="http://tympanus.net/Development/favicon.ico">
     <link href="~/Content/component.css" rel="stylesheet" />
-    <link href="~/Content/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/custom.css" rel="stylesheet" />
     <link href="~/Content/main.css?v=5" rel="stylesheet" />
-    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />*@
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 </head>
@@ -45,7 +45,7 @@
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="col-md-offset-4 col-xs-4">
-                        <div  style="font-weight:bold">Username</div>
+                        <div style="font-weight:bold">Username</div>
                         <input type='text' class="form-control" id='UseridInput' style="border-radius:0px;height:36px">
                     </div>
                 </div>
@@ -58,12 +58,17 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-4">
-                        <div> <input type="button" value="Sign In >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" /></div>
+                        <div>
+                            <button class="btn btn-danger" id="btnSend" style="background-color: #ee3134;">
+                            Sign In &nbsp;<img src="~/Image/rightarrow.png" width="8" height="10" />
+                            </button>
+                         @*<input type="button" value="Sign In >" class="btn btn-danger" id="btnSend" style="background-color: #ee3134;" />*@
+                        </div>
 
                         @*<hr style="color: white; border-top: 2px solid #eee;" />*@
                         <br />
                         <div><a class="md-trigger md-setperspective" style="color: #000000; font-weight: 600;  cursor: pointer;" data-modal="modal-9">Forgot password?</a></div>
-                        <div><a class="md-trigger md-setperspective" style="color: #000000; font-weight: 600;  cursor: pointer;" data-modal="modal-13">Create an account <strong>></strong></a></div>
+                        <div><a class="md-trigger md-setperspective" style="color: #000000; font-weight: 600;  cursor: pointer;" data-modal="modal-13">Create an account &nbsp;<img src="~/Image/blackrightarrow.png" width="6" height="10"/> </a></div>
                     </div>
                 </div>
             </div>
@@ -177,7 +182,7 @@
                 if (error) {
                     switch (error.code) {
                         case "INVALID_USER":
-                            $('#lblError').text('Please enter a valid Username.');
+                            $('#lblforgotpwd').text('Please enter a valid Username.');
                             console.log("The specified user account does not exist.");
                             break;
                         default:

@@ -18,8 +18,8 @@
         window.onload = function () {
             var Ref = new Firebase("https://incandescent-fire-5051.firebaseio.com/devices");
             var mapOptions = {
-                center: new google.maps.LatLng(14.096395, 77.570635),
-                zoom: 6,
+                center: new google.maps.LatLng(29.169255, 22.396216),
+                zoom: 3,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var infoWindow = new google.maps.InfoWindow();
@@ -110,7 +110,7 @@
 
                             var select = false;
 
-                            $("#txtsearch").autocomplete({
+                            $("#txtsearch").autocomplete({                               
                                 source: arr,
                                 autoFocus: true,
                                 selectFirst: true,
@@ -124,6 +124,7 @@
                                     if (!select) {
                                         $('ul.ui-autocomplete li:first a').trigger('click');
                                     }
+                                    clickroute(42.08046, -71.38973);
                                     var data = $.data(this);//Get plugin data for 'this'
                                     var selecteditem = data.autocomplete.selectedItem.value;
                                     // clearMarkers();
@@ -152,6 +153,11 @@
                             //        marker[i].setMap(map);
                             //    }
                             //}
+
+                            function clickroute(lati, long) {
+                                map.panTo(new google.maps.LatLng(lati, long));
+                                return true; //this will cancel your navigation
+                            }
 
                             function clearMarkers() {
                                 setMapOnAll(null);
@@ -208,35 +214,6 @@
                     });
 
                     var availableTags = arr;
-                    //$("#txtsearch").autocomplete({
-                    //    source: availableTags
-                    //});
-
-                    //var select = false;
-
-                    //$("#txtsearch").autocomplete({
-                    //    source: availableTags,
-                    //    autoFocus: true,
-                    //    selectFirst: true,
-                    //    open: function (event, ui) { if (select) select = false; },
-                    //    select: function (event, ui) {
-                    //        $('#txtsearch').val(ui.item.label);
-                    //        select = true;
-                    //        return false;
-                    //    },
-                    //    change: function (event, ui) {
-                    //        if (!select) {
-                    //            $('ul.ui-autocomplete li:first a').trigger('click');
-                    //        }
-                    //        var data = $.data(this);//Get plugin data for 'this'
-                    //        var selecteditem = data.autocomplete.selectedItem.value;
-                    //        console.log(data.autocomplete.selectedItem.value);
-                    //        if (selecteditem == 'Thermofisher, Delhi') {
-                    //            marker.setMap(null);
-                    //        }
-                    //    }
-                    //});
-
 
 
                 });
@@ -265,11 +242,23 @@
                     // displayChatMessage(data.val().humidity, data.val().pm10);
                 });
             });
+
+
+
+
+
+
             $("#btnSend").click(function () {
                 SendMessage();
             });
             $("li").click(function (e) {
                 e.preventDefault();
+                $('#select1').empty();
+                $('#select2').empty();
+                var from = $('<option value="1" selected="selected">From</option>');
+                var to = $('<option value="1" selected="selected">To</option>');
+                $('#select1').append(from);
+                $('#select2').append(to);
                 var idvalue = this.id;
                 var yaxisvalue = 0;
                 var data0 = [];
@@ -278,6 +267,95 @@
                 var Ref = new Firebase(myDataRef + '/pdr_' + gpslocation + '_001');
                 var ylevel = "";
                 var filtercontainer = [];
+
+
+
+
+                function generateChart() {
+
+
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        animationEnabled: true,
+                        backgroundColor: "#278FB0",
+                        width: 800,
+                        height:370,
+                        theme: "theme2",
+                        legend: {
+                            fontFamily: "Times New Roman",
+                        },
+                        axisY: {
+                            title: ylevel,
+                            gridColor: "#278FB0",
+                            titleFontColor: "rgb(255,255,255)",
+                            labelFontColor: "rgb(255,255,255)",
+                            titleFontFamily: "Helvetica",
+                            labelFontFamily: "Helvetica",
+                            labelFontSize: 10,
+                            titleFontSize: 15,
+                            tickThickness: 0
+                        },
+                        axisX: {
+                            // valueFormatString: "HH",
+                            title: "Hours",
+                            interval: 1,
+                            //  intervalType: "1hour",
+                            gridColor: "#278FB0",
+                            labelAngle: 91,
+                            titleFontColor: "rgb(255,255,255)",
+                            labelFontColor: "rgb(255,255,255)",
+                            fontFamily: "Helvetica",
+                            labelFontFamily: "Helvetica",
+                            labelFontSize: 10,
+                            titleFontSize: 15,
+                            tickThickness: 0
+                        },
+
+                        //theme1
+                        //title: {
+                        //    text: "Temp/Humidity"
+                        //},
+                        data: [
+                        {
+                            // animationEnabled: false,
+                            animationEnabled: true,
+                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                            type: "area",
+                            color: "#CDEAF0",
+                            //  showInLegend: true,
+                            name: "",
+                            dataPoints: data0,
+
+                        },
+                        {
+                            // animationEnabled: window.requestAnimationFrame(10),
+                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                            animationEnabled: true,
+
+                            type: "area",
+                            color: "#CDEAF0",
+                            name: "",
+                            // showInLegend: true,
+                            dataPoints: data1
+                        },
+                        {
+                            // animationEnabled: window.requestAnimationFrame(10),
+                            // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                            animationEnabled: true,
+
+                            type: "area",
+                            color: "#CDEAF0",
+                            name: "",
+                            // showInLegend: true,
+                            dataPoints: data2
+                        }
+                        ]
+                    });
+
+                    chart.render();
+                }
+
+
+
                 Ref.on("value", function (snapshot) {
                    
                     snapshot.forEach(function (data) {
@@ -285,8 +363,8 @@
 
 
                         // this function must be wrapped inside onload event
-                        // var select1 = document.getElementById("select1");
-                        // var select2 = document.getElementById("select2");
+                         var select1 = document.getElementById("select1");
+                         var select2 = document.getElementById("select2");
                         select1.onchange = function () {
                             // empty select2
                             while (select2.firstChild) {
@@ -309,12 +387,15 @@
                             //while (select2.firstChild) {
                             //    select2.removeChild(select2.firstChild);
                             //}
+                            data0 = [];
+                            data1 = [];
+                            data2 = [];
                             var selected1 = parseInt($('#select1>option:selected').text())
                             var selected2 = parseInt($('#select2>option:selected').text())
 
-                            if (select1.selectedIndex == 0) {
-                                return;
-                            }
+                          //  if (select1.selectedIndex == 0) {
+                          //      return;
+                          //  }
                             //for (var i = select1.selectedIndex; i < select2.options.length; i++) {
                             //    filtercontainer.push(data.val());
                             //}
@@ -331,27 +412,53 @@
                             //}
 
 
+
                             Ref.on("value", function (snap) {
                                  filtercontainer = [];
                                 snap.forEach(function (datas) {
                                     var currenttime = parseInt(datas.val().time);
                                     if (currenttime >= selected1 && currenttime <= selected2) {
-                                        filtercontainer.push(datas.val());
+
+                                        switch (idvalue) {
+                                            case "airquality":
+                                                yaxisvalue = datas.val().aqi;
+                                                ylevel = "Air Quality Index";
+                                                break;
+                                            case "temperature":
+                                                yaxisvalue = datas.val().temp;
+                                                ylevel = "Temperature"
+                                                break;
+                                            case "humidity":
+                                                yaxisvalue = datas.val().humidity;
+                                                ylevel = "Humidity";
+                                                break;
+                                            case "co2":
+                                                yaxisvalue = datas.val().pm10;
+                                                ylevel = "CO2";
+                                                break;
+                                            case "voc":
+                                                yaxisvalue = datas.val().pm25;
+                                                ylevel = "VOC";
+                                                break;
+                                        }
+
+                                        //  filtercontainer.push(datas.val());
+                                        data0.push({ label: datas.val().time, y: parseInt(yaxisvalue) });
+                                        data1.push({ label: datas.val().time, y: parseInt(yaxisvalue) });
+                                        data2.push({ label: datas.val().time, y: parseInt(yaxisvalue) });
+
+                                        generateChart();
                                     }
 
                                 });
                             });
 
-                            //for (var i = 0; i < 24; i++) {
-                            //    if (data.val().time >= $('#select1>option:selected').text() && data.val().time <= $('#select2>option:selected').text()) {
-                            //        filtercontainer.apush(data.val())
-                            //    }
-                            //}
+
                         }
 
                         switch (idvalue) {
                             case "airquality":
-                                yaxisvalue = data.val().pm10;
+                                yaxisvalue = data.val().aqi;
                                 ylevel = "Air Quality Index";
                                 break;
                             case "temperature":
@@ -371,84 +478,12 @@
                                 ylevel = "VOC";
                                 break;
                         }
-                        data0.push({ label: data.val().time, y: parseInt(yaxisvalue) });
-                        data1.push({ label: data.val().time, y: parseInt(yaxisvalue) });
-                        data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-                            backgroundColor: "#278FB0",
-                            width: 800,
-                            theme: "theme2",
-                            legend: {
-                                fontFamily: "Times New Roman",
-                            },
-                            axisY: {
-                                title: ylevel,
-                                gridColor: "#278FB0",
-                                titleFontColor: "rgb(255,255,255)",
-                                labelFontColor: "rgb(255,255,255)",
-                                titleFontFamily: "Helvetica",
-                                labelFontFamily: "Helvetica",
-                                labelFontSize: 10,
-                                titleFontSize: 15,
-                            },
-                            axisX: {
-                                // valueFormatString: "HH",
-                                title: "Hours",
-                                interval: 1,
-                                //  intervalType: "1hour",
-                                gridColor: "#278FB0",
-                                labelAngle: 91,
-                                titleFontColor: "rgb(255,255,255)",
-                                labelFontColor: "rgb(255,255,255)",
-                                fontFamily: "Helvetica",
-                                labelFontFamily: "Helvetica",
-                                labelFontSize: 10,
-                                titleFontSize: 15,
-                            },
+   
+                            data0.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                            data1.push({ label: data.val().time, y: parseInt(yaxisvalue) });
+                            data2.push({ label: data.val().time, y: parseInt(yaxisvalue) });
 
-                            //theme1
-                            //title: {
-                            //    text: "Temp/Humidity"
-                            //},
-                            data: [
-                            {
-                                // animationEnabled: false,
-                                animationEnabled: true,
-                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                type: "area",
-                                color: "#CDEAF0",
-                                //  showInLegend: true,
-                                name: "",
-                                dataPoints: data0,
-
-                            },
-                            {
-                                // animationEnabled: window.requestAnimationFrame(10),
-                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                animationEnabled: true,
-
-                                type: "area",
-                                color: "#CDEAF0",
-                                name: "",
-                                // showInLegend: true,
-                                dataPoints: data1
-                            },
-                            {
-                                // animationEnabled: window.requestAnimationFrame(10),
-                                // Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-                                animationEnabled: true,
-
-                                type: "area",
-                                color: "#CDEAF0",
-                                name: "",
-                                // showInLegend: true,
-                                dataPoints: data2
-                            }
-                            ]
-                        });
-
-                        chart.render();
+                            generateChart();
                     });
                 });
 
@@ -605,7 +640,7 @@
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
                             </ul>*@
                         <select class="btn btn-default dropdown-toggle" style="padding-right:50px" id="select1">
-                            <option class="caret" style="margin-left:75px" selected="selected">From</option>
+                            @*<option class="caret" style="margin-left:75px" selected="selected">From</option>*@
                         </select>
                     </div>
                     <div class="col-sm-4">
@@ -619,7 +654,7 @@
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#">6 AM</a></li>
                             </ul>*@
                         <select class="btn btn-default dropdown-toggle" style="padding-right:50px" id="select2">
-                            <option class="caret" style="margin-left:75px" selected="selected">To</option>
+                            @*<option class="caret" style="margin-left:75px" selected="selected">To</option>*@
                         </select>
                     </div>
                 </div>
